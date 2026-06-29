@@ -40,7 +40,7 @@ export const blogPosts = [
 export function Blog() {
   const { t, lang } = useLanguage();
   return (
-    <section id="blog" className="section-padding bg-[#0a1120]">
+    <section id="blog" className="section-padding bg-white-sec">
       <div className="container-sj">
         <div className="sec-head text-center mb-14">
           <h6>{t("Blog", "Blog")}</h6>
@@ -50,12 +50,12 @@ export function Blog() {
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {blogPosts.map((p) => (
-            <article key={p.slug} className="card-dark !p-0 overflow-hidden flex flex-col">
+            <article key={p.slug} className="card-light !p-0 overflow-hidden flex flex-col">
               <img src={p.img} alt={lang === "en" ? p.title_en : p.title_fr} className="w-full aspect-video object-cover" />
               <div className="p-6 flex flex-col flex-1">
-                <span className="inline-block text-xs text-[--brand] uppercase tracking-wider mb-3">{p.tag}</span>
-                <h4 className="text-lg font-bold text-white mb-3 leading-snug">{lang === "en" ? p.title_en : p.title_fr}</h4>
-                <p className="text-sm text-slate-400 mb-5 flex-1">{lang === "en" ? p.excerpt_en : p.excerpt_fr}</p>
+                <span className="inline-block text-xs text-[--brand] uppercase tracking-wider mb-3 font-semibold">{p.tag}</span>
+                <h4 className="text-lg font-bold text-[--ink] mb-3 leading-snug">{lang === "en" ? p.title_en : p.title_fr}</h4>
+                <p className="text-sm text-[#64748b] mb-5 flex-1">{lang === "en" ? p.excerpt_en : p.excerpt_fr}</p>
                 <div className="text-xs text-slate-500 flex items-center gap-3 mb-4">
                   <span><i className="fa-regular fa-calendar mr-1" />{p.date}</span>
                   <span><i className="fa-regular fa-clock mr-1" />{p.read}</span>

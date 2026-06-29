@@ -45,7 +45,7 @@ const plans = [
 export function Pricing() {
   const { t, lang } = useLanguage();
   return (
-    <section className="section-padding bg-paper">
+    <section className="section-padding">
       <div className="container-sj">
         <div className="sec-head text-center mb-14">
           <h6>{t("Pricing", "Tarifs")}</h6>
@@ -53,7 +53,7 @@ export function Pricing() {
           <div className="underline" />
           <p>{t("Transparent pricing for every stage of your project", "Tarification transparente pour chaque étape de votre projet")}</p>
         </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 pt-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {plans.map((p) => (
             <div key={p.name} className={`pricing-card ${p.featured ? "featured" : ""}`}>
               {p.featured && (
@@ -62,22 +62,22 @@ export function Pricing() {
                 </span>
               )}
               <i className={`fa-solid ${p.icon} text-[--brand] text-3xl mb-4`} />
-              <h3 className="text-2xl font-bold mb-1">{p.name}</h3>
-              <p className="text-sm text-[#64748b] mb-6">{lang === "en" ? p.desc_en : p.desc_fr}</p>
+              <h3 className="text-2xl font-bold text-white mb-1">{p.name}</h3>
+              <p className="text-sm text-slate-400 mb-6">{lang === "en" ? p.desc_en : p.desc_fr}</p>
               <div className="mb-6">
-                <span className="price text-5xl font-bold">{p.price}</span>
-                <span className="text-[#64748b] ml-2">{lang === "en" ? p.per_en : p.per_fr}</span>
+                <span className="text-5xl font-bold text-white">{p.price}</span>
+                <span className="text-slate-400 ml-2">{lang === "en" ? p.per_en : p.per_fr}</span>
               </div>
               <ul className="space-y-3 mb-8">
                 {p.features.map((f, i) => (
-                  <li key={i} className={`flex items-center gap-3 text-sm ${f.on ? "text-[--ink-3]" : "text-slate-400 line-through"}`}>
+                  <li key={i} className={`flex items-center gap-3 text-sm ${f.on ? "text-slate-200" : "text-slate-500 line-through"}`}>
                     <i className={`fa-solid ${f.on ? "fa-check text-[--brand]" : "fa-xmark"}`} />
                     {lang === "en" ? f.en : f.fr}
                   </li>
                 ))}
               </ul>
               <a href="#contact" onClick={(e) => { e.preventDefault(); document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" }); }}
-                className={p.featured ? "btn-brand w-full justify-center" : "btn-outline-dark w-full justify-center"}>
+                className={p.featured ? "btn-brand w-full justify-center" : "btn-outline w-full justify-center"}>
                 {t("Get Started", "Commencer")}
               </a>
             </div>

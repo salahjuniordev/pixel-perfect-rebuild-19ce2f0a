@@ -12,7 +12,7 @@ const projects = [
 export function Portfolio() {
   const { t } = useLanguage();
   return (
-    <section id="portfolio" className="section-padding bg-[#0a1120]">
+    <section id="portfolio" className="section-padding bg-paper">
       <div className="container-sj">
         <div className="sec-head text-center mb-14">
           <h6>{t("Portfolio", "Portfolio")}</h6>
@@ -23,13 +23,13 @@ export function Portfolio() {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {projects.map((p, i) => (
             <a key={i} href={p.url} target="_blank" rel="noreferrer" className="portfolio-card group">
-              <img src={p.img} alt={p.title} />
-              <div className="portfolio-overlay">
-                <span className="text-xs text-[--brand] uppercase tracking-wider mb-1">Web Development</span>
-                <h4 className="text-white font-bold text-lg mb-3">{p.title}</h4>
-                <span className="text-sm text-slate-300 inline-flex items-center gap-2">
-                  {t("View Project", "Voir le Projet")} <i className="fa-solid fa-arrow-right" />
-                </span>
+              <div className="portfolio-card-img">
+                <img src={p.img} alt={p.title} />
+              </div>
+              <div className="portfolio-card-body">
+                <span className="portfolio-tag">Web Development</span>
+                <h4>{p.title}</h4>
+                <span className="portfolio-link">{t("View Project", "Voir le Projet")} <i className="fa-solid fa-arrow-right" /></span>
               </div>
             </a>
           ))}

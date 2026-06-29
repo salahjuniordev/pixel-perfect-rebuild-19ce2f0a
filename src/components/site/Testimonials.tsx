@@ -29,9 +29,9 @@ export function Testimonials() {
   }, []);
   const it = items[i];
   return (
-    <section id="testimonials" className="section-padding bg-[#070d1a]">
+    <section id="testimonials" className="section-padding bg-ink-deep">
       <div className="container-sj">
-        <div className="sec-head text-center mb-14">
+        <div className="sec-head sec-head--dark text-center mb-14">
           <h6>{t("Reviews", "Avis")}</h6>
           <h2>{t("Client Testimonials", "Témoignages Clients")}</h2>
           <div className="underline" />

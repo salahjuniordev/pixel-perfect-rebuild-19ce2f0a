@@ -20,7 +20,7 @@ const webTech: Array<{ label: string; src?: string; badge?: string; bg?: string;
 export function Skills() {
   const { t } = useLanguage();
   return (
-    <section className="section-padding bg-paper">
+    <section className="section-padding bg-[#070d1a]">
       <div className="container-sj">
         <div className="sec-head text-center mb-14">
           <h6>{t("Skills", "Compétences")}</h6>
@@ -29,6 +29,7 @@ export function Skills() {
           <p>{t("Technologies and tools I work with to bring ideas to life.", "Technologies et outils avec lesquels je travaille pour donner vie aux idées.")}</p>
         </div>
         <div className="grid lg:grid-cols-2 gap-6">
+          {/* Web Development */}
           <div className="card-blue">
             <h3 className="text-2xl font-bold mb-2">{t("Web Development", "Développement Web")}</h3>
             <p className="text-white/85 mb-6">
@@ -47,6 +48,7 @@ export function Skills() {
           </div>
 
           <div className="flex flex-col gap-6">
+            {/* UI/UX */}
             <div className="card-dark">
               <h4 className="text-xl font-bold text-white mb-2">{t("UI/UX Design", "Design UI/UX")}</h4>
               <p className="text-slate-400 mb-4">
@@ -62,7 +64,7 @@ export function Skills() {
             <div className="grid sm:grid-cols-3 gap-4">
               <div className="card-dark !p-5">
                 <h5 className="font-bold text-white mb-2">{t("Graphic Design", "Design Graphique")}</h5>
-                <p className="text-xs text-slate-400 mb-3">{t("Creating visual content that communicates messages and builds strong brand identity.", "Création de contenu visuel.")}</p>
+                <p className="text-xs text-slate-400 mb-3">{t("Creating visual content that communicates messages and builds strong brand identity.", "Création de contenu visuel qui communique et bâtit une identité de marque forte.")}</p>
                 <div className="flex gap-2">
                   <Badge text="Ps" bg="#001e36" border="#31a8ff" />
                   <Badge text="Ai" bg="#1a0900" border="#ff9a00" />
@@ -71,7 +73,7 @@ export function Skills() {
               </div>
               <div className="card-blue !p-5">
                 <h5 className="font-bold mb-2">CMS</h5>
-                <p className="text-xs text-white/85 mb-3">{t("Building and managing dynamic websites with powerful CMS platforms.", "Construction et gestion de sites dynamiques.")}</p>
+                <p className="text-xs text-white/85 mb-3">{t("Building and managing dynamic websites with powerful CMS platforms.", "Construction et gestion de sites dynamiques avec de puissantes plateformes CMS.")}</p>
                 <div className="flex gap-2">
                   <div className="tech-badge"><img src={devicon("wordpress/wordpress-original.svg")} alt="WordPress" /></div>
                   <Badge text="WIX" bg="#0C6EFC" border="#0C6EFC" />
@@ -79,7 +81,7 @@ export function Skills() {
               </div>
               <div className="card-dark !p-5">
                 <h5 className="font-bold text-white mb-2">Microsoft Office</h5>
-                <p className="text-xs text-slate-400 mb-3">{t("Productive and efficient in creating documents, presentations, and spreadsheets.", "Productif dans la création de documents.")}</p>
+                <p className="text-xs text-slate-400 mb-3">{t("Productive and efficient in creating documents, presentations, and spreadsheets.", "Productif dans la création de documents, présentations et tableurs.")}</p>
                 <div className="flex gap-2">
                   <Badge text="W" bg="#2B579A" border="#2B579A" />
                   <Badge text="X" bg="#1E7145" border="#1E7145" />
@@ -95,5 +97,7 @@ export function Skills() {
 }
 
 function Badge({ text, bg, border }: { text: string; bg: string; border: string }) {
-  return <div className="tech-badge" style={{ background: bg, border: `2px solid ${border}`, color: "#fff" }}>{text}</div>;
+  return (
+    <div className="tech-badge" style={{ background: bg, border: `2px solid ${border}`, color: "#fff" }}>{text}</div>
+  );
 }

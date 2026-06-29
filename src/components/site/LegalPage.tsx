@@ -29,9 +29,9 @@ export function LegalLayout({ title, subtitle, updated, children }: { title: str
 
 export function LegalCard({ heading, children }: { heading: string; children: ReactNode }) {
   return (
-    <div className="card-light mb-6">
-      <h2 className="text-xl font-bold text-[--ink] mb-4">{heading}</h2>
-      <div className="text-[#475569] leading-relaxed space-y-3 text-sm">{children}</div>
+    <div className="card-dark mb-6">
+      <h2 className="text-xl font-bold text-white mb-4">{heading}</h2>
+      <div className="text-slate-300 leading-relaxed space-y-3 text-sm">{children}</div>
     </div>
   );
 }

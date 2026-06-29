@@ -12,20 +12,19 @@ const services = [
 export function Services() {
   const { t, lang } = useLanguage();
   return (
-    <section id="services" className="section-padding bg-white-sec">
+    <section id="services" className="section-padding">
       <div className="container-sj">
         <div className="sec-head text-center mb-14">
           <h6>{t("What I Do", "Ce Que Je Fais")}</h6>
-          <h2>{t("My Services", "Mes Services")}</h2>
+          <h2>{t("Services", "Services")}</h2>
           <div className="underline" />
-          <p>{t("Specialized services tailored to bring your vision to life", "Des services spécialisés pour donner vie à votre vision")}</p>
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {services.map((s) => (
             <div key={s.en} className="service-card">
               <img src={s.img} alt={s.alt} onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }} />
-              <h6>{lang === "en" ? s.en : s.fr}</h6>
-              <p>{lang === "en" ? s.desc_en : s.desc_fr}</p>
+              <h6 className="text-xl font-bold text-white mb-3">{lang === "en" ? s.en : s.fr}</h6>
+              <p className="text-sm text-slate-400 leading-relaxed">{lang === "en" ? s.desc_en : s.desc_fr}</p>
             </div>
           ))}
         </div>

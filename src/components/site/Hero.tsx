@@ -54,7 +54,7 @@ export function Hero() {
       <div className="container-sj relative z-10 py-32 md:py-40">
         <h6 className="text-[--brand] text-sm uppercase tracking-[0.4em] font-medium mb-4">{t("Welcome", "Bienvenue")}</h6>
         <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight mb-6">
-          <span>{t("I Am", "Je Suis")} </span>
+          <span>{t("I Am ", "Je Suis ")}</span>
           <Typewriter />
         </h1>
         <p className="text-lg text-slate-300 max-w-2xl mb-10">
@@ -63,10 +63,15 @@ export function Hero() {
             "Transformer les idées en réalité digitale , Frontend | Backend | Magie Fullstack ."
           )}
         </p>
+        <div className="flex flex-wrap items-center gap-6 mb-10">
+          <a href="#contact" onClick={(e) => { e.preventDefault(); document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" }); }} className="btn-brand">
+            {t("Contact Me", "Contactez-Moi")}
+          </a>
+        </div>
         <div className="hero-social">
           {socials.map((s) => (
             <a key={s.i} href={s.href} target="_blank" rel="noreferrer" aria-label={s.i}>
-              <i className={`fab ${s.i}`} />
+              <i className={`fa-brands ${s.i}`} />
             </a>
           ))}
         </div>

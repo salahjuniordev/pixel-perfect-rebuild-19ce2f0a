@@ -10,9 +10,8 @@ const stats = [
 export function Numbers() {
   const { t } = useLanguage();
   return (
-    <section className="numbers-bg" style={{
-      backgroundImage: "linear-gradient(rgba(15,23,42,0.92), rgba(15,23,42,0.92)), url('/img/dots.png')",
-    }}>
+    <section className="numbers-bg">
+
       <div className="container-sj">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
           {stats.map((s) => (

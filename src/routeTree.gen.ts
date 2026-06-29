@@ -13,8 +13,16 @@ import { Route as TermsConditionsRouteImport } from './routes/terms-conditions'
 import { Route as RefundPolicyRouteImport } from './routes/refund-policy'
 import { Route as LicenseCopyrightRouteImport } from './routes/license-copyright'
 import { Route as FaqRouteImport } from './routes/faq'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
+import { Route as AdminTestimonialsRouteImport } from './routes/admin/testimonials'
+import { Route as AdminServicesRouteImport } from './routes/admin/services'
+import { Route as AdminProjectsRouteImport } from './routes/admin/projects'
+import { Route as AdminPricingRouteImport } from './routes/admin/pricing'
+import { Route as AdminBlogRouteImport } from './routes/admin/blog'
 
 const TermsConditionsRoute = TermsConditionsRouteImport.update({
   id: '/terms-conditions',
@@ -36,71 +44,159 @@ const FaqRoute = FaqRouteImport.update({
   path: '/faq',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
 } as any)
 const BlogSlugRoute = BlogSlugRouteImport.update({
   id: '/blog/$slug',
   path: '/blog/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminTestimonialsRoute = AdminTestimonialsRouteImport.update({
+  id: '/testimonials',
+  path: '/testimonials',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminServicesRoute = AdminServicesRouteImport.update({
+  id: '/services',
+  path: '/services',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminProjectsRoute = AdminProjectsRouteImport.update({
+  id: '/projects',
+  path: '/projects',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminPricingRoute = AdminPricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminBlogRoute = AdminBlogRouteImport.update({
+  id: '/blog',
+  path: '/blog',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/auth': typeof AuthRoute
   '/faq': typeof FaqRoute
   '/license-copyright': typeof LicenseCopyrightRoute
   '/refund-policy': typeof RefundPolicyRoute
   '/terms-conditions': typeof TermsConditionsRoute
+  '/admin/blog': typeof AdminBlogRoute
+  '/admin/pricing': typeof AdminPricingRoute
+  '/admin/projects': typeof AdminProjectsRoute
+  '/admin/services': typeof AdminServicesRoute
+  '/admin/testimonials': typeof AdminTestimonialsRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/faq': typeof FaqRoute
   '/license-copyright': typeof LicenseCopyrightRoute
   '/refund-policy': typeof RefundPolicyRoute
   '/terms-conditions': typeof TermsConditionsRoute
+  '/admin/blog': typeof AdminBlogRoute
+  '/admin/pricing': typeof AdminPricingRoute
+  '/admin/projects': typeof AdminProjectsRoute
+  '/admin/services': typeof AdminServicesRoute
+  '/admin/testimonials': typeof AdminTestimonialsRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/admin': typeof AdminIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/auth': typeof AuthRoute
   '/faq': typeof FaqRoute
   '/license-copyright': typeof LicenseCopyrightRoute
   '/refund-policy': typeof RefundPolicyRoute
   '/terms-conditions': typeof TermsConditionsRoute
+  '/admin/blog': typeof AdminBlogRoute
+  '/admin/pricing': typeof AdminPricingRoute
+  '/admin/projects': typeof AdminProjectsRoute
+  '/admin/services': typeof AdminServicesRoute
+  '/admin/testimonials': typeof AdminTestimonialsRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
+    | '/auth'
     | '/faq'
     | '/license-copyright'
     | '/refund-policy'
     | '/terms-conditions'
+    | '/admin/blog'
+    | '/admin/pricing'
+    | '/admin/projects'
+    | '/admin/services'
+    | '/admin/testimonials'
     | '/blog/$slug'
+    | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/auth'
     | '/faq'
     | '/license-copyright'
     | '/refund-policy'
     | '/terms-conditions'
+    | '/admin/blog'
+    | '/admin/pricing'
+    | '/admin/projects'
+    | '/admin/services'
+    | '/admin/testimonials'
     | '/blog/$slug'
+    | '/admin'
   id:
     | '__root__'
     | '/'
+    | '/admin'
+    | '/auth'
     | '/faq'
     | '/license-copyright'
     | '/refund-policy'
     | '/terms-conditions'
+    | '/admin/blog'
+    | '/admin/pricing'
+    | '/admin/projects'
+    | '/admin/services'
+    | '/admin/testimonials'
     | '/blog/$slug'
+    | '/admin/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRouteWithChildren
+  AuthRoute: typeof AuthRoute
   FaqRoute: typeof FaqRoute
   LicenseCopyrightRoute: typeof LicenseCopyrightRoute
   RefundPolicyRoute: typeof RefundPolicyRoute
@@ -138,12 +234,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FaqRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
     }
     '/blog/$slug': {
       id: '/blog/$slug'
@@ -152,11 +269,68 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/testimonials': {
+      id: '/admin/testimonials'
+      path: '/testimonials'
+      fullPath: '/admin/testimonials'
+      preLoaderRoute: typeof AdminTestimonialsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/services': {
+      id: '/admin/services'
+      path: '/services'
+      fullPath: '/admin/services'
+      preLoaderRoute: typeof AdminServicesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/projects': {
+      id: '/admin/projects'
+      path: '/projects'
+      fullPath: '/admin/projects'
+      preLoaderRoute: typeof AdminProjectsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/pricing': {
+      id: '/admin/pricing'
+      path: '/pricing'
+      fullPath: '/admin/pricing'
+      preLoaderRoute: typeof AdminPricingRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/blog': {
+      id: '/admin/blog'
+      path: '/blog'
+      fullPath: '/admin/blog'
+      preLoaderRoute: typeof AdminBlogRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
+interface AdminRouteChildren {
+  AdminBlogRoute: typeof AdminBlogRoute
+  AdminPricingRoute: typeof AdminPricingRoute
+  AdminProjectsRoute: typeof AdminProjectsRoute
+  AdminServicesRoute: typeof AdminServicesRoute
+  AdminTestimonialsRoute: typeof AdminTestimonialsRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminBlogRoute: AdminBlogRoute,
+  AdminPricingRoute: AdminPricingRoute,
+  AdminProjectsRoute: AdminProjectsRoute,
+  AdminServicesRoute: AdminServicesRoute,
+  AdminTestimonialsRoute: AdminTestimonialsRoute,
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRouteWithChildren,
+  AuthRoute: AuthRoute,
   FaqRoute: FaqRoute,
   LicenseCopyrightRoute: LicenseCopyrightRoute,
   RefundPolicyRoute: RefundPolicyRoute,
@@ -166,13 +340,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

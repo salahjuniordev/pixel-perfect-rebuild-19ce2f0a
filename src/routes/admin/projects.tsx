@@ -3,6 +3,7 @@ import { useState } from "react";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { CrudTable } from "@/components/admin/CrudTable";
 import { FormModal, Field, inputCls } from "@/components/admin/FormModal";
+import { MediaUpload } from "@/components/admin/MediaUpload";
 import { useCrud } from "@/lib/use-crud";
 import type { Tables } from "@/integrations/supabase/types";
 
@@ -60,10 +61,12 @@ function ProjectsAdmin() {
               <Field label="Category"><input className={inputCls} value={editing.category ?? ""} onChange={(e) => setEditing({ ...editing, category: e.target.value })} /></Field>
             </div>
             <Field label="Description"><textarea rows={3} className={inputCls} value={editing.description ?? ""} onChange={(e) => setEditing({ ...editing, description: e.target.value })} /></Field>
-            <div className="grid sm:grid-cols-2 gap-4">
-              <Field label="Image URL"><input className={inputCls} value={editing.image_url ?? ""} onChange={(e) => setEditing({ ...editing, image_url: e.target.value })} /></Field>
-              <Field label="Project URL"><input className={inputCls} value={editing.link_url ?? ""} onChange={(e) => setEditing({ ...editing, link_url: e.target.value })} /></Field>
-            </div>
+            <Field label="Image / video">
+              <MediaUpload value={editing.image_url} onChange={(url) => setEditing({ ...editing, image_url: url })} />
+            </Field>
+            <Field label="Project URL">
+              <input className={inputCls} value={editing.link_url ?? ""} onChange={(e) => setEditing({ ...editing, link_url: e.target.value })} />
+            </Field>
             <div className="grid sm:grid-cols-2 gap-4 items-end">
               <Field label="Order"><input type="number" className={inputCls} value={editing.order_index ?? 0} onChange={(e) => setEditing({ ...editing, order_index: Number(e.target.value) })} /></Field>
               <label className="inline-flex items-center gap-2 text-sm text-slate-300 pb-2.5">

@@ -17,7 +17,7 @@ export async function logActivity(
       action,
       resource_type: resourceType,
       resource_id: resourceId ?? null,
-      details: details ?? null,
+      details: (details ?? null) as any,
     });
   } catch {
     /* best-effort */

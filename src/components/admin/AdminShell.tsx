@@ -9,6 +9,8 @@ const nav = [
   { to: "/admin/services", label: "Services", icon: "fa-screwdriver-wrench" },
   { to: "/admin/testimonials", label: "Testimonials", icon: "fa-comment-dots" },
   { to: "/admin/pricing", label: "Pricing", icon: "fa-tags" },
+  { to: "/admin/settings", label: "Platform Settings", icon: "fa-sliders" },
+  { to: "/admin/activity", label: "Activity Log", icon: "fa-clock-rotate-left" },
 ];
 
 export function AdminShell({ title, subtitle, actions, children }: {

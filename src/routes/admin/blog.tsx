@@ -4,6 +4,7 @@ import { AdminShell } from "@/components/admin/AdminShell";
 import { CrudTable } from "@/components/admin/CrudTable";
 import { FormModal, Field, inputCls } from "@/components/admin/FormModal";
 import { RichEditor } from "@/components/admin/RichEditor";
+import { MediaUpload } from "@/components/admin/MediaUpload";
 import { useCrud } from "@/lib/use-crud";
 import type { Tables } from "@/integrations/supabase/types";
 
@@ -76,11 +77,13 @@ function BlogAdmin() {
                 <input className={inputCls} value={editing.slug ?? ""} onChange={(e) => setEditing({ ...editing, slug: e.target.value })} required />
               </Field>
             </div>
-            <div className="grid sm:grid-cols-3 gap-4">
+            <div className="grid sm:grid-cols-2 gap-4">
               <Field label="Tag"><input className={inputCls} value={editing.tag ?? ""} onChange={(e) => setEditing({ ...editing, tag: e.target.value })} /></Field>
               <Field label="Read time"><input className={inputCls} value={editing.read_time ?? ""} onChange={(e) => setEditing({ ...editing, read_time: e.target.value })} /></Field>
-              <Field label="Cover image URL"><input className={inputCls} value={editing.cover_image_url ?? ""} onChange={(e) => setEditing({ ...editing, cover_image_url: e.target.value })} /></Field>
             </div>
+            <Field label="Cover image / video">
+              <MediaUpload value={editing.cover_image_url} onChange={(url) => setEditing({ ...editing, cover_image_url: url })} />
+            </Field>
             <Field label="Excerpt">
               <textarea className={inputCls} rows={2} value={editing.excerpt ?? ""} onChange={(e) => setEditing({ ...editing, excerpt: e.target.value })} />
             </Field>

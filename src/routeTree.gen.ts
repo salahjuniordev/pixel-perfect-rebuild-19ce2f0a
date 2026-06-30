@@ -19,10 +19,12 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as AdminTestimonialsRouteImport } from './routes/admin/testimonials'
+import { Route as AdminSettingsRouteImport } from './routes/admin/settings'
 import { Route as AdminServicesRouteImport } from './routes/admin/services'
 import { Route as AdminProjectsRouteImport } from './routes/admin/projects'
 import { Route as AdminPricingRouteImport } from './routes/admin/pricing'
 import { Route as AdminBlogRouteImport } from './routes/admin/blog'
+import { Route as AdminActivityRouteImport } from './routes/admin/activity'
 
 const TermsConditionsRoute = TermsConditionsRouteImport.update({
   id: '/terms-conditions',
@@ -74,6 +76,11 @@ const AdminTestimonialsRoute = AdminTestimonialsRouteImport.update({
   path: '/testimonials',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminSettingsRoute = AdminSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminServicesRoute = AdminServicesRouteImport.update({
   id: '/services',
   path: '/services',
@@ -94,6 +101,11 @@ const AdminBlogRoute = AdminBlogRouteImport.update({
   path: '/blog',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminActivityRoute = AdminActivityRouteImport.update({
+  id: '/activity',
+  path: '/activity',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -103,10 +115,12 @@ export interface FileRoutesByFullPath {
   '/license-copyright': typeof LicenseCopyrightRoute
   '/refund-policy': typeof RefundPolicyRoute
   '/terms-conditions': typeof TermsConditionsRoute
+  '/admin/activity': typeof AdminActivityRoute
   '/admin/blog': typeof AdminBlogRoute
   '/admin/pricing': typeof AdminPricingRoute
   '/admin/projects': typeof AdminProjectsRoute
   '/admin/services': typeof AdminServicesRoute
+  '/admin/settings': typeof AdminSettingsRoute
   '/admin/testimonials': typeof AdminTestimonialsRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/admin/': typeof AdminIndexRoute
@@ -118,10 +132,12 @@ export interface FileRoutesByTo {
   '/license-copyright': typeof LicenseCopyrightRoute
   '/refund-policy': typeof RefundPolicyRoute
   '/terms-conditions': typeof TermsConditionsRoute
+  '/admin/activity': typeof AdminActivityRoute
   '/admin/blog': typeof AdminBlogRoute
   '/admin/pricing': typeof AdminPricingRoute
   '/admin/projects': typeof AdminProjectsRoute
   '/admin/services': typeof AdminServicesRoute
+  '/admin/settings': typeof AdminSettingsRoute
   '/admin/testimonials': typeof AdminTestimonialsRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/admin': typeof AdminIndexRoute
@@ -135,10 +151,12 @@ export interface FileRoutesById {
   '/license-copyright': typeof LicenseCopyrightRoute
   '/refund-policy': typeof RefundPolicyRoute
   '/terms-conditions': typeof TermsConditionsRoute
+  '/admin/activity': typeof AdminActivityRoute
   '/admin/blog': typeof AdminBlogRoute
   '/admin/pricing': typeof AdminPricingRoute
   '/admin/projects': typeof AdminProjectsRoute
   '/admin/services': typeof AdminServicesRoute
+  '/admin/settings': typeof AdminSettingsRoute
   '/admin/testimonials': typeof AdminTestimonialsRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/admin/': typeof AdminIndexRoute
@@ -153,10 +171,12 @@ export interface FileRouteTypes {
     | '/license-copyright'
     | '/refund-policy'
     | '/terms-conditions'
+    | '/admin/activity'
     | '/admin/blog'
     | '/admin/pricing'
     | '/admin/projects'
     | '/admin/services'
+    | '/admin/settings'
     | '/admin/testimonials'
     | '/blog/$slug'
     | '/admin/'
@@ -168,10 +188,12 @@ export interface FileRouteTypes {
     | '/license-copyright'
     | '/refund-policy'
     | '/terms-conditions'
+    | '/admin/activity'
     | '/admin/blog'
     | '/admin/pricing'
     | '/admin/projects'
     | '/admin/services'
+    | '/admin/settings'
     | '/admin/testimonials'
     | '/blog/$slug'
     | '/admin'
@@ -184,10 +206,12 @@ export interface FileRouteTypes {
     | '/license-copyright'
     | '/refund-policy'
     | '/terms-conditions'
+    | '/admin/activity'
     | '/admin/blog'
     | '/admin/pricing'
     | '/admin/projects'
     | '/admin/services'
+    | '/admin/settings'
     | '/admin/testimonials'
     | '/blog/$slug'
     | '/admin/'
@@ -276,6 +300,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminTestimonialsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/settings': {
+      id: '/admin/settings'
+      path: '/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AdminSettingsRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/services': {
       id: '/admin/services'
       path: '/services'
@@ -304,23 +335,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminBlogRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/activity': {
+      id: '/admin/activity'
+      path: '/activity'
+      fullPath: '/admin/activity'
+      preLoaderRoute: typeof AdminActivityRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
 interface AdminRouteChildren {
+  AdminActivityRoute: typeof AdminActivityRoute
   AdminBlogRoute: typeof AdminBlogRoute
   AdminPricingRoute: typeof AdminPricingRoute
   AdminProjectsRoute: typeof AdminProjectsRoute
   AdminServicesRoute: typeof AdminServicesRoute
+  AdminSettingsRoute: typeof AdminSettingsRoute
   AdminTestimonialsRoute: typeof AdminTestimonialsRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminActivityRoute: AdminActivityRoute,
   AdminBlogRoute: AdminBlogRoute,
   AdminPricingRoute: AdminPricingRoute,
   AdminProjectsRoute: AdminProjectsRoute,
   AdminServicesRoute: AdminServicesRoute,
+  AdminSettingsRoute: AdminSettingsRoute,
   AdminTestimonialsRoute: AdminTestimonialsRoute,
   AdminIndexRoute: AdminIndexRoute,
 }

@@ -14,6 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
+      activity_log: {
+        Row: {
+          action: string
+          created_at: string
+          details: Json | null
+          id: string
+          resource_id: string | null
+          resource_type: string
+          user_email: string | null
+          user_id: string | null
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          details?: Json | null
+          id?: string
+          resource_id?: string | null
+          resource_type: string
+          user_email?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          details?: Json | null
+          id?: string
+          resource_id?: string | null
+          resource_type?: string
+          user_email?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       blog_posts: {
         Row: {
           body: string
@@ -173,6 +206,81 @@ export type Database = {
           published?: boolean
           title?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      site_settings: {
+        Row: {
+          about_text: string | null
+          brand_name: string
+          contact_email: string | null
+          contact_phone: string | null
+          created_at: string
+          favicon_url: string | null
+          footer_text: string | null
+          hero_subtitle: string | null
+          hero_title: string | null
+          id: string
+          location: string | null
+          logo_url: string | null
+          resume_url: string | null
+          social_facebook: string | null
+          social_github: string | null
+          social_instagram: string | null
+          social_linkedin: string | null
+          social_twitter: string | null
+          social_youtube: string | null
+          tagline: string | null
+          updated_at: string
+          whatsapp_number: string | null
+        }
+        Insert: {
+          about_text?: string | null
+          brand_name?: string
+          contact_email?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          favicon_url?: string | null
+          footer_text?: string | null
+          hero_subtitle?: string | null
+          hero_title?: string | null
+          id?: string
+          location?: string | null
+          logo_url?: string | null
+          resume_url?: string | null
+          social_facebook?: string | null
+          social_github?: string | null
+          social_instagram?: string | null
+          social_linkedin?: string | null
+          social_twitter?: string | null
+          social_youtube?: string | null
+          tagline?: string | null
+          updated_at?: string
+          whatsapp_number?: string | null
+        }
+        Update: {
+          about_text?: string | null
+          brand_name?: string
+          contact_email?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          favicon_url?: string | null
+          footer_text?: string | null
+          hero_subtitle?: string | null
+          hero_title?: string | null
+          id?: string
+          location?: string | null
+          logo_url?: string | null
+          resume_url?: string | null
+          social_facebook?: string | null
+          social_github?: string | null
+          social_instagram?: string | null
+          social_linkedin?: string | null
+          social_twitter?: string | null
+          social_youtube?: string | null
+          tagline?: string | null
+          updated_at?: string
+          whatsapp_number?: string | null
         }
         Relationships: []
       }

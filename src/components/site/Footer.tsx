@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useLanguage } from "@/lib/language";
+import { useSiteSettings } from "@/lib/site-settings";
 
 const quick = [
   { id: "home", en: "Home", fr: "Accueil" },
@@ -20,23 +21,37 @@ const legal = [
 
 export function Footer() {
   const { t } = useLanguage();
+  const s = useSiteSettings();
+  const phone = s?.contact_phone || "+237 683 693 011";
+  const email = s?.contact_email || "salahjuniorncham@gmail.com";
+  const location = s?.location || "Emana, Yaoundé, CMR";
+  const brand = s?.brand_name || "Salah Junior";
+  const socials = [
+    { i: "fa-facebook-f", url: s?.social_facebook },
+    { i: "fa-github", url: s?.social_github },
+    { i: "fa-linkedin-in", url: s?.social_linkedin },
+    { i: "fa-whatsapp", url: s?.whatsapp_number ? `https://wa.me/${s.whatsapp_number.replace(/[^0-9]/g, "")}` : null },
+    { i: "fa-instagram", url: s?.social_instagram },
+    { i: "fa-twitter", url: s?.social_twitter },
+    { i: "fa-youtube", url: s?.social_youtube },
+  ].filter((x) => x.url) as { i: string; url: string }[];
   return (
     <footer className="bg-[#070d1a] pt-20 pb-8 border-t border-white/5">
       <div className="container-sj grid lg:grid-cols-3 gap-10">
         <div>
           <a href="/#home" className="inline-flex items-center gap-3 mb-5">
-            <img src="/img/fav-icon/favicon.png" alt="SalahJuniorDev Logo" className="w-16 h-16 rounded-full" />
+            <img src={s?.logo_url || "/img/fav-icon/favicon.png"} alt={`${brand} Logo`} className="w-16 h-16 rounded-full object-cover" />
           </a>
           <p className="text-sm text-slate-400 leading-relaxed mb-5">
-            {t(
+            {s?.footer_text || t(
               "Turning ideas into digital reality — crafting responsive websites, polished interfaces, and memorable brand identities from Yaoundé, Cameroon.",
               "Transformer les idées en réalité digitale — créer des sites réactifs, des interfaces soignées et des identités de marque mémorables depuis Yaoundé, Cameroun."
             )}
           </p>
           <ul className="space-y-2 text-sm text-slate-300">
-            <li><i className="fa-solid fa-mobile-screen text-[--brand] mr-2" /><a href="tel:+237683693011">+237 683 693 011</a></li>
-            <li><i className="fa-solid fa-envelope text-[--brand] mr-2" /><a href="mailto:salahjuniorncham@gmail.com">salahjuniorncham@gmail.com</a></li>
-            <li><i className="fa-solid fa-location-dot text-[--brand] mr-2" />Emana, Yaoundé, CMR</li>
+            <li><i className="fa-solid fa-mobile-screen text-[--brand] mr-2" /><a href={`tel:${phone.replace(/\s/g, "")}`}>{phone}</a></li>
+            <li><i className="fa-solid fa-envelope text-[--brand] mr-2" /><a href={`mailto:${email}`}>{email}</a></li>
+            <li><i className="fa-solid fa-location-dot text-[--brand] mr-2" />{location}</li>
           </ul>
         </div>
         <div>
@@ -65,20 +80,14 @@ export function Footer() {
         </div>
       </div>
       <div className="container-sj mt-12 pt-6 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
-          {[
-            { i: "fa-facebook-f", url: "https://www.facebook.com/profile.php?id=61586199631543" },
-            { i: "fa-github", url: "https://github.com/salahjuniordev" },
-            { i: "fa-linkedin-in", url: "https://www.linkedin.com/in/salah-junior-987684398/" },
-            { i: "fa-whatsapp", url: "https://wa.me/qr/T7MI47J4OXDWK1" },
-            { i: "fa-instagram", url: "https://www.instagram.com/xeoncore2/" },
-          ].map((s) => (
-            <a key={s.i} href={s.url} target="_blank" rel="noreferrer" className="w-9 h-9 rounded-full grid place-items-center border border-white/15 text-slate-300 hover:bg-[--brand] hover:text-white hover:border-[--brand] transition">
-              <i className={`fa-brands ${s.i} text-xs`} />
+        <div className="flex items-center gap-3 flex-wrap justify-center">
+          {socials.map((sl) => (
+            <a key={sl.i} href={sl.url} target="_blank" rel="noreferrer" className="w-9 h-9 rounded-full grid place-items-center border border-white/15 text-slate-300 hover:bg-[--brand] hover:text-white hover:border-[--brand] transition">
+              <i className={`fa-brands ${sl.i} text-xs`} />
             </a>
           ))}
         </div>
-        <p className="text-xs text-slate-400">© 2026 <span className="text-white font-semibold">Salah Junior</span>. All Rights Reserved.</p>
+        <p className="text-xs text-slate-400 text-center">© {new Date().getFullYear()} <span className="text-white font-semibold">{brand}</span>. All Rights Reserved.</p>
       </div>
     </footer>
   );

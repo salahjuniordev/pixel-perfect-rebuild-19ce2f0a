@@ -435,3 +435,82 @@ a { color: inherit; text-decoration: none; }
   font-size: 13px; font-weight: 700; letter-spacing: 1.4px;
   color: var(--ink);
 }
+
+/* ============ Services Section (light theme, matches reference) ============ */
+.services-section {
+  background: #f6f7f9;
+  padding: 110px 0;
+  color: var(--ink);
+}
+@media (max-width: 768px) { .services-section { padding: 70px 0; } }
+
+.services-head { text-align: center; margin-bottom: 60px; }
+.services-title {
+  font-size: 44px; font-weight: 900; color: var(--ink);
+  margin: 0 0 18px; letter-spacing: -0.5px;
+}
+@media (max-width: 768px) { .services-title { font-size: 34px; } }
+
+.services-underline {
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.services-underline span {
+  display: block; width: 40px; height: 2px; background: var(--brand);
+}
+.services-underline .dot {
+  width: 8px; height: 8px; background: var(--brand);
+  border-radius: 50%;
+}
+
+/* Card */
+.svc-card {
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 8px 26px rgba(15, 23, 42, 0.06);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex; flex-direction: column;
+  height: 100%;
+}
+.svc-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
+}
+.svc-card-media {
+  background: #fff;
+  display: grid; place-items: center;
+  padding: 34px 24px;
+  min-height: 220px;
+}
+.svc-card-media img {
+  max-height: 170px; width: auto; max-width: 100%;
+  object-fit: contain;
+}
+.svc-card-body {
+  background: #0f172a;
+  color: #fff;
+  padding: 28px 26px 32px;
+  flex: 1;
+}
+.svc-card-title {
+  color: #fff;
+  font-size: 20px; font-weight: 700;
+  margin: 0 0 14px;
+}
+.svc-card-desc {
+  color: #94a3b8;
+  font-size: 14px; line-height: 1.75;
+  margin: 0;
+}
+
+/* Marquee tuning for icon-based track */
+.marquee { background: #f6f7f9; border-block: 1px solid #e5e7eb; padding: 28px 0; }
+.marquee-item {
+  gap: 0;
+  padding: 0 22px;
+  opacity: 0.85;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.marquee-item:hover { opacity: 1; transform: scale(1.08); }
+.marquee-item img { display: block; width: 40px; height: 40px; object-fit: contain; }
+

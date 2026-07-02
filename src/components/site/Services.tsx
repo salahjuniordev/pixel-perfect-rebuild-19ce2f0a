@@ -17,25 +17,32 @@ export function Services() {
   }, []);
 
   return (
-    <section id="services" className="section-padding">
+    <section id="services" className="services-section">
       <div className="container-sj">
-        <div className="sec-head text-center mb-14">
-          <h6>{t("What I Do", "Ce Que Je Fais")}</h6>
-          <h2>{t("Services", "Services")}</h2>
-          <div className="underline" />
+        <div className="services-head">
+          <h2 className="services-title">{t("Services", "Services")}</h2>
+          <div className="services-underline">
+            <span /><span className="dot" /><span />
+          </div>
         </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-7">
           {services.map((s) => (
-            <div key={s.id} className="service-card">
-              {s.image_url ? (
-                <img src={s.image_url} alt={s.title} onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }} />
-              ) : (
-                <div className="h-20 w-20 mx-auto mb-4 rounded-2xl bg-[var(--brand)]/15 grid place-items-center text-[var(--brand)] text-3xl">
-                  <i className={`fa-solid ${s.icon}`} />
-                </div>
-              )}
-              <h6 className="text-xl font-bold text-white mb-3">{s.title}</h6>
-              <p className="text-sm text-slate-400 leading-relaxed">{s.description}</p>
+            <div key={s.id} className="svc-card">
+              <div className="svc-card-media">
+                {s.image_url ? (
+                  <img
+                    src={s.image_url}
+                    alt={s.title}
+                    onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+                  />
+                ) : (
+                  <i className={`fa-solid ${s.icon} text-[var(--brand)] text-6xl`} />
+                )}
+              </div>
+              <div className="svc-card-body">
+                <h6 className="svc-card-title">{s.title}</h6>
+                <p className="svc-card-desc">{s.description}</p>
+              </div>
             </div>
           ))}
         </div>
@@ -43,3 +50,4 @@ export function Services() {
     </section>
   );
 }
+

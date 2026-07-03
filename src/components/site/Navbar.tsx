@@ -64,9 +64,9 @@ export function Navbar() {
           ))}
         </div>
         <div className="flex items-center gap-3">
-          <button onClick={toggle} className="lang-toggle" aria-label="Toggle language">
-            <span className="lang-globe"><i className="fa-solid fa-globe" /></span>
-            {lang === "en" ? "FR" : "EN"}
+          <button onClick={toggle} className="lang-toggle" aria-label="Toggle language" title={lang === "en" ? "Switch to French" : "Passer en anglais"}>
+            <span className={`lang-seg ${lang === "en" ? "active" : ""}`}>EN</span>
+            <span className={`lang-seg ${lang === "fr" ? "active" : ""}`}>FR</span>
           </button>
           <button
             aria-label="Toggle menu"

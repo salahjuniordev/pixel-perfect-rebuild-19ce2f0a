@@ -51,7 +51,7 @@ export function Navbar() {
           <span className="logo-junior">Junior</span>
           <span className="logo-dev">Dev</span>
         </a>
-        <div className={`${open ? "flex" : "hidden"} md:flex flex-col md:flex-row md:items-center md:gap-1 absolute md:static left-0 right-0 top-full md:top-auto bg-[#0f172a]/95 md:bg-transparent border-t md:border-0 border-white/10 py-4 md:py-0 px-6 md:px-0`}>
+        <div className={`${open ? "flex" : "hidden"} md:flex flex-col md:flex-row md:items-center md:gap-1 absolute md:static left-2 right-2 top-[calc(100%+8px)] md:top-auto bg-[#0f172a]/95 md:bg-transparent backdrop-blur-xl md:backdrop-blur-0 border md:border-0 border-white/10 rounded-2xl md:rounded-none py-4 md:py-0 px-6 md:px-0 shadow-xl md:shadow-none`}>
           {links.map((l) => (
             <a
               key={l.id}

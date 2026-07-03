@@ -64,7 +64,8 @@ export function Navbar() {
           ))}
         </div>
         <div className="flex items-center gap-3">
-          <button onClick={toggle} className="px-3 py-1.5 text-sm font-semibold rounded-md border border-[--brand]/40 text-[--brand] hover:bg-[--brand] hover:text-white transition">
+          <button onClick={toggle} className="lang-toggle" aria-label="Toggle language">
+            <span className="lang-globe"><i className="fa-solid fa-globe" /></span>
             {lang === "en" ? "FR" : "EN"}
           </button>
           <button

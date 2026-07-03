@@ -20,13 +20,12 @@ const webTech: Array<{ label: string; src?: string; badge?: string; bg?: string;
 export function Skills() {
   const { t } = useLanguage();
   return (
-    <section className="section-padding bg-[#070d1a]">
+    <section className="section-padding bg-[#0b1223]">
       <div className="container-sj">
-        <div className="sec-head text-center mb-14">
-          <h6>{t("Skills", "Compétences")}</h6>
-          <h2>{t("My Skills", "Mes Compétences")}</h2>
-          <div className="underline" />
-          <p>{t("Technologies and tools I work with to bring ideas to life.", "Technologies et outils avec lesquels je travaille pour donner vie aux idées.")}</p>
+        <div className="skills-head">
+          <h2 className="skills-title">{t("My Skills", "Mes Compétences")}</h2>
+          <span className="skills-underline" />
+          <p className="skills-sub">{t("Technologies and tools I work with to bring ideas to life.", "Technologies et outils avec lesquels je travaille pour donner vie aux idées.")}</p>
         </div>
         <div className="grid lg:grid-cols-2 gap-6">
           {/* Web Development */}

@@ -782,3 +782,10 @@ textarea.contact-field { resize: vertical; min-height: 130px; }
   50%, 90%  { transform: rotateY(180deg); }
   100%      { transform: rotateY(360deg); }
 }
+
+/* Testimonial auto-slide transition */
+.testimonial-slide { animation: tSlide 0.6s ease-out both; }
+@keyframes tSlide {
+  from { opacity: 0; transform: translateX(28px); }
+  to   { opacity: 1; transform: translateX(0); }
+}

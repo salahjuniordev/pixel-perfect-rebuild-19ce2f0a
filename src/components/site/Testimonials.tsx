@@ -30,8 +30,8 @@ export function Testimonials() {
   }, []);
 
   useEffect(() => {
-    if (items.length === 0) return;
-    const id = setInterval(() => setI((p) => (p + 1) % items.length), 6000);
+    if (items.length < 2) return;
+    const id = setInterval(() => setI((p) => (p + 1) % items.length), 4500);
     return () => clearInterval(id);
   }, [items.length]);
 

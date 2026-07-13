@@ -30,8 +30,8 @@ export function Testimonials() {
   }, []);
 
   useEffect(() => {
-    if (items.length < 2) return;
-    const id = setInterval(() => setI((p) => (p + 1) % items.length), 4500);
+    if (items.length === 0) return;
+    const id = setInterval(() => setI((p) => (p + 1) % items.length), 6000);
     return () => clearInterval(id);
   }, [items.length]);
 
@@ -50,7 +50,7 @@ export function Testimonials() {
           <p>{t("What my clients say about working with me", "Ce que disent mes clients sur notre collaboration")}</p>
         </div>
         <div className="max-w-3xl mx-auto">
-          <div key={it.id} className="testimonial-card text-center testimonial-slide">
+          <div className="testimonial-card text-center">
             <Stars n={it.rating} />
             <p className="text-lg md:text-xl text-slate-200 leading-relaxed my-6 italic">"{it.content}"</p>
             <div className="flex items-center justify-center gap-4">

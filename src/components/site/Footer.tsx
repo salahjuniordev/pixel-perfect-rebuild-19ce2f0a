@@ -40,7 +40,7 @@ export function Footer() {
       <div className="container-sj grid lg:grid-cols-3 gap-10">
         <div>
           <a href="/#home" className="inline-flex items-center gap-3 mb-5">
-            <img src={s?.logo_url || "/img/fav-icon/favicon.png"} alt={`${brand} Logo`} className="w-16 h-16 rounded-full object-cover" />
+            <img src={s?.logo_url || "/logo.png"} alt={`${brand} Logo`} className="site-logo" />
           </a>
           <p className="text-sm text-slate-400 leading-relaxed mb-5">
             {s?.footer_text || t(

@@ -18,10 +18,22 @@ export function About() {
         <div className="lg:col-span-5">
           <div className="about-portrait">
             <span className="about-frame" aria-hidden />
-            <img
-              src="https://res.cloudinary.com/drmamswdc/image/upload/v1777468680/file_00000000cc7c720eb597618058b38454_kptzwi.png"
-              alt="Salah Junior – Full-Stack Web Developer and UI/UX Designer based in Yaoundé Cameroon"
-            />
+            <div className="about-flip">
+              <div className="about-flip-inner">
+                <div className="about-flip-face">
+                  <img
+                    src="https://res.cloudinary.com/drmamswdc/image/upload/v1777468680/file_00000000cc7c720eb597618058b38454_kptzwi.png"
+                    alt="Salah Junior – Full-Stack Web Developer and UI/UX Designer based in Yaoundé Cameroon"
+                  />
+                </div>
+                <div className="about-flip-face about-flip-back">
+                  <img
+                    src="https://res.cloudinary.com/drmamswdc/image/upload/v1777468784/file_00000000ee98722f978579295ecd7e04_dsleyd.png"
+                    alt="Salah Junior – Web Developer and Graphic Designer portrait"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 

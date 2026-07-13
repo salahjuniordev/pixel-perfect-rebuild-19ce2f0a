@@ -5,16 +5,16 @@ import { useAuth } from "@/lib/auth";
 export const Route = createFileRoute("/admin")({ component: AdminLayout });
 
 function AdminLayout() {
-  const { session, isAdmin, loading } = useAuth();
+  const { session, isAdmin, loading, roleLoading } = useAuth();
   const nav = useNavigate();
 
   useEffect(() => {
-    if (loading) return;
+    if (loading || roleLoading) return;
     if (!session) nav({ to: "/auth" });
     else if (!isAdmin) nav({ to: "/" });
-  }, [loading, session, isAdmin, nav]);
+  }, [loading, roleLoading, session, isAdmin, nav]);
 
-  if (loading || !session || !isAdmin) {
+  if (loading || roleLoading || !session || !isAdmin) {
     return (
       <div className="min-h-screen grid place-items-center bg-[var(--ink)] text-slate-400">
         <div className="text-center">

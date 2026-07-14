@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { LanguageProvider } from "@/lib/language";
+import { LanguageProvider, useLanguage } from "@/lib/language";
 import { Navbar } from "@/components/site/Navbar";
 import { Footer } from "@/components/site/Footer";
 import { BackToTop } from "@/components/site/BackToTop";
@@ -7,7 +7,14 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
 
-export const Route = createFileRoute("/blog/$slug")({ component: BlogPostPage });
+export const Route = createFileRoute("/blog/$slug")({
+  component: () => (
+    <LanguageProvider>
+      <BlogPostPage />
+    </LanguageProvider>
+  ),
+});
+
 
 function BlogPostPage() {
   const { slug } = Route.useParams();

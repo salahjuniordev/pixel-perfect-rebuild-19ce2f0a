@@ -349,16 +349,78 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      public_site_settings: {
+        Row: {
+          about_text: string | null
+          brand_name: string | null
+          contact_email: string | null
+          contact_phone: string | null
+          favicon_url: string | null
+          footer_text: string | null
+          hero_subtitle: string | null
+          hero_title: string | null
+          id: string | null
+          location: string | null
+          logo_url: string | null
+          resume_url: string | null
+          social_facebook: string | null
+          social_github: string | null
+          social_instagram: string | null
+          social_linkedin: string | null
+          social_twitter: string | null
+          social_youtube: string | null
+          tagline: string | null
+          whatsapp_number: string | null
+        }
+        Insert: {
+          about_text?: string | null
+          brand_name?: string | null
+          contact_email?: string | null
+          contact_phone?: string | null
+          favicon_url?: string | null
+          footer_text?: string | null
+          hero_subtitle?: string | null
+          hero_title?: string | null
+          id?: string | null
+          location?: string | null
+          logo_url?: string | null
+          resume_url?: string | null
+          social_facebook?: string | null
+          social_github?: string | null
+          social_instagram?: string | null
+          social_linkedin?: string | null
+          social_twitter?: string | null
+          social_youtube?: string | null
+          tagline?: string | null
+          whatsapp_number?: string | null
+        }
+        Update: {
+          about_text?: string | null
+          brand_name?: string | null
+          contact_email?: string | null
+          contact_phone?: string | null
+          favicon_url?: string | null
+          footer_text?: string | null
+          hero_subtitle?: string | null
+          hero_title?: string | null
+          id?: string | null
+          location?: string | null
+          logo_url?: string | null
+          resume_url?: string | null
+          social_facebook?: string | null
+          social_github?: string | null
+          social_instagram?: string | null
+          social_linkedin?: string | null
+          social_twitter?: string | null
+          social_youtube?: string | null
+          tagline?: string | null
+          whatsapp_number?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
-      has_role: {
-        Args: {
-          _role: Database["public"]["Enums"]["app_role"]
-          _user_id: string
-        }
-        Returns: boolean
-      }
+      [_ in never]: never
     }
     Enums: {
       app_role: "admin"

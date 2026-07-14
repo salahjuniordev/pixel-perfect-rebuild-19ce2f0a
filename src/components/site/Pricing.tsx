@@ -26,8 +26,16 @@ export function Pricing() {
           <p>{t("Transparent pricing for every stage of your project", "Tarification transparente pour chaque étape de votre projet")}</p>
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {plans.map((p) => {
+          {plans.map((p, idx) => {
             const features = Array.isArray(p.features) ? (p.features as string[]) : [];
+            const name = (p.name || "").toLowerCase();
+            const icon = name.includes("premium") || name.includes("prem")
+              ? "fa-crown"
+              : name.includes("medium") || name.includes("moyen") || name.includes("pro")
+              ? "fa-star"
+              : name.includes("starter") || name.includes("basic") || name.includes("début")
+              ? "fa-rocket"
+              : ["fa-rocket", "fa-star", "fa-crown"][idx] || "fa-gem";
             return (
               <div key={p.id} className={`pricing-card ${p.highlighted ? "featured" : ""}`}>
                 {p.highlighted && (
@@ -35,7 +43,8 @@ export function Pricing() {
                     {t("Most Popular", "Le Plus Populaire")}
                   </span>
                 )}
-                <i className="fa-solid fa-crown text-[--brand] text-3xl mb-4" />
+                <i className={`fa-solid ${icon} text-[--brand] text-3xl mb-4`} />
+
                 <h3 className="text-2xl font-bold text-white mb-1">{p.name}</h3>
                 <p className="text-sm text-slate-400 mb-6">{p.description}</p>
                 <div className="mb-6">

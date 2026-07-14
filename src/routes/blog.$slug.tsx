@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { LanguageProvider } from "@/lib/language";
+import { LanguageProvider, useLanguage } from "@/lib/language";
 import { Navbar } from "@/components/site/Navbar";
 import { Footer } from "@/components/site/Footer";
 import { BackToTop } from "@/components/site/BackToTop";
@@ -7,10 +7,19 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
 
-export const Route = createFileRoute("/blog/$slug")({ component: BlogPostPage });
+export const Route = createFileRoute("/blog/$slug")({
+  component: () => (
+    <LanguageProvider>
+      <BlogPostPage />
+    </LanguageProvider>
+  ),
+});
+
 
 function BlogPostPage() {
+  const { t, lang } = useLanguage();
   const { slug } = Route.useParams();
+
   const [post, setPost] = useState<Tables<"blog_posts"> | null>(null);
   const [loading, setLoading] = useState(true);
   const [missing, setMissing] = useState(false);
@@ -40,24 +49,25 @@ function BlogPostPage() {
   if (missing || !post) throw notFound();
 
   const date = post.published_at
-    ? new Date(post.published_at).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })
+    ? new Date(post.published_at).toLocaleDateString(lang === "fr" ? "fr-FR" : "en-US", { year: "numeric", month: "long", day: "numeric" })
     : "";
 
   return (
-    <LanguageProvider>
+    <>
       <Navbar />
       <article className="pt-32 pb-20">
         <div className="container-sj max-w-3xl">
           <Link to="/" hash="blog" className="text-sm text-[--brand] hover:underline mb-6 inline-flex items-center gap-2">
-            <i className="fa-solid fa-arrow-left" /> Back to Blog
+            <i className="fa-solid fa-arrow-left" /> {t("Back to Blog", "Retour au Blog")}
           </Link>
           <span className="inline-block text-xs text-[--brand] uppercase tracking-widest mb-3">{post.tag}</span>
           <h1 className="text-3xl md:text-5xl font-bold text-white leading-tight mb-4">{post.title}</h1>
           <div className="text-xs text-slate-500 flex gap-4 mb-8 flex-wrap">
             {date && <span><i className="fa-regular fa-calendar mr-1" />{date}</span>}
             <span><i className="fa-regular fa-clock mr-1" />{post.read_time}</span>
-            <span>By Salah Junior</span>
+            <span>{t("By Salah Junior", "Par Salah Junior")}</span>
           </div>
+
           {post.cover_image_url && (
             <img src={post.cover_image_url} alt={post.title} className="w-full rounded-2xl mb-10" />
           )}
@@ -78,6 +88,7 @@ function BlogPostPage() {
         .prose-blog img { max-width: 100%; border-radius: 12px; margin: 1rem 0; }
         .prose-blog code { background: rgba(14,165,233,0.15); color: #38bdf8; padding: 2px 6px; border-radius: 4px; font-size: 0.9em; }
       `}</style>
-    </LanguageProvider>
+    </>
+
   );
 }

@@ -6,7 +6,7 @@ let cache: Tables<"site_settings"> | null = null;
 const listeners = new Set<(s: Tables<"site_settings"> | null) => void>();
 
 async function load() {
-  const { data } = await supabase.from("site_settings").select("*").limit(1).maybeSingle();
+  const { data } = await (supabase as any).from("public_site_settings").select("*").limit(1).maybeSingle();
   cache = data ?? null;
   listeners.forEach((l) => l(cache));
 }

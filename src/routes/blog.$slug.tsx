@@ -17,7 +17,9 @@ export const Route = createFileRoute("/blog/$slug")({
 
 
 function BlogPostPage() {
+  const { t, lang } = useLanguage();
   const { slug } = Route.useParams();
+
   const [post, setPost] = useState<Tables<"blog_posts"> | null>(null);
   const [loading, setLoading] = useState(true);
   const [missing, setMissing] = useState(false);

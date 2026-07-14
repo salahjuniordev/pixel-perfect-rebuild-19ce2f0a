@@ -34,13 +34,13 @@ export function Skills() {
             <p className="text-white/85 mb-6">
               {t("Building responsive, fast, and scalable websites and web applications.", "Création de sites web et d'applications réactifs, rapides et évolutifs.")}
             </p>
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
               {webTech.map((x) => (
-                <div key={x.label} className="bg-white/10 rounded-xl p-3 flex items-center gap-3">
-                  <div className="tech-badge" style={x.badge ? { background: x.bg, color: x.color } : undefined}>
+                <div key={x.label} className="bg-white/10 rounded-xl p-2.5 sm:p-3 flex items-center gap-2 sm:gap-3 min-w-0">
+                  <div className="tech-badge shrink-0" style={x.badge ? { background: x.bg, color: x.color } : undefined}>
                     {x.src ? <img src={x.src} alt={x.label} /> : x.badge}
                   </div>
-                  <span className="text-sm font-medium text-white">{x.label}</span>
+                  <span className="text-xs sm:text-sm font-medium text-white truncate">{x.label}</span>
                 </div>
               ))}
             </div>

@@ -131,7 +131,7 @@ function FAQItem({ q, a }: { q: string; a: string }) {
 }
 
 function FAQPage() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   useSeo({
     title: {
       en: "FAQ – Web Development & Design Services | Salah Junior",
@@ -142,6 +142,19 @@ function FAQPage() {
       fr: "Questions fréquemment posées sur le développement web, le design UI/UX, les tarifs, les délais et le support avec Salah Junior.",
     },
     path: "/faq",
+  });
+  const isFr = lang === "fr";
+  useJsonLd("faq", {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    inLanguage: isFr ? "fr" : "en",
+    mainEntity: categories.flatMap((c) =>
+      c.items.map((it) => ({
+        "@type": "Question",
+        name: isFr ? it.q[1] : it.q[0],
+        acceptedAnswer: { "@type": "Answer", text: isFr ? it.a[1] : it.a[0] },
+      }))
+    ),
   });
   return (
     <LegalLayout

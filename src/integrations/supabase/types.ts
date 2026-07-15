@@ -353,8 +353,6 @@ export type Database = {
         Row: {
           about_text: string | null
           brand_name: string | null
-          contact_email: string | null
-          contact_phone: string | null
           favicon_url: string | null
           footer_text: string | null
           hero_subtitle: string | null
@@ -370,13 +368,10 @@ export type Database = {
           social_twitter: string | null
           social_youtube: string | null
           tagline: string | null
-          whatsapp_number: string | null
         }
         Insert: {
           about_text?: string | null
           brand_name?: string | null
-          contact_email?: string | null
-          contact_phone?: string | null
           favicon_url?: string | null
           footer_text?: string | null
           hero_subtitle?: string | null
@@ -392,13 +387,10 @@ export type Database = {
           social_twitter?: string | null
           social_youtube?: string | null
           tagline?: string | null
-          whatsapp_number?: string | null
         }
         Update: {
           about_text?: string | null
           brand_name?: string | null
-          contact_email?: string | null
-          contact_phone?: string | null
           favicon_url?: string | null
           footer_text?: string | null
           hero_subtitle?: string | null
@@ -414,7 +406,6 @@ export type Database = {
           social_twitter?: string | null
           social_youtube?: string | null
           tagline?: string | null
-          whatsapp_number?: string | null
         }
         Relationships: []
       }

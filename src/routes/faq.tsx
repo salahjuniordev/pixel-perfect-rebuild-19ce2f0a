@@ -131,6 +131,17 @@ function FAQItem({ q, a }: { q: string; a: string }) {
 
 function FAQPage() {
   const { t } = useLanguage();
+  useSeo({
+    title: {
+      en: "FAQ – Web Development & Design Services | Salah Junior",
+      fr: "FAQ – Services de Développement Web & Design | Salah Junior",
+    },
+    description: {
+      en: "Frequently asked questions about web development, UI/UX design, pricing, timelines and support with Salah Junior.",
+      fr: "Questions fréquemment posées sur le développement web, le design UI/UX, les tarifs, les délais et le support avec Salah Junior.",
+    },
+    path: "/faq",
+  });
   return (
     <LegalLayout
       title={t("FAQ", "FAQ")}

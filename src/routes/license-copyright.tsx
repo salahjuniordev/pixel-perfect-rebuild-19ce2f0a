@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { LanguageProvider, useLanguage } from "@/lib/language";
 import { LegalLayout, LegalCard } from "@/components/site/LegalPage";
+import { useSeo } from "@/lib/use-seo";
 
 export const Route = createFileRoute("/license-copyright")({
   head: () => ({ meta: [{ title: "License & Copyright | Salah Junior" }] }),
@@ -13,6 +14,14 @@ export const Route = createFileRoute("/license-copyright")({
 
 function LicensePage() {
   const { t } = useLanguage();
+  useSeo({
+    title: { en: "License & Copyright | Salah Junior", fr: "Licence & Droits d'Auteur | Salah Junior" },
+    description: {
+      en: "License terms and copyright policy for content, code and designs on Salah Junior's portfolio.",
+      fr: "Conditions de licence et politique de droits d'auteur pour le contenu, le code et les designs du portfolio de Salah Junior.",
+    },
+    path: "/license-copyright",
+  });
   return (
     <LegalLayout
       title={t("License & Copyright", "Licence & Droits d'Auteur")}

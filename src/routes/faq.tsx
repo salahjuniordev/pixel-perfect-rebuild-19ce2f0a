@@ -3,6 +3,7 @@ import { useState } from "react";
 import { LanguageProvider, useLanguage } from "@/lib/language";
 import { LegalLayout } from "@/components/site/LegalPage";
 import { useSeo } from "@/lib/use-seo";
+import { useJsonLd } from "@/lib/use-jsonld";
 
 export const Route = createFileRoute("/faq")({
   head: () => ({ meta: [{ title: "FAQ – Web Development & Design Services | Salah Junior" }] }),

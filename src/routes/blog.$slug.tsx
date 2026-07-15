@@ -6,6 +6,7 @@ import { BackToTop } from "@/components/site/BackToTop";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
+import { useSeo } from "@/lib/use-seo";
 
 export const Route = createFileRoute("/blog/$slug")({
   component: () => (

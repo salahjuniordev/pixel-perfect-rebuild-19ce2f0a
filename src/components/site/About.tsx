@@ -46,7 +46,7 @@ export function About() {
           <p className="about-lead">
             {t(
               "I'm Salah Junior — a full-stack developer and designer based in Yaoundé, Cameroon. I started building websites at 17, and what began as curiosity quickly became a craft. Three years later, I've worked with NGOs, logistics companies, and brands across Central Africa — turning ideas into digital products that actually work. I don't just write code. I think about the person on the other side of the screen.",
-              "Je suis Salah Junior — développeur full-stack et designer basé à Yaoundé, au Cameroun. J'ai commencé à créer des sites web à 17 ans, et ce qui n'était qu'une curiosité est vite devenu un véritable métier. Trois ans plus tard, j'ai travaillé avec des ONG, des entreprises logistiques et des marques à travers l'Afrique Centrale — transformant des idées en produits numériques qui fonctionnent vraiment. Je ne fais pas que écrire du code. Je pense à la personne de l'autre côté de l'écran."
+              "Je suis Salah Junior, développeur full-stack et designer basé à Yaoundé, au Cameroun. Tout a commencé à 17 ans par pure curiosité pour le code.\n\nTrois ans plus tard, cette curiosité est devenue un vrai métier : j'accompagne aujourd'hui des ONG, des entreprises logistiques et des marques à travers l'Afrique Centrale, en transformant leurs idées en produits numériques qui fonctionnent vraiment. Je ne me contente pas d'écrire du code : je pense toujours à la personne qui se trouve de l'autre côté de l'écran."
             )}
           </p>
 

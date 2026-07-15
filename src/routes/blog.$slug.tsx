@@ -40,6 +40,20 @@ function BlogPostPage() {
     })();
   }, [slug]);
 
+  const title = post?.title ?? (lang === "fr" ? "Article" : "Article");
+  const excerpt = post?.excerpt ?? "";
+  useSeo({
+    title: {
+      en: `${title} | Salah Junior Blog`,
+      fr: `${title} | Blog Salah Junior`,
+    },
+    description: {
+      en: excerpt || "Read the latest article by Salah Junior on web development, design and building products.",
+      fr: excerpt || "Lisez le dernier article de Salah Junior sur le développement web, le design et la création de produits.",
+    },
+    path: `/blog/${slug}`,
+  });
+
   if (loading) {
     return (
       <div className="min-h-screen grid place-items-center text-slate-400">

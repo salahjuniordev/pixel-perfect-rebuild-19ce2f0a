@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { LanguageProvider, useLanguage } from "@/lib/language";
 import { LegalLayout, LegalCard } from "@/components/site/LegalPage";
+import { useSeo } from "@/lib/use-seo";
 
 export const Route = createFileRoute("/terms-conditions")({
   head: () => ({ meta: [{ title: "Terms & Conditions | Salah Junior" }] }),
@@ -13,6 +14,14 @@ export const Route = createFileRoute("/terms-conditions")({
 
 function TermsPage() {
   const { t } = useLanguage();
+  useSeo({
+    title: { en: "Terms & Conditions | Salah Junior", fr: "Conditions Générales | Salah Junior" },
+    description: {
+      en: "Terms and conditions for engaging Salah Junior's web development, design, and branding services.",
+      fr: "Conditions générales pour l'engagement des services de développement web, design et branding de Salah Junior.",
+    },
+    path: "/terms-conditions",
+  });
   return (
     <LegalLayout
       title={t("Terms & Conditions", "Conditions Générales")}

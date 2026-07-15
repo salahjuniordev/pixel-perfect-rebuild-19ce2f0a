@@ -14,6 +14,7 @@ import { Pricing } from "@/components/site/Pricing";
 import { Contact } from "@/components/site/Contact";
 import { Footer } from "@/components/site/Footer";
 import { BackToTop } from "@/components/site/BackToTop";
+import { useSeo } from "@/lib/use-seo";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -25,9 +26,20 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-function Index() {
+function IndexInner() {
+  useSeo({
+    title: {
+      en: "Salah Junior | Full-Stack Web Developer & UI/UX Designer – Yaoundé, Cameroon",
+      fr: "Salah Junior | Développeur Web Full-Stack & Designer UI/UX – Yaoundé, Cameroun",
+    },
+    description: {
+      en: "Full-Stack Web Developer and UI/UX Designer based in Yaoundé, Cameroon. Turning ideas into digital reality.",
+      fr: "Développeur Web Full-Stack et Designer UI/UX basé à Yaoundé, Cameroun. Je transforme vos idées en réalité digitale.",
+    },
+    path: "/",
+  });
   return (
-    <LanguageProvider>
+    <>
       <Navbar />
       <main>
         <Hero />
@@ -44,6 +56,14 @@ function Index() {
       </main>
       <Footer />
       <BackToTop />
+    </>
+  );
+}
+
+function Index() {
+  return (
+    <LanguageProvider>
+      <IndexInner />
     </LanguageProvider>
   );
 }

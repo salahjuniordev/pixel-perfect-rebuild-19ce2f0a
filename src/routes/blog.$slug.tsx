@@ -6,6 +6,7 @@ import { BackToTop } from "@/components/site/BackToTop";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
+import { useSeo } from "@/lib/use-seo";
 
 export const Route = createFileRoute("/blog/$slug")({
   component: () => (
@@ -38,6 +39,20 @@ function BlogPostPage() {
       setLoading(false);
     })();
   }, [slug]);
+
+  const title = post?.title ?? (lang === "fr" ? "Article" : "Article");
+  const excerpt = post?.excerpt ?? "";
+  useSeo({
+    title: {
+      en: `${title} | Salah Junior Blog`,
+      fr: `${title} | Blog Salah Junior`,
+    },
+    description: {
+      en: excerpt || "Read the latest article by Salah Junior on web development, design and building products.",
+      fr: excerpt || "Lisez le dernier article de Salah Junior sur le développement web, le design et la création de produits.",
+    },
+    path: `/blog/${slug}`,
+  });
 
   if (loading) {
     return (

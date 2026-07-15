@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { LanguageProvider, useLanguage } from "@/lib/language";
 import { LegalLayout, LegalCard } from "@/components/site/LegalPage";
+import { useSeo } from "@/lib/use-seo";
 
 export const Route = createFileRoute("/refund-policy")({
   head: () => ({ meta: [{ title: "Refund Policy | Salah Junior" }] }),
@@ -13,6 +14,14 @@ export const Route = createFileRoute("/refund-policy")({
 
 function RefundPage() {
   const { t } = useLanguage();
+  useSeo({
+    title: { en: "Refund Policy | Salah Junior", fr: "Politique de Remboursement | Salah Junior" },
+    description: {
+      en: "Learn how Salah Junior handles refund requests for web development, design and branding projects.",
+      fr: "Découvrez comment Salah Junior gère les demandes de remboursement pour les projets de développement web, design et branding.",
+    },
+    path: "/refund-policy",
+  });
   return (
     <LegalLayout
       title={t("Refund Policy", "Politique de Remboursement")}

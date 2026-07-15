@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { LanguageProvider, useLanguage } from "@/lib/language";
 import { LegalLayout, LegalCard } from "@/components/site/LegalPage";
 import { useSeo } from "@/lib/use-seo";
+import { useLegalJsonLd } from "@/lib/use-legal-jsonld";
 
 export const Route = createFileRoute("/license-copyright")({
   head: () => ({ meta: [{ title: "License & Copyright | Salah Junior" }] }),
@@ -21,6 +22,14 @@ function LicensePage() {
       fr: "Conditions de licence et politique de droits d'auteur pour le contenu, le code et les designs du portfolio de Salah Junior.",
     },
     path: "/license-copyright",
+  });
+  useLegalJsonLd({
+    id: "legal-license",
+    path: "/license-copyright",
+    titleEn: "License & Copyright",
+    titleFr: "Licence & Droits d'Auteur",
+    descEn: "License terms and copyright policy for content, code and designs on Salah Junior's portfolio.",
+    descFr: "Conditions de licence et politique de droits d'auteur pour le contenu, le code et les designs du portfolio de Salah Junior.",
   });
   return (
     <LegalLayout

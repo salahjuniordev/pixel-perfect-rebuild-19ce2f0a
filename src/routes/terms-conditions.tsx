@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { LanguageProvider, useLanguage } from "@/lib/language";
 import { LegalLayout, LegalCard } from "@/components/site/LegalPage";
 import { useSeo } from "@/lib/use-seo";
+import { useLegalJsonLd } from "@/lib/use-legal-jsonld";
 
 export const Route = createFileRoute("/terms-conditions")({
   head: () => ({ meta: [{ title: "Terms & Conditions | Salah Junior" }] }),
@@ -21,6 +22,14 @@ function TermsPage() {
       fr: "Conditions générales pour l'engagement des services de développement web, design et branding de Salah Junior.",
     },
     path: "/terms-conditions",
+  });
+  useLegalJsonLd({
+    id: "legal-terms",
+    path: "/terms-conditions",
+    titleEn: "Terms & Conditions",
+    titleFr: "Conditions Générales",
+    descEn: "Terms and conditions for engaging Salah Junior's web development, design, and branding services.",
+    descFr: "Conditions générales pour l'engagement des services de développement web, design et branding de Salah Junior.",
   });
   return (
     <LegalLayout

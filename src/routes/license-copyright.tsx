@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { LanguageProvider, useLanguage } from "@/lib/language";
 import { LegalLayout, LegalCard } from "@/components/site/LegalPage";
 import { useSeo } from "@/lib/use-seo";
+import { useLegalJsonLd } from "@/lib/use-legal-jsonld";
 
 export const Route = createFileRoute("/license-copyright")({
   head: () => ({ meta: [{ title: "License & Copyright | Salah Junior" }] }),

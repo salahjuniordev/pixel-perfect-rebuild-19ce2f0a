@@ -109,6 +109,39 @@ const categories: Cat[] = [
   },
 ];
 
+const FAQ_ENTRIES: FaqEntry[] = categories.flatMap((c) => c.items);
+const FAQ_TITLE_EN = "FAQ – Web Development & Design Services | Salah Junior";
+const FAQ_TITLE_FR = "FAQ – Services de Développement Web & Design | Salah Junior";
+const FAQ_DESC_EN = "Frequently asked questions about web development, UI/UX design, pricing, timelines and support with Salah Junior.";
+const FAQ_DESC_FR = "Questions fréquemment posées sur le développement web, le design UI/UX, les tarifs, les délais et le support avec Salah Junior.";
+const FAQ_URL = `${SITE_ORIGIN}/faq`;
+
+export const Route = createFileRoute("/faq")({
+  head: () => ({
+    meta: [
+      { title: FAQ_TITLE_EN },
+      { name: "description", content: FAQ_DESC_EN },
+      { property: "og:title", content: FAQ_TITLE_EN },
+      { property: "og:description", content: FAQ_DESC_EN },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: FAQ_URL },
+      ...twitterMeta({ title: FAQ_TITLE_EN, description: FAQ_DESC_EN, url: FAQ_URL }),
+    ],
+    links: [{ rel: "canonical", href: FAQ_URL }],
+    scripts: [
+      asJsonLdScript(faqPageSchema(FAQ_ENTRIES, "en")),
+      asJsonLdScript(faqPageSchema(FAQ_ENTRIES, "fr")),
+    ],
+  }),
+  component: () => (
+    <LanguageProvider>
+      <FAQPage />
+    </LanguageProvider>
+  ),
+});
+
+
+
 function FAQItem({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false);
   return (

@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useLanguage } from "@/lib/language";
 import { useSiteSettings } from "@/lib/site-settings";
+import { organizationSchema } from "@/lib/seo-schemas";
 
 const quick = [
   { id: "home", en: "Home", fr: "Accueil" },

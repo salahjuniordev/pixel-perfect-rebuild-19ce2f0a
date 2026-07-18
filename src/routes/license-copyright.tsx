@@ -2,10 +2,32 @@ import { createFileRoute } from "@tanstack/react-router";
 import { LanguageProvider, useLanguage } from "@/lib/language";
 import { LegalLayout, LegalCard } from "@/components/site/LegalPage";
 import { useSeo } from "@/lib/use-seo";
-import { useLegalJsonLd } from "@/lib/use-legal-jsonld";
+import { asJsonLdScript, legalPageSchemas, twitterMeta, SITE_ORIGIN } from "@/lib/seo-schemas";
+
+const L_TITLE_EN = "License & Copyright | Salah Junior";
+const L_DESC_EN = "License terms and copyright policy for content, code and designs on Salah Junior's portfolio.";
+const L_URL = `${SITE_ORIGIN}/license-copyright`;
 
 export const Route = createFileRoute("/license-copyright")({
-  head: () => ({ meta: [{ title: "License & Copyright | Salah Junior" }] }),
+  head: () => ({
+    meta: [
+      { title: L_TITLE_EN },
+      { name: "description", content: L_DESC_EN },
+      { property: "og:title", content: L_TITLE_EN },
+      { property: "og:description", content: L_DESC_EN },
+      { property: "og:type", content: "article" },
+      { property: "og:url", content: L_URL },
+      ...twitterMeta({ title: L_TITLE_EN, description: L_DESC_EN, url: L_URL }),
+    ],
+    links: [{ rel: "canonical", href: L_URL }],
+    scripts: legalPageSchemas({
+      path: "/license-copyright",
+      titleEn: "License & Copyright",
+      titleFr: "Licence & Droits d'Auteur",
+      descEn: L_DESC_EN,
+      descFr: "Conditions de licence et politique de droits d'auteur pour le contenu, le code et les designs du portfolio de Salah Junior.",
+    }).map(asJsonLdScript),
+  }),
   component: () => (
     <LanguageProvider>
       <LicensePage />

@@ -15,15 +15,24 @@ import { Contact } from "@/components/site/Contact";
 import { Footer } from "@/components/site/Footer";
 import { BackToTop } from "@/components/site/BackToTop";
 import { useSeo } from "@/lib/use-seo";
-import { useJsonLd } from "@/lib/use-jsonld";
-import { useLanguage } from "@/lib/language";
+import { asJsonLdScript, homeGraphs, twitterMeta, SITE_ORIGIN } from "@/lib/seo-schemas";
+
+const HOME_TITLE_EN =
+  "Salah Junior | Full-Stack Web Developer & UI/UX Designer – Yaoundé, Cameroon";
+const HOME_DESC_EN =
+  "Full-Stack Web Developer and UI/UX Designer based in Yaoundé, Cameroon. Turning ideas into digital reality.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Salah Junior | Full-Stack Web Developer & UI/UX Designer – Yaoundé, Cameroon" },
-      { name: "description", content: "Full-Stack Web Developer and UI/UX Designer based in Yaoundé, Cameroon. Turning ideas into digital reality." },
+      { title: HOME_TITLE_EN },
+      { name: "description", content: HOME_DESC_EN },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: `${SITE_ORIGIN}/` },
+      ...twitterMeta({ title: HOME_TITLE_EN, description: HOME_DESC_EN, url: `${SITE_ORIGIN}/` }),
     ],
+    links: [{ rel: "canonical", href: `${SITE_ORIGIN}/` }],
+    scripts: homeGraphs().map(asJsonLdScript),
   }),
   component: Index,
 });

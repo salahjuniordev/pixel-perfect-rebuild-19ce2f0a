@@ -45,14 +45,6 @@ function RefundPage() {
     },
     path: "/refund-policy",
   });
-  useLegalJsonLd({
-    id: "legal-refund",
-    path: "/refund-policy",
-    titleEn: "Refund Policy",
-    titleFr: "Politique de Remboursement",
-    descEn: "Learn how Salah Junior handles refund requests for web development, design and branding projects.",
-    descFr: "Découvrez comment Salah Junior gère les demandes de remboursement pour les projets de développement web, design et branding.",
-  });
   return (
     <LegalLayout
       title={t("Refund Policy", "Politique de Remboursement")}

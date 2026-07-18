@@ -3,16 +3,8 @@ import { useState } from "react";
 import { LanguageProvider, useLanguage } from "@/lib/language";
 import { LegalLayout } from "@/components/site/LegalPage";
 import { useSeo } from "@/lib/use-seo";
-import { useJsonLd } from "@/lib/use-jsonld";
+import { asJsonLdScript, faqPageSchema, twitterMeta, SITE_ORIGIN, type FaqEntry } from "@/lib/seo-schemas";
 
-export const Route = createFileRoute("/faq")({
-  head: () => ({ meta: [{ title: "FAQ – Web Development & Design Services | Salah Junior" }] }),
-  component: () => (
-    <LanguageProvider>
-      <FAQPage />
-    </LanguageProvider>
-  ),
-});
 
 type QA = { q: [string, string]; a: [string, string] };
 type Cat = { name: [string, string]; items: QA[] };

@@ -12,7 +12,6 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermsConditionsRouteImport } from './routes/terms-conditions'
 import { Route as RefundPolicyRouteImport } from './routes/refund-policy'
 import { Route as LicenseCopyrightRouteImport } from './routes/license-copyright'
-import { Route as FaqRouteImport } from './routes/faq'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
@@ -39,11 +38,6 @@ const RefundPolicyRoute = RefundPolicyRouteImport.update({
 const LicenseCopyrightRoute = LicenseCopyrightRouteImport.update({
   id: '/license-copyright',
   path: '/license-copyright',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FaqRoute = FaqRouteImport.update({
-  id: '/faq',
-  path: '/faq',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -111,7 +105,6 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
-  '/faq': typeof FaqRoute
   '/license-copyright': typeof LicenseCopyrightRoute
   '/refund-policy': typeof RefundPolicyRoute
   '/terms-conditions': typeof TermsConditionsRoute
@@ -128,7 +121,6 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
-  '/faq': typeof FaqRoute
   '/license-copyright': typeof LicenseCopyrightRoute
   '/refund-policy': typeof RefundPolicyRoute
   '/terms-conditions': typeof TermsConditionsRoute
@@ -147,7 +139,6 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
-  '/faq': typeof FaqRoute
   '/license-copyright': typeof LicenseCopyrightRoute
   '/refund-policy': typeof RefundPolicyRoute
   '/terms-conditions': typeof TermsConditionsRoute
@@ -167,7 +158,6 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/auth'
-    | '/faq'
     | '/license-copyright'
     | '/refund-policy'
     | '/terms-conditions'
@@ -184,7 +174,6 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
-    | '/faq'
     | '/license-copyright'
     | '/refund-policy'
     | '/terms-conditions'
@@ -202,7 +191,6 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/auth'
-    | '/faq'
     | '/license-copyright'
     | '/refund-policy'
     | '/terms-conditions'
@@ -221,7 +209,6 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
   AuthRoute: typeof AuthRoute
-  FaqRoute: typeof FaqRoute
   LicenseCopyrightRoute: typeof LicenseCopyrightRoute
   RefundPolicyRoute: typeof RefundPolicyRoute
   TermsConditionsRoute: typeof TermsConditionsRoute
@@ -249,13 +236,6 @@ declare module '@tanstack/react-router' {
       path: '/license-copyright'
       fullPath: '/license-copyright'
       preLoaderRoute: typeof LicenseCopyrightRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/faq': {
-      id: '/faq'
-      path: '/faq'
-      fullPath: '/faq'
-      preLoaderRoute: typeof FaqRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -373,7 +353,6 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
   AuthRoute: AuthRoute,
-  FaqRoute: FaqRoute,
   LicenseCopyrightRoute: LicenseCopyrightRoute,
   RefundPolicyRoute: RefundPolicyRoute,
   TermsConditionsRoute: TermsConditionsRoute,

@@ -156,7 +156,7 @@ function FAQItem({ q, a }: { q: string; a: string }) {
 }
 
 function FAQPage() {
-  const { t, lang } = useLanguage();
+  const { t } = useLanguage();
   useSeo({
     title: {
       en: "FAQ – Web Development & Design Services | Salah Junior",

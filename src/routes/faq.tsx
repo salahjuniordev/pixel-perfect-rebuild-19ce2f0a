@@ -168,19 +168,7 @@ function FAQPage() {
     },
     path: "/faq",
   });
-  const isFr = lang === "fr";
-  useJsonLd("faq", {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    inLanguage: isFr ? "fr" : "en",
-    mainEntity: categories.flatMap((c) =>
-      c.items.map((it) => ({
-        "@type": "Question",
-        name: isFr ? it.q[1] : it.q[0],
-        acceptedAnswer: { "@type": "Answer", text: isFr ? it.a[1] : it.a[0] },
-      }))
-    ),
-  });
+
   return (
     <LegalLayout
       title={t("FAQ", "FAQ")}

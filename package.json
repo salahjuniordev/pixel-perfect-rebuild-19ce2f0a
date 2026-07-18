@@ -9,7 +9,9 @@
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
     "lint": "eslint .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "validate:seo": "node scripts/validate-jsonld.mjs",
+    "validate:seo:static": "npx --yes tsx scripts/validate-jsonld.mjs --static"
   },
   "dependencies": {
     "@fontsource/rubik": "^5.2.8",

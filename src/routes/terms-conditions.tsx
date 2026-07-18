@@ -2,10 +2,32 @@ import { createFileRoute } from "@tanstack/react-router";
 import { LanguageProvider, useLanguage } from "@/lib/language";
 import { LegalLayout, LegalCard } from "@/components/site/LegalPage";
 import { useSeo } from "@/lib/use-seo";
-import { useLegalJsonLd } from "@/lib/use-legal-jsonld";
+import { asJsonLdScript, legalPageSchemas, twitterMeta, SITE_ORIGIN } from "@/lib/seo-schemas";
+
+const T_TITLE_EN = "Terms & Conditions | Salah Junior";
+const T_DESC_EN = "Terms and conditions for engaging Salah Junior's web development, design, and branding services.";
+const T_URL = `${SITE_ORIGIN}/terms-conditions`;
 
 export const Route = createFileRoute("/terms-conditions")({
-  head: () => ({ meta: [{ title: "Terms & Conditions | Salah Junior" }] }),
+  head: () => ({
+    meta: [
+      { title: T_TITLE_EN },
+      { name: "description", content: T_DESC_EN },
+      { property: "og:title", content: T_TITLE_EN },
+      { property: "og:description", content: T_DESC_EN },
+      { property: "og:type", content: "article" },
+      { property: "og:url", content: T_URL },
+      ...twitterMeta({ title: T_TITLE_EN, description: T_DESC_EN, url: T_URL }),
+    ],
+    links: [{ rel: "canonical", href: T_URL }],
+    scripts: legalPageSchemas({
+      path: "/terms-conditions",
+      titleEn: "Terms & Conditions",
+      titleFr: "Conditions Générales",
+      descEn: T_DESC_EN,
+      descFr: "Conditions générales pour l'engagement des services de développement web, design et branding de Salah Junior.",
+    }).map(asJsonLdScript),
+  }),
   component: () => (
     <LanguageProvider>
       <TermsPage />
@@ -22,14 +44,6 @@ function TermsPage() {
       fr: "Conditions générales pour l'engagement des services de développement web, design et branding de Salah Junior.",
     },
     path: "/terms-conditions",
-  });
-  useLegalJsonLd({
-    id: "legal-terms",
-    path: "/terms-conditions",
-    titleEn: "Terms & Conditions",
-    titleFr: "Conditions Générales",
-    descEn: "Terms and conditions for engaging Salah Junior's web development, design, and branding services.",
-    descFr: "Conditions générales pour l'engagement des services de développement web, design et branding de Salah Junior.",
   });
   return (
     <LegalLayout

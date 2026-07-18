@@ -2,10 +2,32 @@ import { createFileRoute } from "@tanstack/react-router";
 import { LanguageProvider, useLanguage } from "@/lib/language";
 import { LegalLayout, LegalCard } from "@/components/site/LegalPage";
 import { useSeo } from "@/lib/use-seo";
-import { useLegalJsonLd } from "@/lib/use-legal-jsonld";
+import { asJsonLdScript, legalPageSchemas, twitterMeta, SITE_ORIGIN } from "@/lib/seo-schemas";
+
+const R_TITLE_EN = "Refund Policy | Salah Junior";
+const R_DESC_EN = "Learn how Salah Junior handles refund requests for web development, design and branding projects.";
+const R_URL = `${SITE_ORIGIN}/refund-policy`;
 
 export const Route = createFileRoute("/refund-policy")({
-  head: () => ({ meta: [{ title: "Refund Policy | Salah Junior" }] }),
+  head: () => ({
+    meta: [
+      { title: R_TITLE_EN },
+      { name: "description", content: R_DESC_EN },
+      { property: "og:title", content: R_TITLE_EN },
+      { property: "og:description", content: R_DESC_EN },
+      { property: "og:type", content: "article" },
+      { property: "og:url", content: R_URL },
+      ...twitterMeta({ title: R_TITLE_EN, description: R_DESC_EN, url: R_URL }),
+    ],
+    links: [{ rel: "canonical", href: R_URL }],
+    scripts: legalPageSchemas({
+      path: "/refund-policy",
+      titleEn: "Refund Policy",
+      titleFr: "Politique de Remboursement",
+      descEn: R_DESC_EN,
+      descFr: "Découvrez comment Salah Junior gère les demandes de remboursement pour les projets de développement web, design et branding.",
+    }).map(asJsonLdScript),
+  }),
   component: () => (
     <LanguageProvider>
       <RefundPage />
@@ -22,14 +44,6 @@ function RefundPage() {
       fr: "Découvrez comment Salah Junior gère les demandes de remboursement pour les projets de développement web, design et branding.",
     },
     path: "/refund-policy",
-  });
-  useLegalJsonLd({
-    id: "legal-refund",
-    path: "/refund-policy",
-    titleEn: "Refund Policy",
-    titleFr: "Politique de Remboursement",
-    descEn: "Learn how Salah Junior handles refund requests for web development, design and branding projects.",
-    descFr: "Découvrez comment Salah Junior gère les demandes de remboursement pour les projets de développement web, design et branding.",
   });
   return (
     <LegalLayout

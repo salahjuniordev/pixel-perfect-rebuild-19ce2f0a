@@ -7,15 +7,72 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
 import { useSeo } from "@/lib/use-seo";
-import { useJsonLd } from "@/lib/use-jsonld";
+import {
+  articleSchemas,
+  asJsonLdScript,
+  twitterMeta,
+  SITE_ORIGIN,
+  type ArticleSeed,
+} from "@/lib/seo-schemas";
+
+async function loadPostSeed(slug: string): Promise<ArticleSeed | null> {
+  try {
+    const { data } = await supabase
+      .from("blog_posts")
+      .select("slug,title,excerpt,cover_image_url,tag,published_at,updated_at,published")
+      .eq("slug", slug)
+      .eq("published", true)
+      .maybeSingle();
+    if (!data) return null;
+    return {
+      slug: data.slug,
+      title: data.title,
+      excerpt: data.excerpt,
+      cover: data.cover_image_url,
+      tag: data.tag,
+      publishedAt: data.published_at,
+      updatedAt: data.updated_at,
+    };
+  } catch {
+    return null;
+  }
+}
 
 export const Route = createFileRoute("/blog/$slug")({
+  loader: async ({ params }) => ({ seed: await loadPostSeed(params.slug) }),
+  head: ({ params, loaderData }) => {
+    const seed = loaderData?.seed;
+    const url = `${SITE_ORIGIN}/blog/${params.slug}`;
+    const title = seed?.title ?? "Article";
+    const desc =
+      seed?.excerpt ??
+      "Read the latest article by Salah Junior on web development, design and building products.";
+    const meta: Array<Record<string, string>> = [
+      { title: `${title} | Salah Junior Blog` },
+      { name: "description", content: desc },
+      { property: "og:title", content: title },
+      { property: "og:description", content: desc },
+      { property: "og:type", content: "article" },
+      { property: "og:url", content: url },
+      ...twitterMeta({ title, description: desc, image: seed?.cover ?? null, url }),
+    ];
+    if (seed?.cover) meta.push({ property: "og:image", content: seed.cover });
+    if (seed?.publishedAt) meta.push({ property: "article:published_time", content: seed.publishedAt });
+    if (seed?.updatedAt) meta.push({ property: "article:modified_time", content: seed.updatedAt });
+    if (seed?.tag) meta.push({ property: "article:section", content: seed.tag });
+    return {
+      meta,
+      links: [{ rel: "canonical", href: url }],
+      scripts: seed ? articleSchemas(seed).map(asJsonLdScript) : [],
+    };
+  },
   component: () => (
     <LanguageProvider>
       <BlogPostPage />
     </LanguageProvider>
   ),
 });
+
 
 
 function BlogPostPage() {
@@ -55,49 +112,8 @@ function BlogPostPage() {
     path: `/blog/${slug}`,
   });
 
-  const origin = typeof window !== "undefined" ? window.location.origin : "https://faithful-update.lovable.app";
-  const postUrl = `${origin}/blog/${slug}`;
-  useJsonLd(
-    "blog-post",
-    post
-      ? [
-          {
-            "@context": "https://schema.org",
-            "@type": "Article",
-            headline: post.title,
-            description: post.excerpt || undefined,
-            image: post.cover_image_url ? [post.cover_image_url] : undefined,
-            datePublished: post.published_at || undefined,
-            dateModified: post.updated_at || post.published_at || undefined,
-            inLanguage: lang === "fr" ? "fr" : "en",
-            articleSection: post.tag || undefined,
-            keywords: post.tag || undefined,
-            author: {
-              "@type": "Person",
-              name: "Salah Junior Ncham",
-              url: origin,
-            },
-            publisher: {
-              "@type": "Person",
-              name: "Salah Junior Ncham",
-              url: origin,
-              logo: { "@type": "ImageObject", url: `${origin}/logo.png` },
-            },
-            mainEntityOfPage: { "@type": "WebPage", "@id": postUrl },
-            url: postUrl,
-          },
-          {
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            itemListElement: [
-              { "@type": "ListItem", position: 1, name: lang === "fr" ? "Accueil" : "Home", item: origin },
-              { "@type": "ListItem", position: 2, name: "Blog", item: `${origin}/#blog` },
-              { "@type": "ListItem", position: 3, name: post.title, item: postUrl },
-            ],
-          },
-        ]
-      : null
-  );
+
+
 
 
   if (loading) {

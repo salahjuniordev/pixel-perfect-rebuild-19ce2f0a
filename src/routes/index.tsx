@@ -15,15 +15,24 @@ import { Contact } from "@/components/site/Contact";
 import { Footer } from "@/components/site/Footer";
 import { BackToTop } from "@/components/site/BackToTop";
 import { useSeo } from "@/lib/use-seo";
-import { useJsonLd } from "@/lib/use-jsonld";
-import { useLanguage } from "@/lib/language";
+import { asJsonLdScript, homeGraphs, twitterMeta, SITE_ORIGIN } from "@/lib/seo-schemas";
+
+const HOME_TITLE_EN =
+  "Salah Junior | Full-Stack Web Developer & UI/UX Designer – Yaoundé, Cameroon";
+const HOME_DESC_EN =
+  "Full-Stack Web Developer and UI/UX Designer based in Yaoundé, Cameroon. Turning ideas into digital reality.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Salah Junior | Full-Stack Web Developer & UI/UX Designer – Yaoundé, Cameroon" },
-      { name: "description", content: "Full-Stack Web Developer and UI/UX Designer based in Yaoundé, Cameroon. Turning ideas into digital reality." },
+      { title: HOME_TITLE_EN },
+      { name: "description", content: HOME_DESC_EN },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: `${SITE_ORIGIN}/` },
+      ...twitterMeta({ title: HOME_TITLE_EN, description: HOME_DESC_EN, url: `${SITE_ORIGIN}/` }),
     ],
+    links: [{ rel: "canonical", href: `${SITE_ORIGIN}/` }],
+    scripts: homeGraphs().map(asJsonLdScript),
   }),
   component: Index,
 });
@@ -40,61 +49,6 @@ function IndexInner() {
     },
     path: "/",
   });
-  const { lang } = useLanguage();
-  const origin = typeof window !== "undefined" ? window.location.origin : "https://faithful-update.lovable.app";
-  const isFr = lang === "fr";
-  useJsonLd("home", [
-    {
-      "@context": "https://schema.org",
-      "@type": "Person",
-      name: "Salah Junior Ncham",
-      alternateName: "Salah Junior",
-      url: origin,
-      image: `${origin}/logo.png`,
-      jobTitle: isFr ? "Développeur Web Full-Stack & Designer UI/UX" : "Full-Stack Web Developer & UI/UX Designer",
-      description: isFr
-        ? "Développeur Web Full-Stack et Designer UI/UX basé à Yaoundé, Cameroun."
-        : "Full-Stack Web Developer and UI/UX Designer based in Yaoundé, Cameroon.",
-      email: "mailto:salahjuniorncham@gmail.com",
-      telephone: "+237683693011",
-      address: { "@type": "PostalAddress", addressLocality: "Yaoundé", addressCountry: "CM" },
-      sameAs: [
-        "https://github.com/salahjuniordev",
-        "https://www.instagram.com/salahjuniordev",
-        "https://www.facebook.com/salahjuniordev",
-      ],
-      knowsAbout: ["Web Development", "UI/UX Design", "Branding", "React", "TypeScript", "Supabase", "Figma"],
-      knowsLanguage: ["en", "fr"],
-    },
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      name: "Salah Junior Portfolio",
-      url: origin,
-      inLanguage: [isFr ? "fr" : "en", isFr ? "en" : "fr"],
-      potentialAction: {
-        "@type": "SearchAction",
-        target: `${origin}/?q={search_term_string}`,
-        "query-input": "required name=search_term_string",
-      },
-    },
-    {
-      "@context": "https://schema.org",
-      "@type": "ProfessionalService",
-      name: "SalahJuniorDev",
-      url: origin,
-      image: `${origin}/logo.png`,
-      priceRange: "$$",
-      areaServed: ["CM", "Africa", "Worldwide"],
-      address: { "@type": "PostalAddress", addressLocality: "Yaoundé", addressCountry: "CM" },
-      description: isFr
-        ? "Services de développement web full-stack, design UI/UX, identité de marque et administration bureautique."
-        : "Full-stack web development, UI/UX design, branding and office administration services.",
-      serviceType: isFr
-        ? ["Développement Web", "Design UI/UX", "Identité de Marque", "Design Graphique"]
-        : ["Web Development", "UI/UX Design", "Branding", "Graphic Design"],
-    },
-  ]);
 
   return (
     <>

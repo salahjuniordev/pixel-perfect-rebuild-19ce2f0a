@@ -112,49 +112,8 @@ function BlogPostPage() {
     path: `/blog/${slug}`,
   });
 
-  const origin = typeof window !== "undefined" ? window.location.origin : "https://faithful-update.lovable.app";
-  const postUrl = `${origin}/blog/${slug}`;
-  useJsonLd(
-    "blog-post",
-    post
-      ? [
-          {
-            "@context": "https://schema.org",
-            "@type": "Article",
-            headline: post.title,
-            description: post.excerpt || undefined,
-            image: post.cover_image_url ? [post.cover_image_url] : undefined,
-            datePublished: post.published_at || undefined,
-            dateModified: post.updated_at || post.published_at || undefined,
-            inLanguage: lang === "fr" ? "fr" : "en",
-            articleSection: post.tag || undefined,
-            keywords: post.tag || undefined,
-            author: {
-              "@type": "Person",
-              name: "Salah Junior Ncham",
-              url: origin,
-            },
-            publisher: {
-              "@type": "Person",
-              name: "Salah Junior Ncham",
-              url: origin,
-              logo: { "@type": "ImageObject", url: `${origin}/logo.png` },
-            },
-            mainEntityOfPage: { "@type": "WebPage", "@id": postUrl },
-            url: postUrl,
-          },
-          {
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            itemListElement: [
-              { "@type": "ListItem", position: 1, name: lang === "fr" ? "Accueil" : "Home", item: origin },
-              { "@type": "ListItem", position: 2, name: "Blog", item: `${origin}/#blog` },
-              { "@type": "ListItem", position: 3, name: post.title, item: postUrl },
-            ],
-          },
-        ]
-      : null
-  );
+
+
 
 
   if (loading) {

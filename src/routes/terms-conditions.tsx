@@ -45,14 +45,6 @@ function TermsPage() {
     },
     path: "/terms-conditions",
   });
-  useLegalJsonLd({
-    id: "legal-terms",
-    path: "/terms-conditions",
-    titleEn: "Terms & Conditions",
-    titleFr: "Conditions Générales",
-    descEn: "Terms and conditions for engaging Salah Junior's web development, design, and branding services.",
-    descFr: "Conditions générales pour l'engagement des services de développement web, design et branding de Salah Junior.",
-  });
   return (
     <LegalLayout
       title={t("Terms & Conditions", "Conditions Générales")}

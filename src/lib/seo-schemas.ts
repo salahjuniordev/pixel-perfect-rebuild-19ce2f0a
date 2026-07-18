@@ -53,7 +53,7 @@ export function organizationSchema(lang: Lang) {
       addressCountry: COUNTRY,
     },
     areaServed: ["CM", "Africa", "Worldwide"],
-    founder: { "@type": "Person", name: BRAND_FULL },
+    founder: { "@type": "Person", name: BRAND_FULL, url: SITE_ORIGIN },
     sameAs: SAME_AS,
     inLanguage: langTag(lang),
     contactPoint: [

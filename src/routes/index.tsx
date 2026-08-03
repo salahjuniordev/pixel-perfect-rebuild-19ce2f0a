@@ -15,23 +15,31 @@ import { Contact } from "@/components/site/Contact";
 import { Footer } from "@/components/site/Footer";
 import { BackToTop } from "@/components/site/BackToTop";
 import { useSeo } from "@/lib/use-seo";
-import { asJsonLdScript, homeGraphs, twitterMeta, SITE_ORIGIN } from "@/lib/seo-schemas";
+import { asJsonLdScript, homeGraphs, twitterMeta, ogMeta, altLinks, SITE_ORIGIN } from "@/lib/seo-schemas";
 
 const HOME_TITLE_EN =
   "Salah Junior | Full-Stack Web Developer & UI/UX Designer – Yaoundé, Cameroon";
 const HOME_DESC_EN =
   "Full-Stack Web Developer and UI/UX Designer based in Yaoundé, Cameroon. Turning ideas into digital reality.";
+const HOME_TITLE_FR =
+  "Salah Junior | Développeur Web Full-Stack & Designer UI/UX – Yaoundé, Cameroun";
+const HOME_DESC_FR =
+  "Développeur Web Full-Stack et Designer UI/UX basé à Yaoundé, Cameroun. Je transforme vos idées en réalité digitale.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: HOME_TITLE_EN },
       { name: "description", content: HOME_DESC_EN },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: `${SITE_ORIGIN}/` },
+      ...ogMeta({
+        titleFr: HOME_TITLE_FR,
+        descFr: HOME_DESC_FR,
+        url: `${SITE_ORIGIN}/`,
+        type: "website",
+      }),
       ...twitterMeta({ title: HOME_TITLE_EN, description: HOME_DESC_EN, url: `${SITE_ORIGIN}/` }),
     ],
-    links: [{ rel: "canonical", href: `${SITE_ORIGIN}/` }],
+    links: altLinks("/"),
     scripts: homeGraphs().map(asJsonLdScript),
   }),
   component: Index,

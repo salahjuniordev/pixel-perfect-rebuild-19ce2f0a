@@ -326,3 +326,54 @@ export function asJsonLdScript(data: unknown) {
     children: JSON.stringify(data),
   };
 }
+
+/* -------------------------------------------------------------------- */
+/*  Open Graph (French-first) + canonical / hreflang helpers             */
+/* -------------------------------------------------------------------- */
+
+export const DEFAULT_OG_IMAGE = `${SITE_ORIGIN}/img/og-preview.png`;
+
+/** Absolute URL for a site path ("/faq" -> "https://host/faq"). */
+export const absUrl = (path: string) =>
+  `${SITE_ORIGIN}${path.startsWith("/") ? path : `/${path}`}`;
+
+/**
+ * Open Graph tags with French as the primary locale (og:title / og:description
+ * in French) and English exposed as the alternate locale.
+ */
+export function ogMeta(opts: {
+  titleFr: string;
+  descFr: string;
+  titleEn?: string;
+  descEn?: string;
+  url: string;
+  image?: string | null;
+  type?: "website" | "article" | "profile";
+  siteName?: string;
+}) {
+  const image = opts.image || DEFAULT_OG_IMAGE;
+  const meta: Array<Record<string, string>> = [
+    { property: "og:site_name", content: opts.siteName ?? BRAND },
+    { property: "og:type", content: opts.type ?? "website" },
+    { property: "og:url", content: opts.url },
+    { property: "og:title", content: opts.titleFr },
+    { property: "og:description", content: opts.descFr },
+    { property: "og:image", content: image },
+    { property: "og:image:alt", content: opts.titleFr },
+    { property: "og:locale", content: "fr_FR" },
+    { property: "og:locale:alternate", content: "en_US" },
+  ];
+  return meta;
+}
+
+/** canonical + hreflang (fr / en / x-default) link tags for a site path. */
+export function altLinks(path: string) {
+  const base = absUrl(path);
+  const sep = base.includes("?") ? "&" : "?";
+  return [
+    { rel: "canonical", href: base },
+    { rel: "alternate", hrefLang: "fr", href: `${base}${sep}lang=fr` },
+    { rel: "alternate", hrefLang: "en", href: `${base}${sep}lang=en` },
+    { rel: "alternate", hrefLang: "x-default", href: base },
+  ];
+}

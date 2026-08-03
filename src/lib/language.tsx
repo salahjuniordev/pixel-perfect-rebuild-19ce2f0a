@@ -10,10 +10,16 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const [lang, setLang] = useState<Lang>("en");
   useEffect(() => {
     try {
+      const param = new URLSearchParams(window.location.search).get("lang");
+      if (param === "en" || param === "fr") {
+        setLang(param);
+        return;
+      }
       const saved = localStorage.getItem("sj-lang") as Lang | null;
       if (saved === "en" || saved === "fr") setLang(saved);
     } catch {}
   }, []);
+
   useEffect(() => {
     try { localStorage.setItem("sj-lang", lang); } catch {}
     if (typeof document !== "undefined") document.documentElement.lang = lang;

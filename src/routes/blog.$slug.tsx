@@ -11,6 +11,8 @@ import {
   articleSchemas,
   asJsonLdScript,
   twitterMeta,
+  ogMeta,
+  altLinks,
   SITE_ORIGIN,
   type ArticleSeed,
 } from "@/lib/seo-schemas";
@@ -50,19 +52,21 @@ export const Route = createFileRoute("/blog/$slug")({
     const meta: Array<Record<string, string>> = [
       { title: `${title} | Salah Junior Blog` },
       { name: "description", content: desc },
-      { property: "og:title", content: title },
-      { property: "og:description", content: desc },
-      { property: "og:type", content: "article" },
-      { property: "og:url", content: url },
+      ...ogMeta({
+        titleFr: title,
+        descFr: desc,
+        url,
+        image: seed?.cover ?? null,
+        type: "article",
+      }),
       ...twitterMeta({ title, description: desc, image: seed?.cover ?? null, url }),
     ];
-    if (seed?.cover) meta.push({ property: "og:image", content: seed.cover });
     if (seed?.publishedAt) meta.push({ property: "article:published_time", content: seed.publishedAt });
     if (seed?.updatedAt) meta.push({ property: "article:modified_time", content: seed.updatedAt });
     if (seed?.tag) meta.push({ property: "article:section", content: seed.tag });
     return {
       meta,
-      links: [{ rel: "canonical", href: url }],
+      links: altLinks(`/blog/${params.slug}`),
       scripts: seed ? articleSchemas(seed).map(asJsonLdScript) : [],
     };
   },

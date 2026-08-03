@@ -3,7 +3,7 @@ import { useState } from "react";
 import { LanguageProvider, useLanguage } from "@/lib/language";
 import { LegalLayout } from "@/components/site/LegalPage";
 import { useSeo } from "@/lib/use-seo";
-import { asJsonLdScript, faqPageSchema, twitterMeta, SITE_ORIGIN, type FaqEntry } from "@/lib/seo-schemas";
+import { asJsonLdScript, faqPageSchema, twitterMeta, ogMeta, altLinks, SITE_ORIGIN, type FaqEntry } from "@/lib/seo-schemas";
 
 
 type QA = { q: [string, string]; a: [string, string] };
@@ -121,13 +121,15 @@ export const Route = createFileRoute("/faq")({
     meta: [
       { title: FAQ_TITLE_EN },
       { name: "description", content: FAQ_DESC_EN },
-      { property: "og:title", content: FAQ_TITLE_EN },
-      { property: "og:description", content: FAQ_DESC_EN },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: FAQ_URL },
+      ...ogMeta({
+        titleFr: FAQ_TITLE_FR,
+        descFr: FAQ_DESC_FR,
+        url: FAQ_URL,
+        type: "website",
+      }),
       ...twitterMeta({ title: FAQ_TITLE_EN, description: FAQ_DESC_EN, url: FAQ_URL }),
     ],
-    links: [{ rel: "canonical", href: FAQ_URL }],
+    links: altLinks("/faq"),
     scripts: [
       asJsonLdScript(faqPageSchema(FAQ_ENTRIES, "en")),
       asJsonLdScript(faqPageSchema(FAQ_ENTRIES, "fr")),

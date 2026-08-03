@@ -7,7 +7,7 @@ import { asJsonLdScript, legalPageSchemas, twitterMeta, ogMeta, altLinks, SITE_O
 const T_TITLE_EN = "Terms & Conditions | Salah Junior";
 const T_DESC_EN = "Terms and conditions for engaging Salah Junior's web development, design, and branding services.";
 const T_TITLE_FR = "Conditions Générales | Salah Junior";
-const T_DESC_FR = "Conditions générales pour l"engagement des services de développement web, design et branding de Salah Junior.";
+const T_DESC_FR = "Conditions générales pour l'engagement des services de développement web, design et branding de Salah Junior.";
 const T_URL = `${SITE_ORIGIN}/terms-conditions`;
 
 export const Route = createFileRoute("/terms-conditions")({

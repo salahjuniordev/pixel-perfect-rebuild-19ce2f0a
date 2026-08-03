@@ -6,8 +6,8 @@ import { asJsonLdScript, legalPageSchemas, twitterMeta, ogMeta, altLinks, SITE_O
 
 const L_TITLE_EN = "License & Copyright | Salah Junior";
 const L_DESC_EN = "License terms and copyright policy for content, code and designs on Salah Junior's portfolio.";
-const L_TITLE_FR = "Licence & Droits d"Auteur | Salah Junior";
-const L_DESC_FR = "Conditions de licence et politique de droits d"auteur pour le contenu, le code et les designs du portfolio de Salah Junior.";
+const L_TITLE_FR = "Licence & Droits d'Auteur | Salah Junior";
+const L_DESC_FR = "Conditions de licence et politique de droits d'auteur pour le contenu, le code et les designs du portfolio de Salah Junior.";
 const L_URL = `${SITE_ORIGIN}/license-copyright`;
 
 export const Route = createFileRoute("/license-copyright")({

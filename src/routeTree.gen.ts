@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermsConditionsRouteImport } from './routes/terms-conditions'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as RefundPolicyRouteImport } from './routes/refund-policy'
 import { Route as LicenseCopyrightRouteImport } from './routes/license-copyright'
 import { Route as FaqRouteImport } from './routes/faq'
@@ -29,6 +30,11 @@ import { Route as AdminActivityRouteImport } from './routes/admin/activity'
 const TermsConditionsRoute = TermsConditionsRouteImport.update({
   id: '/terms-conditions',
   path: '/terms-conditions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RefundPolicyRoute = RefundPolicyRouteImport.update({
@@ -114,6 +120,7 @@ export interface FileRoutesByFullPath {
   '/faq': typeof FaqRoute
   '/license-copyright': typeof LicenseCopyrightRoute
   '/refund-policy': typeof RefundPolicyRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms-conditions': typeof TermsConditionsRoute
   '/admin/activity': typeof AdminActivityRoute
   '/admin/blog': typeof AdminBlogRoute
@@ -131,6 +138,7 @@ export interface FileRoutesByTo {
   '/faq': typeof FaqRoute
   '/license-copyright': typeof LicenseCopyrightRoute
   '/refund-policy': typeof RefundPolicyRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms-conditions': typeof TermsConditionsRoute
   '/admin/activity': typeof AdminActivityRoute
   '/admin/blog': typeof AdminBlogRoute
@@ -150,6 +158,7 @@ export interface FileRoutesById {
   '/faq': typeof FaqRoute
   '/license-copyright': typeof LicenseCopyrightRoute
   '/refund-policy': typeof RefundPolicyRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms-conditions': typeof TermsConditionsRoute
   '/admin/activity': typeof AdminActivityRoute
   '/admin/blog': typeof AdminBlogRoute
@@ -170,6 +179,7 @@ export interface FileRouteTypes {
     | '/faq'
     | '/license-copyright'
     | '/refund-policy'
+    | '/sitemap.xml'
     | '/terms-conditions'
     | '/admin/activity'
     | '/admin/blog'
@@ -187,6 +197,7 @@ export interface FileRouteTypes {
     | '/faq'
     | '/license-copyright'
     | '/refund-policy'
+    | '/sitemap.xml'
     | '/terms-conditions'
     | '/admin/activity'
     | '/admin/blog'
@@ -205,6 +216,7 @@ export interface FileRouteTypes {
     | '/faq'
     | '/license-copyright'
     | '/refund-policy'
+    | '/sitemap.xml'
     | '/terms-conditions'
     | '/admin/activity'
     | '/admin/blog'
@@ -224,6 +236,7 @@ export interface RootRouteChildren {
   FaqRoute: typeof FaqRoute
   LicenseCopyrightRoute: typeof LicenseCopyrightRoute
   RefundPolicyRoute: typeof RefundPolicyRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsConditionsRoute: typeof TermsConditionsRoute
   BlogSlugRoute: typeof BlogSlugRoute
 }
@@ -235,6 +248,13 @@ declare module '@tanstack/react-router' {
       path: '/terms-conditions'
       fullPath: '/terms-conditions'
       preLoaderRoute: typeof TermsConditionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/refund-policy': {
@@ -376,19 +396,10 @@ const rootRouteChildren: RootRouteChildren = {
   FaqRoute: FaqRoute,
   LicenseCopyrightRoute: LicenseCopyrightRoute,
   RefundPolicyRoute: RefundPolicyRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsConditionsRoute: TermsConditionsRoute,
   BlogSlugRoute: BlogSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

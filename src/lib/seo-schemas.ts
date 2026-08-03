@@ -331,7 +331,7 @@ export function asJsonLdScript(data: unknown) {
 /*  Open Graph (French-first) + canonical / hreflang helpers             */
 /* -------------------------------------------------------------------- */
 
-export const DEFAULT_OG_IMAGE = `${SITE_ORIGIN}/img/og-cover.jpg`;
+export const DEFAULT_OG_IMAGE = `${SITE_ORIGIN}/img/og-preview.png`;
 
 /** Absolute URL for a site path ("/faq" -> "https://host/faq"). */
 export const absUrl = (path: string) =>

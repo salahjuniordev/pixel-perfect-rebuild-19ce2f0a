@@ -2,10 +2,12 @@ import { createFileRoute } from "@tanstack/react-router";
 import { LanguageProvider, useLanguage } from "@/lib/language";
 import { LegalLayout, LegalCard } from "@/components/site/LegalPage";
 import { useSeo } from "@/lib/use-seo";
-import { asJsonLdScript, legalPageSchemas, twitterMeta, SITE_ORIGIN } from "@/lib/seo-schemas";
+import { asJsonLdScript, legalPageSchemas, twitterMeta, ogMeta, altLinks, SITE_ORIGIN } from "@/lib/seo-schemas";
 
 const R_TITLE_EN = "Refund Policy | Salah Junior";
 const R_DESC_EN = "Learn how Salah Junior handles refund requests for web development, design and branding projects.";
+const R_TITLE_FR = "Politique de Remboursement | Salah Junior";
+const R_DESC_FR = "Découvrez comment Salah Junior gère les demandes de remboursement pour les projets de développement web, design et branding.";
 const R_URL = `${SITE_ORIGIN}/refund-policy`;
 
 export const Route = createFileRoute("/refund-policy")({
@@ -13,13 +15,15 @@ export const Route = createFileRoute("/refund-policy")({
     meta: [
       { title: R_TITLE_EN },
       { name: "description", content: R_DESC_EN },
-      { property: "og:title", content: R_TITLE_EN },
-      { property: "og:description", content: R_DESC_EN },
-      { property: "og:type", content: "article" },
-      { property: "og:url", content: R_URL },
+      ...ogMeta({
+        titleFr: R_TITLE_FR,
+        descFr: R_DESC_FR,
+        url: R_URL,
+        type: "article",
+      }),
       ...twitterMeta({ title: R_TITLE_EN, description: R_DESC_EN, url: R_URL }),
     ],
-    links: [{ rel: "canonical", href: R_URL }],
+    links: altLinks("/refund-policy"),
     scripts: legalPageSchemas({
       path: "/refund-policy",
       titleEn: "Refund Policy",

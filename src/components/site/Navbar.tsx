@@ -44,7 +44,7 @@ export function Navbar() {
   };
 
   return (
-    <nav className="nav-shell">
+    <nav className="nav-shell" aria-label="Main">
       <div className="container-sj flex items-center justify-between py-4">
         <a href="/#home" onClick={(e) => { e.preventDefault(); go("home"); }} className="flex items-center shrink-0">
           <img src="/logo.png" alt="Salah Junior Dev" className="site-logo" />

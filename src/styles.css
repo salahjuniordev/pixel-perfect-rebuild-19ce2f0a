@@ -674,7 +674,7 @@ textarea.contact-field { resize: vertical; min-height: 130px; }
 
 .contact-submit-btn {
   width: 100%; padding: 15px 24px;
-  background: #128c7e; color: #fff; font-weight: 700;
+  background: #0f766e; color: #fff; font-weight: 700;
   border-radius: 10px;
   display: inline-flex; align-items: center; justify-content: center; gap: 10px;
   transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;

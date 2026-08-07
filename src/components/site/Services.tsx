@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useLanguage } from "@/lib/language";
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
+import { optimizedImage } from "@/lib/img";
 
 export function Services() {
   const { t } = useLanguage();
@@ -31,8 +32,12 @@ export function Services() {
               <div className="svc-card-media">
                 {s.image_url ? (
                   <img
-                    src={s.image_url}
+                    src={optimizedImage(s.image_url, 640)}
                     alt={s.title}
+                    width={640}
+                    height={400}
+                    loading="lazy"
+                    decoding="async"
                     onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
                   />
                 ) : (

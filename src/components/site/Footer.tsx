@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useLanguage } from "@/lib/language";
 import { useSiteSettings } from "@/lib/site-settings";
+import { optimizedImage } from "@/lib/img";
 
 const quick = [
   { id: "home", en: "Home", fr: "Accueil" },
@@ -42,7 +43,7 @@ export function Footer() {
       <div className="container-sj grid lg:grid-cols-3 gap-10">
         <div>
           <a href="/#home" className="inline-flex items-center gap-3 mb-5">
-            <img src={s?.logo_url || "/logo.png"} alt={`${brand} Logo`} className="site-logo" />
+            <img src={optimizedImage(s?.logo_url, 112) || "/logo.png"} alt={`${brand} Logo`} width={56} height={56} loading="lazy" decoding="async" className="site-logo" />
           </a>
           <p className="text-sm text-slate-400 leading-relaxed mb-5">
             {s?.footer_text || t(

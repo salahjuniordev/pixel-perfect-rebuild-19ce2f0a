@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useLanguage } from "@/lib/language";
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
+import { optimizedImage } from "@/lib/img";
 
 export function Blog() {
   const { t } = useLanguage();
@@ -35,7 +36,15 @@ export function Blog() {
             return (
               <article key={p.id} className="card-dark !p-0 overflow-hidden flex flex-col">
                 {p.cover_image_url && (
-                  <img src={p.cover_image_url} alt={p.title} className="w-full aspect-video object-cover" />
+                  <img
+                    src={optimizedImage(p.cover_image_url, 640)}
+                    alt={p.title}
+                    width={640}
+                    height={360}
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full aspect-video object-cover"
+                  />
                 )}
                 <div className="p-6 flex flex-col flex-1">
                   <span className="inline-block text-xs text-[--brand] uppercase tracking-wider mb-3">{p.tag}</span>

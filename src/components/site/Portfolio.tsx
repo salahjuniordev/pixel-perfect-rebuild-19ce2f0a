@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useLanguage } from "@/lib/language";
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
+import { optimizedImage } from "@/lib/img";
 
 export function Portfolio() {
   const { t } = useLanguage();
@@ -42,7 +43,16 @@ export function Portfolio() {
               className="proj-card"
             >
               <div className="proj-card-media">
-                {p.image_url && <img src={p.image_url} alt={p.title} />}
+                {p.image_url && (
+                  <img
+                    src={optimizedImage(p.image_url, 640)}
+                    alt={p.title}
+                    width={640}
+                    height={400}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                )}
               </div>
               <div className="proj-card-body">
                 <span className="proj-card-pill">{p.category}</span>

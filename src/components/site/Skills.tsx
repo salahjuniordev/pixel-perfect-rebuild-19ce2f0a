@@ -38,7 +38,7 @@ export function Skills() {
               {webTech.map((x) => (
                 <div key={x.label} className="bg-white/10 rounded-xl p-2.5 sm:p-3 flex items-center gap-2 sm:gap-3 min-w-0">
                   <div className="tech-badge shrink-0" style={x.badge ? { background: x.bg, color: x.color } : undefined}>
-                    {x.src ? <img src={x.src} alt={x.label} /> : x.badge}
+                    {x.src ? <img src={x.src} alt={x.label} width={32} height={32} loading="lazy" decoding="async" /> : x.badge}
                   </div>
                   <span className="text-xs sm:text-sm font-medium text-white truncate">{x.label}</span>
                 </div>
@@ -74,7 +74,7 @@ export function Skills() {
                 <h3 className="font-bold mb-2">CMS</h3>
                 <p className="text-xs text-white/85 mb-3">{t("Building and managing dynamic websites with powerful CMS platforms.", "Construction et gestion de sites dynamiques avec de puissantes plateformes CMS.")}</p>
                 <div className="flex gap-2">
-                  <div className="tech-badge"><img src={devicon("wordpress/wordpress-original.svg")} alt="WordPress" /></div>
+                  <div className="tech-badge"><img src={devicon("wordpress/wordpress-original.svg")} alt="WordPress" width={32} height={32} loading="lazy" decoding="async" /></div>
                   <Badge text="WIX" bg="#0C6EFC" border="#0C6EFC" />
                 </div>
               </div>

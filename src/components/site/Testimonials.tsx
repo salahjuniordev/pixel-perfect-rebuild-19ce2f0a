@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useLanguage } from "@/lib/language";
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
+import { optimizedImage } from "@/lib/img";
 
 function Stars({ n }: { n: number }) {
   const full = Math.floor(n); const half = n - full >= 0.5;
@@ -55,7 +56,15 @@ export function Testimonials() {
             <p className="text-lg md:text-xl text-slate-200 leading-relaxed my-6 italic">"{it.content}"</p>
             <div className="flex items-center justify-center gap-4">
               {it.avatar_url ? (
-                <img src={it.avatar_url} alt={it.name} className="w-14 h-14 rounded-full object-cover" />
+                <img
+                  src={optimizedImage(it.avatar_url, 112)}
+                  alt={it.name}
+                  width={56}
+                  height={56}
+                  loading="lazy"
+                  decoding="async"
+                  className="w-14 h-14 rounded-full object-cover"
+                />
               ) : (
                 <div className="w-14 h-14 rounded-full grid place-items-center text-white font-bold" style={{ background: bg }}>{initials}</div>
               )}

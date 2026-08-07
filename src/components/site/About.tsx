@@ -1,4 +1,5 @@
 import { useLanguage } from "@/lib/language";
+import { optimizedImage } from "@/lib/img";
 
 const interests = [
   { i: "fa-gamepad", en: "GAMING", fr: "JEU VIDÉO" },
@@ -22,14 +23,28 @@ export function About() {
               <div className="about-flip-inner">
                 <div className="about-flip-face">
                   <img
-                    src="https://res.cloudinary.com/drmamswdc/image/upload/v1777468680/file_00000000cc7c720eb597618058b38454_kptzwi.png"
+                    src={optimizedImage(
+                      "https://res.cloudinary.com/drmamswdc/image/upload/v1777468680/file_00000000cc7c720eb597618058b38454_kptzwi.png",
+                      760,
+                    )}
                     alt="Salah Junior – Full-Stack Web Developer and UI/UX Designer based in Yaoundé Cameroon"
+                    width={760}
+                    height={950}
+                    loading="lazy"
+                    decoding="async"
                   />
                 </div>
                 <div className="about-flip-face about-flip-back">
                   <img
-                    src="https://res.cloudinary.com/drmamswdc/image/upload/v1777468784/file_00000000ee98722f978579295ecd7e04_dsleyd.png"
+                    src={optimizedImage(
+                      "https://res.cloudinary.com/drmamswdc/image/upload/v1777468784/file_00000000ee98722f978579295ecd7e04_dsleyd.png",
+                      760,
+                    )}
                     alt="Salah Junior – Web Developer and Graphic Designer portrait"
+                    width={760}
+                    height={950}
+                    loading="lazy"
+                    decoding="async"
                   />
                 </div>
               </div>

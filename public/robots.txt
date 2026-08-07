@@ -4,4 +4,4 @@ Allow: /
 Disallow: /admin
 Disallow: /auth
 
-Sitemap: https://faithful-update.lovable.app/sitemap.xml
+Sitemap: https://salahjuniordev.vercel.app/sitemap.xml

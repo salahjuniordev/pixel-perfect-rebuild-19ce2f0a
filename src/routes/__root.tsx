@@ -97,10 +97,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "stylesheet", href: "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" },
     ],
     scripts: [
+      // Single node per @id (Organization / WebSite) so graph nodes don't conflict.
       asJsonLdScript(organizationSchema("en")),
-      asJsonLdScript(organizationSchema("fr")),
       asJsonLdScript(websiteSchema("en")),
-      asJsonLdScript(websiteSchema("fr")),
     ],
   }),
   shellComponent: RootShell,

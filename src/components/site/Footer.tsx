@@ -38,14 +38,8 @@ export function Footer() {
   ].filter((x) => x.url) as { i: string; url: string }[];
   return (
     <footer className="bg-[#070d1a] pt-20 pb-8 border-t border-white/5">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema("en")) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema("fr")) }}
-      />
+      {/* Organization / WebSite JSON-LD is emitted sitewide from __root head() */}
+
       <div className="container-sj grid lg:grid-cols-3 gap-10">
         <div>
           <a href="/#home" className="inline-flex items-center gap-3 mb-5">

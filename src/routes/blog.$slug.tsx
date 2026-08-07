@@ -7,8 +7,8 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
 import { useSeo } from "@/lib/use-seo";
-import {
 import { optimizedImage } from "@/lib/img";
+import {
   articleSchemas,
   asJsonLdScript,
   twitterMeta,

@@ -1,0 +1,30 @@
+# Salah Junior Ncham — SalahJuniorDev
+
+> Full-Stack Web Developer & UI/UX Designer based in Yaoundé, Cameroon.
+> Développeur Web Full-Stack et Designer UI/UX basé à Yaoundé, Cameroun.
+> Site: https://salahjuniordev.vercel.app (bilingual EN/FR, add ?lang=fr or ?lang=en)
+
+## Contact
+- Email: salahjuniorncham@gmail.com
+- Phone / WhatsApp: +237 683 693 011
+- GitHub: https://github.com/salahjuniordev
+- Instagram: https://www.instagram.com/salahjuniordev
+- Facebook: https://www.facebook.com/salahjuniordev
+
+## Services
+Full-stack web development (React, TypeScript, Supabase), UI/UX design (Figma),
+brand identity and graphic design, office administration support.
+Areas served: Cameroon, Africa, Worldwide.
+
+## Pages
+- [Home](https://salahjuniordev.vercel.app/): about, skills, services, portfolio, testimonials, pricing, contact
+- [FAQ](https://salahjuniordev.vercel.app/faq): frequently asked questions (EN/FR)
+- [Blog](https://salahjuniordev.vercel.app/#blog): articles on web development and design
+- [Refund Policy](https://salahjuniordev.vercel.app/refund-policy)
+- [Terms & Conditions](https://salahjuniordev.vercel.app/terms-conditions)
+- [License & Copyright](https://salahjuniordev.vercel.app/license-copyright)
+
+## Machine-readable
+- Sitemap: https://salahjuniordev.vercel.app/sitemap.xml
+- Structured data: JSON-LD (Organization, Person, WebSite, ProfessionalService,
+  FAQPage, Article, BreadcrumbList) is server-rendered in EN and FR on every page.

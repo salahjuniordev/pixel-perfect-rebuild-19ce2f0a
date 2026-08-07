@@ -122,11 +122,17 @@ a { color: inherit; text-decoration: none; }
 }
 .sec-head p { color: var(--soft); max-width: 640px; margin: 18px auto 0; }
 
-/* Hero */
+/* Hero — served through Cloudinary transformations so mobile gets a small,
+   auto-format (WebP/AVIF) variant instead of the 2 MB source PNG. */
 .hero-bg {
-  background-image: url('https://res.cloudinary.com/drmamswdc/image/upload/v1778232403/Screenshot_2026-05-08_101008_ugtpof.png');
+  background-image: url('https://res.cloudinary.com/drmamswdc/image/upload/f_auto,q_auto,c_limit,w_768/v1778232403/Screenshot_2026-05-08_101008_ugtpof.png');
   background-size: cover; background-position: center; background-repeat: no-repeat;
   position: relative; min-height: 100vh; display: flex; align-items: center;
+}
+@media (min-width: 768px) {
+  .hero-bg {
+    background-image: url('https://res.cloudinary.com/drmamswdc/image/upload/f_auto,q_auto,c_limit,w_1600/v1778232403/Screenshot_2026-05-08_101008_ugtpof.png');
+  }
 }
 .hero-bg::before {
   content: ""; position: absolute; inset: 0; background: rgba(15,23,42,0.55);

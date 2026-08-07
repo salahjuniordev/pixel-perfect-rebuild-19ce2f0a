@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useLanguage } from "@/lib/language";
+import { SITE_ORIGIN } from "@/lib/seo-schemas";
 
 type SeoInput = {
   title: { en: string; fr: string };
@@ -47,7 +48,7 @@ export function useSeo({ title, description, path }: SeoInput) {
     upsertMeta("name", "twitter:title", t);
     upsertMeta("name", "twitter:description", d);
 
-    const origin = window.location.origin;
+    const origin = SITE_ORIGIN;
     const p = path ?? window.location.pathname;
     const url = `${origin}${p}`;
     upsertLink("canonical", url);

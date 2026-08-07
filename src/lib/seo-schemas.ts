@@ -9,7 +9,7 @@
  * so localized rich results are detected without client hydration.
  */
 
-export const SITE_ORIGIN = "https://faithful-update.lovable.app";
+export const SITE_ORIGIN = "https://salahjuniordev.vercel.app";
 export const BRAND = "Salah Junior";
 export const BRAND_FULL = "Salah Junior Ncham";
 export const CONTACT_EMAIL = "salahjuniorncham@gmail.com";

@@ -16,7 +16,7 @@ export function useLegalJsonLd(opts: {
   const { lang } = useLanguage();
   const isFr = lang === "fr";
   const origin =
-    typeof window !== "undefined" ? window.location.origin : "https://faithful-update.lovable.app";
+    typeof window !== "undefined" ? window.location.origin : "https://salahjuniordev.vercel.app";
   const url = `${origin}${opts.path}`;
   useJsonLd(opts.id, [
     {

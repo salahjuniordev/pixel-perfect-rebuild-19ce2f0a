@@ -13,7 +13,7 @@ function Stars({ n }: { n: number }) {
   );
 }
 
-const palette = ["#0ea5e9", "#be185d", "#059669", "#6d28d9", "#d97706", "#b91c1c"];
+const palette = ["#0369a1", "#9d174d", "#046c4e", "#5b21b6", "#92400e", "#991b1b"];
 
 export function Testimonials() {
   const { t } = useLanguage();
@@ -44,7 +44,7 @@ export function Testimonials() {
     <section id="testimonials" className="section-padding bg-[#070d1a]">
       <div className="container-sj">
         <div className="sec-head text-center mb-14">
-          <h6>{t("Reviews", "Avis")}</h6>
+          <p className="eyebrow">{t("Reviews", "Avis")}</p>
           <h2>{t("Client Testimonials", "Témoignages Clients")}</h2>
           <div className="underline" />
           <p>{t("What my clients say about working with me", "Ce que disent mes clients sur notre collaboration")}</p>
@@ -66,11 +66,17 @@ export function Testimonials() {
             </div>
           </div>
           <div className="flex items-center justify-center gap-3 mt-8">
-            <button onClick={() => setI((i - 1 + items.length) % items.length)} className="w-10 h-10 rounded-full border border-white/20 text-white hover:bg-[--brand] hover:border-[--brand]">←</button>
+            <button onClick={() => setI((i - 1 + items.length) % items.length)} aria-label={t("Previous testimonial", "Témoignage précédent")} className="w-10 h-10 rounded-full border border-white/20 text-white hover:bg-[--brand] hover:border-[--brand]">←</button>
             {items.map((_, idx) => (
-              <button key={idx} onClick={() => setI(idx)} className={`w-2.5 h-2.5 rounded-full transition ${idx === i ? "bg-[--brand] w-6" : "bg-white/20"}`} />
+              <button
+                key={idx}
+                onClick={() => setI(idx)}
+                aria-label={t(`Show testimonial ${idx + 1}`, `Afficher le témoignage ${idx + 1}`)}
+                aria-current={idx === i}
+                className={`w-2.5 h-2.5 rounded-full transition ${idx === i ? "bg-[--brand] w-6" : "bg-white/20"}`}
+              />
             ))}
-            <button onClick={() => setI((i + 1) % items.length)} className="w-10 h-10 rounded-full border border-white/20 text-white hover:bg-[--brand] hover:border-[--brand]">→</button>
+            <button onClick={() => setI((i + 1) % items.length)} aria-label={t("Next testimonial", "Témoignage suivant")} className="w-10 h-10 rounded-full border border-white/20 text-white hover:bg-[--brand] hover:border-[--brand]">→</button>
           </div>
         </div>
       </div>

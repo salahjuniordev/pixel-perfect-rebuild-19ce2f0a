@@ -35,7 +35,7 @@ export function Contact() {
             <ContactInfo icon="fa-whatsapp" brand label="WhatsApp" value="+237 683693011" href="https://wa.me/237683693011" />
 
             <div className="pt-4">
-              <h4 className="contact-connect-title">{t("Connect with me", "Retrouvez-moi sur")}</h4>
+              <h3 className="contact-connect-title">{t("Connect with me", "Retrouvez-moi sur")}</h3>
               <div className="grid grid-cols-2 gap-4">
                 {socials.map((s) => (
                   <a key={s.key} href={s.url} target="_blank" rel="noreferrer" className="contact-social-card">
@@ -52,7 +52,7 @@ export function Contact() {
           {/* RIGHT: dark form card */}
           <div className="lg:col-span-7">
             <div className="contact-form-card">
-              <h4 className="contact-form-title">{t("Send Me a Message", "Envoyez-moi un message")}</h4>
+              <h3 className="contact-form-title">{t("Send Me a Message", "Envoyez-moi un message")}</h3>
               <p className="contact-form-sub">
                 {t("Fill in the form and it'll open directly in WhatsApp — no email needed.", "Remplissez le formulaire et il s'ouvrira directement dans WhatsApp.")}
               </p>

@@ -40,7 +40,7 @@ export function Services() {
                 )}
               </div>
               <div className="svc-card-body">
-                <h6 className="svc-card-title">{s.title}</h6>
+                <h3 className="svc-card-title">{s.title}</h3>
                 <p className="svc-card-desc">{s.description}</p>
               </div>
             </div>

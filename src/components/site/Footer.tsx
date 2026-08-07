@@ -57,7 +57,7 @@ export function Footer() {
           </ul>
         </div>
         <div>
-          <h6 className="text-white font-bold mb-5">{t("Quick Links", "Liens Rapides")}</h6>
+          <h3 className="text-white font-bold mb-5">{t("Quick Links", "Liens Rapides")}</h3>
           <ul className="grid grid-cols-2 gap-2 text-sm text-slate-300">
             {quick.map((l) => (
               <li key={l.id}>
@@ -69,7 +69,7 @@ export function Footer() {
           </ul>
         </div>
         <div>
-          <h6 className="text-white font-bold mb-5">{t("Legal & Policies", "Légal & Politiques")}</h6>
+          <h3 className="text-white font-bold mb-5">{t("Legal & Policies", "Légal & Politiques")}</h3>
           <ul className="space-y-2 text-sm text-slate-300">
             {legal.map((l) => (
               <li key={l.to}>

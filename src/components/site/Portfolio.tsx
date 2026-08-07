@@ -46,7 +46,7 @@ export function Portfolio() {
               </div>
               <div className="proj-card-body">
                 <span className="proj-card-pill">{p.category}</span>
-                <h4 className="proj-card-title">{p.title}</h4>
+                <h3 className="proj-card-title">{p.title}</h3>
               </div>
             </a>
           ))}

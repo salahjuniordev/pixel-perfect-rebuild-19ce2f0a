@@ -75,7 +75,7 @@ export function About() {
             </a>
           </div>
 
-          <h5 className="about-interests-title">{t("My Interests", "Mes Intérêts")}</h5>
+          <h3 className="about-interests-title">{t("My Interests", "Mes Intérêts")}</h3>
           <div className="flex flex-wrap gap-x-8 gap-y-4">
             {interests.map((x) => (
               <div key={x.i} className="about-interest">

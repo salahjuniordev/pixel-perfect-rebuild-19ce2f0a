@@ -20,7 +20,7 @@ export function Pricing() {
     <section className="section-padding">
       <div className="container-sj">
         <div className="sec-head text-center mb-14">
-          <h6>{t("Pricing", "Tarifs")}</h6>
+          <p className="eyebrow">{t("Pricing", "Tarifs")}</p>
           <h2>{t("Pricing Plans", "Plans Tarifaires")}</h2>
           <div className="underline" />
           <p>{t("Transparent pricing for every stage of your project", "Tarification transparente pour chaque étape de votre projet")}</p>

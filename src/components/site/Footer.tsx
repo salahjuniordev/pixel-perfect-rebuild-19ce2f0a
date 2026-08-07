@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useLanguage } from "@/lib/language";
 import { useSiteSettings } from "@/lib/site-settings";
-import { organizationSchema } from "@/lib/seo-schemas";
+import { optimizedImage } from "@/lib/img";
 
 const quick = [
   { id: "home", en: "Home", fr: "Accueil" },
@@ -38,18 +38,12 @@ export function Footer() {
   ].filter((x) => x.url) as { i: string; url: string }[];
   return (
     <footer className="bg-[#070d1a] pt-20 pb-8 border-t border-white/5">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema("en")) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema("fr")) }}
-      />
+      {/* Organization / WebSite JSON-LD is emitted sitewide from __root head() */}
+
       <div className="container-sj grid lg:grid-cols-3 gap-10">
         <div>
           <a href="/#home" className="inline-flex items-center gap-3 mb-5">
-            <img src={s?.logo_url || "/logo.png"} alt={`${brand} Logo`} className="site-logo" />
+            <img src={optimizedImage(s?.logo_url, 112) || "/logo.png"} alt={`${brand} Logo`} width={56} height={56} loading="lazy" decoding="async" className="site-logo" />
           </a>
           <p className="text-sm text-slate-400 leading-relaxed mb-5">
             {s?.footer_text || t(
@@ -64,7 +58,7 @@ export function Footer() {
           </ul>
         </div>
         <div>
-          <h6 className="text-white font-bold mb-5">{t("Quick Links", "Liens Rapides")}</h6>
+          <h3 className="text-white font-bold mb-5">{t("Quick Links", "Liens Rapides")}</h3>
           <ul className="grid grid-cols-2 gap-2 text-sm text-slate-300">
             {quick.map((l) => (
               <li key={l.id}>
@@ -76,7 +70,7 @@ export function Footer() {
           </ul>
         </div>
         <div>
-          <h6 className="text-white font-bold mb-5">{t("Legal & Policies", "Légal & Politiques")}</h6>
+          <h3 className="text-white font-bold mb-5">{t("Legal & Policies", "Légal & Politiques")}</h3>
           <ul className="space-y-2 text-sm text-slate-300">
             {legal.map((l) => (
               <li key={l.to}>

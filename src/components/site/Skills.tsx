@@ -38,7 +38,7 @@ export function Skills() {
               {webTech.map((x) => (
                 <div key={x.label} className="bg-white/10 rounded-xl p-2.5 sm:p-3 flex items-center gap-2 sm:gap-3 min-w-0">
                   <div className="tech-badge shrink-0" style={x.badge ? { background: x.bg, color: x.color } : undefined}>
-                    {x.src ? <img src={x.src} alt={x.label} /> : x.badge}
+                    {x.src ? <img src={x.src} alt={x.label} width={32} height={32} loading="lazy" decoding="async" /> : x.badge}
                   </div>
                   <span className="text-xs sm:text-sm font-medium text-white truncate">{x.label}</span>
                 </div>
@@ -49,7 +49,7 @@ export function Skills() {
           <div className="flex flex-col gap-6">
             {/* UI/UX */}
             <div className="card-dark">
-              <h4 className="text-xl font-bold text-white mb-2">{t("UI/UX Design", "Design UI/UX")}</h4>
+              <h3 className="text-xl font-bold text-white mb-2">{t("UI/UX Design", "Design UI/UX")}</h3>
               <p className="text-slate-400 mb-4">
                 {t("Designing intuitive and engaging user experiences that are both beautiful and functional.", "Concevoir des expériences utilisateur intuitives et engageantes à la fois belles et fonctionnelles.")}
               </p>
@@ -62,7 +62,7 @@ export function Skills() {
 
             <div className="grid sm:grid-cols-3 gap-4">
               <div className="card-dark !p-5">
-                <h5 className="font-bold text-white mb-2">{t("Graphic Design", "Design Graphique")}</h5>
+                <h3 className="font-bold text-white mb-2">{t("Graphic Design", "Design Graphique")}</h3>
                 <p className="text-xs text-slate-400 mb-3">{t("Creating visual content that communicates messages and builds strong brand identity.", "Création de contenu visuel qui communique et bâtit une identité de marque forte.")}</p>
                 <div className="flex gap-2">
                   <Badge text="Ps" bg="#001e36" border="#31a8ff" />
@@ -71,15 +71,15 @@ export function Skills() {
                 </div>
               </div>
               <div className="card-blue !p-5">
-                <h5 className="font-bold mb-2">CMS</h5>
+                <h3 className="font-bold mb-2">CMS</h3>
                 <p className="text-xs text-white/85 mb-3">{t("Building and managing dynamic websites with powerful CMS platforms.", "Construction et gestion de sites dynamiques avec de puissantes plateformes CMS.")}</p>
                 <div className="flex gap-2">
-                  <div className="tech-badge"><img src={devicon("wordpress/wordpress-original.svg")} alt="WordPress" /></div>
+                  <div className="tech-badge"><img src={devicon("wordpress/wordpress-original.svg")} alt="WordPress" width={32} height={32} loading="lazy" decoding="async" /></div>
                   <Badge text="WIX" bg="#0C6EFC" border="#0C6EFC" />
                 </div>
               </div>
               <div className="card-dark !p-5">
-                <h5 className="font-bold text-white mb-2">Microsoft Office</h5>
+                <h3 className="font-bold text-white mb-2">Microsoft Office</h3>
                 <p className="text-xs text-slate-400 mb-3">{t("Productive and efficient in creating documents, presentations, and spreadsheets.", "Productif dans la création de documents, présentations et tableurs.")}</p>
                 <div className="flex gap-2">
                   <Badge text="W" bg="#2B579A" border="#2B579A" />

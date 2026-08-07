@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
 import { useSeo } from "@/lib/use-seo";
+import { optimizedImage } from "@/lib/img";
 import {
   articleSchemas,
   asJsonLdScript,
@@ -150,7 +151,14 @@ function BlogPostPage() {
           </div>
 
           {post.cover_image_url && (
-            <img src={post.cover_image_url} alt={post.title} className="w-full rounded-2xl mb-10" />
+            <img
+              src={optimizedImage(post.cover_image_url, 1200)}
+              alt={post.title}
+              width={1200}
+              height={675}
+              decoding="async"
+              className="w-full rounded-2xl mb-10"
+            />
           )}
           <div className="prose-blog" dangerouslySetInnerHTML={{ __html: post.body }} />
         </div>

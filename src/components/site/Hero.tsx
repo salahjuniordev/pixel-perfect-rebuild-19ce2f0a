@@ -52,7 +52,7 @@ export function Hero() {
   return (
     <header id="home" className="hero-bg">
       <div className="container-sj relative z-10 py-32 md:py-40">
-        <h6 className="text-[--brand] text-sm uppercase tracking-[0.4em] font-medium mb-4">{t("Welcome", "Bienvenue")}</h6>
+        <p className="text-[--brand] text-sm uppercase tracking-[0.4em] font-medium mb-4">{t("Welcome", "Bienvenue")}</p>
         <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight mb-6">
           <span>{t("I Am", "Je Suis")} </span>
           <Typewriter />

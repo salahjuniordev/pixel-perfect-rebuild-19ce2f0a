@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useLanguage } from "@/lib/language";
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
+import { optimizedImage } from "@/lib/img";
 
 export function Blog() {
   const { t } = useLanguage();
@@ -22,7 +23,7 @@ export function Blog() {
     <section id="blog" className="section-padding bg-[#0a1120]">
       <div className="container-sj">
         <div className="sec-head text-center mb-14">
-          <h6>{t("Blog", "Blog")}</h6>
+          <p className="eyebrow">{t("Blog", "Blog")}</p>
           <h2>{t("Latest Articles", "Derniers Articles")}</h2>
           <div className="underline" />
           <p>{t("Thoughts on dev, design, and building products in Africa", "Réflexions sur le dev, le design et la construction de produits en Afrique")}</p>
@@ -35,13 +36,21 @@ export function Blog() {
             return (
               <article key={p.id} className="card-dark !p-0 overflow-hidden flex flex-col">
                 {p.cover_image_url && (
-                  <img src={p.cover_image_url} alt={p.title} className="w-full aspect-video object-cover" />
+                  <img
+                    src={optimizedImage(p.cover_image_url, 640)}
+                    alt={p.title}
+                    width={640}
+                    height={360}
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full aspect-video object-cover"
+                  />
                 )}
                 <div className="p-6 flex flex-col flex-1">
                   <span className="inline-block text-xs text-[--brand] uppercase tracking-wider mb-3">{p.tag}</span>
-                  <h4 className="text-lg font-bold text-white mb-3 leading-snug">{p.title}</h4>
+                  <h3 className="text-lg font-bold text-white mb-3 leading-snug">{p.title}</h3>
                   <p className="text-sm text-slate-400 mb-5 flex-1">{p.excerpt}</p>
-                  <div className="text-xs text-slate-500 flex items-center gap-3 mb-4">
+                  <div className="text-xs text-slate-400 flex items-center gap-3 mb-4">
                     {date && <span><i className="fa-regular fa-calendar mr-1" />{date}</span>}
                     <span><i className="fa-regular fa-clock mr-1" />{p.read_time}</span>
                   </div>

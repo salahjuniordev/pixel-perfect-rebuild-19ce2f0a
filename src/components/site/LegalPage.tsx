@@ -12,12 +12,12 @@ export function LegalLayout({ title, subtitle, updated, children }: { title: str
       <Navbar />
       <header className="pt-32 pb-12 bg-[#0a1120]">
         <div className="container-sj text-center">
-          <nav className="text-xs text-slate-400 mb-4">
+          <nav aria-label="Breadcrumb" className="text-xs text-slate-400 mb-4">
             <Link to="/" className="hover:text-[--brand]">{t("Home", "Accueil")}</Link> <span className="mx-2">›</span> <span className="text-[--brand]">{title}</span>
           </nav>
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-3">{title}</h1>
           <p className="text-slate-300">{subtitle}</p>
-          {updated && <p className="text-xs text-slate-500 mt-3">{updated}</p>}
+          {updated && <p className="text-xs text-slate-400 mt-3">{updated}</p>}
         </div>
       </header>
       <main className="flex-1 section-padding !pt-16">

@@ -13,7 +13,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AuthProvider } from "@/lib/auth";
 import { Toaster } from "@/components/ui/sonner";
-import { asJsonLdScript, organizationSchema } from "@/lib/seo-schemas";
+import { asJsonLdScript, organizationSchema, websiteSchema } from "@/lib/seo-schemas";
 
 function NotFoundComponent() {
   return (
@@ -94,11 +94,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
     links: [
       { rel: "stylesheet", href: appCss },
+      // Warm up the third-party origins the page pulls assets from.
+      { rel: "preconnect", href: "https://res.cloudinary.com", crossOrigin: "anonymous" },
+      { rel: "preconnect", href: "https://cdnjs.cloudflare.com", crossOrigin: "anonymous" },
+      { rel: "preconnect", href: "https://cdn.jsdelivr.net", crossOrigin: "anonymous" },
+      { rel: "preconnect", href: "https://cdn.simpleicons.org", crossOrigin: "anonymous" },
       { rel: "stylesheet", href: "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" },
     ],
     scripts: [
+      // Single node per @id (Organization / WebSite) so graph nodes don't conflict.
       asJsonLdScript(organizationSchema("en")),
-      asJsonLdScript(organizationSchema("fr")),
+      asJsonLdScript(websiteSchema("en")),
     ],
   }),
   shellComponent: RootShell,

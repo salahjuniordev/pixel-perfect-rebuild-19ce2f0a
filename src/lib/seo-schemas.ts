@@ -166,8 +166,6 @@ export function professionalServiceSchema(lang: Lang) {
 export function homeGraphs(): unknown[] {
   const langs: Lang[] = ["en", "fr"];
   return [
-    organizationSchema("en"),
-    websiteSchema("en"),
     ...langs.map(personSchema),
     ...langs.map(professionalServiceSchema),
   ];

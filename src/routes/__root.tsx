@@ -13,7 +13,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AuthProvider } from "@/lib/auth";
 import { Toaster } from "@/components/ui/sonner";
-import { asJsonLdScript, organizationSchema } from "@/lib/seo-schemas";
+import { asJsonLdScript, organizationSchema, websiteSchema } from "@/lib/seo-schemas";
 
 function NotFoundComponent() {
   return (
@@ -99,6 +99,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     scripts: [
       asJsonLdScript(organizationSchema("en")),
       asJsonLdScript(organizationSchema("fr")),
+      asJsonLdScript(websiteSchema("en")),
+      asJsonLdScript(websiteSchema("fr")),
     ],
   }),
   shellComponent: RootShell,

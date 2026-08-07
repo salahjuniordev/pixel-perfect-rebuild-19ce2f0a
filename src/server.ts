@@ -37,9 +37,46 @@ async function normalizeCatastrophicSsrResponse(response: Response): Promise<Res
   });
 }
 
+const CANONICAL_HOST = "salahjuniordev.vercel.app";
+
+/**
+ * 301-redirect crawlers from any non-canonical production host to the
+ * canonical origin. Local dev and Lovable preview/sandbox hosts are exempt so
+ * the in-editor preview keeps working.
+ */
+function canonicalHostRedirect(request: Request): Response | undefined {
+  const method = request.method.toUpperCase();
+  if (method !== "GET" && method !== "HEAD") return undefined;
+
+  const url = new URL(request.url);
+  const host = url.host.toLowerCase();
+  if (host === CANONICAL_HOST) return undefined;
+
+  const hostname = url.hostname.toLowerCase();
+  const isLocal =
+    hostname === "localhost" ||
+    hostname === "127.0.0.1" ||
+    hostname === "0.0.0.0" ||
+    hostname.endsWith(".local");
+  const isSandboxPreview =
+    hostname.endsWith(".lovableproject.com") ||
+    hostname.endsWith(".lovable.dev") ||
+    (hostname.endsWith(".lovable.app") &&
+      (hostname.startsWith("id-preview--") || hostname.includes("-dev.")));
+  if (isLocal || isSandboxPreview) return undefined;
+
+  url.protocol = "https:";
+  url.host = CANONICAL_HOST;
+  url.port = "";
+  return Response.redirect(url.toString(), 301);
+}
+
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     try {
+      const redirect = canonicalHostRedirect(request);
+      if (redirect) return redirect;
+
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
       return await normalizeCatastrophicSsrResponse(response);

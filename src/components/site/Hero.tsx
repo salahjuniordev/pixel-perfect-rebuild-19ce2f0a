@@ -62,7 +62,7 @@ export function Hero() {
         className="hero-v2-portrait"
         src={heroPortrait.url}
         alt="Salah Junior, full-stack developer"
-        width={864}
+        width={790}
         height={1080}
         fetchPriority="high"
         decoding="async"

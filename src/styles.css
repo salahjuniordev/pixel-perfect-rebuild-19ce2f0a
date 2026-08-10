@@ -164,6 +164,10 @@ a { color: inherit; text-decoration: none; }
   z-index: 1;
   animation: hv2-portrait 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
+@keyframes hv2-portrait-m {
+  from { opacity: 0; }
+  to { opacity: 0.16; }
+}
 @keyframes hv2-portrait {
   from { opacity: 0; transform: translateX(60px) scale(1.04); }
   to { opacity: 1; transform: none; }
@@ -278,7 +282,8 @@ a { color: inherit; text-decoration: none; }
   .hero-v2 { min-height: auto; }
   .hero-v2-inner { padding: 7rem 0 3rem; }
   .hero-v2-portrait {
-    max-width: 100%; width: 100%; height: 60%; opacity: 0.16;
+    max-width: 100%; width: 100%; height: 60%;
+    animation: hv2-portrait-m 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
     right: 0; top: auto; bottom: 0; object-position: top center;
     -webkit-mask-image: linear-gradient(to bottom, #000 0%, transparent 92%);
     mask-image: linear-gradient(to bottom, #000 0%, transparent 92%);

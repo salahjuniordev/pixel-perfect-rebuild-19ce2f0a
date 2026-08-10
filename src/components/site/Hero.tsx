@@ -68,7 +68,7 @@ export function Hero() {
         decoding="async"
       />
 
-      <div className="container-sj hero-v2-inner">
+      <div className="hero-v2-inner">
         <div className="hero-v2-copy">
           <p className="hero-v2-hello">
             {g.shown}

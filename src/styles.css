@@ -156,9 +156,11 @@ a { color: inherit; text-decoration: none; }
   bottom: 0;
   height: 100%;
   width: auto;
-  max-width: 46%;
-  object-fit: contain;
-  object-position: right bottom;
+  max-width: 42%;
+  object-fit: cover;
+  object-position: center bottom;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 14%);
+  mask-image: linear-gradient(to right, transparent 0%, #000 14%);
   z-index: 1;
   animation: hv2-portrait 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
 }

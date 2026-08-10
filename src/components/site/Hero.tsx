@@ -1,129 +1,76 @@
 import { useEffect, useState } from "react";
 import { useLanguage } from "@/lib/language";
-import heroPortrait from "@/assets/hero-portrait.jpg.asset.json";
 
-/** Types out `text` one character at a time once `start` is true. */
-function useTyped(text: string, start: boolean, speed = 55) {
-  const [n, setN] = useState(0);
+const words = {
+  en: ["Salah Junior", "a Web Developer", "a Graphic Designer", "a UI/UX Designer", "an Office Administrator"],
+  fr: ["Salah Junior", "Développeur Web", "Designer Graphique", "Designer UI/UX", "Administrateur Bureau"],
+};
+
+function Typewriter() {
+  const { lang } = useLanguage();
+  const [idx, setIdx] = useState(0);
+  const [sub, setSub] = useState(0);
+  const [deleting, setDeleting] = useState(false);
+  const list = words[lang];
+
+  useEffect(() => { setIdx(0); setSub(0); setDeleting(false); }, [lang]);
+
   useEffect(() => {
-    setN(0);
-  }, [text, start]);
-  useEffect(() => {
-    if (!start || n >= text.length) return;
-    const t = setTimeout(() => setN((v) => v + 1), speed);
+    const current = list[idx % list.length];
+    if (!deleting && sub === current.length) {
+      const t = setTimeout(() => setDeleting(true), 1400);
+      return () => clearTimeout(t);
+    }
+    if (deleting && sub === 0) {
+      setDeleting(false);
+      setIdx((idx + 1) % list.length);
+      return;
+    }
+    const t = setTimeout(() => setSub(sub + (deleting ? -1 : 1)), deleting ? 50 : 90);
     return () => clearTimeout(t);
-  }, [n, start, text, speed]);
-  return { shown: text.slice(0, n), done: start && n >= text.length };
+  }, [sub, deleting, idx, list]);
+
+  const current = list[idx % list.length];
+  return (
+    <span style={{ color: "#0ea5e9" }}>
+      {current.substring(0, sub)}
+      <span className="typed-cursor" />
+    </span>
+  );
 }
 
 const socials = [
-  { i: "fa-instagram", href: "https://www.instagram.com/salahjuniordev?igsh=MWM2bW9xdmYzNWc2dg==", label: "Instagram" },
-  { i: "fa-facebook-f", href: "https://www.facebook.com/profile.php?id=61586199631543", label: "Facebook" },
-  { i: "fa-linkedin-in", href: "https://www.linkedin.com/in/salah-junior-987684398", label: "LinkedIn" },
-  { i: "fa-github", href: "https://github.com/salahjuniordev", label: "GitHub" },
-  { i: "fa-whatsapp", href: "https://wa.me/qr/T7MI47J4OXDWK1", label: "WhatsApp" },
-];
-
-const stack = [
-  { src: "https://cdn.simpleicons.org/react/61DAFB", alt: "React" },
-  { src: "https://cdn.simpleicons.org/nextdotjs/000000", alt: "Next.js" },
-  { src: "https://cdn.simpleicons.org/javascript/F7DF1E", alt: "JavaScript" },
-  { src: "https://cdn.simpleicons.org/mongodb/47A248", alt: "MongoDB" },
-  { src: "https://cdn.simpleicons.org/tailwindcss/06B6D4", alt: "Tailwind CSS" },
+  { i: "fa-facebook-f", href: "https://www.facebook.com/profile.php?id=61586199631543" },
+  { i: "fa-github", href: "https://github.com/salahjuniordev" },
+  { i: "fa-linkedin-in", href: "https://www.linkedin.com/in/salah-junior-987684398" },
+  { i: "fa-whatsapp", href: "https://wa.me/qr/T7MI47J4OXDWK1" },
+  { i: "fa-instagram", href: "https://www.instagram.com/salahjuniordev?igsh=MWM2bW9xdmYzNWc2dg==" },
 ];
 
 export function Hero() {
   const { t } = useLanguage();
-
-  const greeting = t("Hello, I'm", "Bonjour, je suis");
-  const name = "SalahJuniorDev";
-  const bio = t(
-    "I build modern, scalable, and user-friendly digital solutions that help brands and businesses grow in the digital world.",
-    "Je crée des solutions digitales modernes, évolutives et intuitives qui aident les marques et les entreprises à grandir dans le monde digital.",
-  );
-
-  const [started, setStarted] = useState(false);
-  useEffect(() => {
-    const t0 = setTimeout(() => setStarted(true), 500);
-    return () => clearTimeout(t0);
-  }, []);
-
-  const g = useTyped(greeting, started, 60);
-  const nm = useTyped(name, g.done, 70);
-  const bi = useTyped(bio, nm.done, 16);
-
   return (
-    <header id="home" className="hero-v2">
-      <div className="hero-v2-word" aria-hidden="true">
-        DEVELOP
-      </div>
-
-      <img
-        className="hero-v2-portrait"
-        src={heroPortrait.url}
-        alt="Salah Junior, full-stack developer"
-        width={610}
-        height={1080}
-        fetchPriority="high"
-        decoding="async"
-      />
-
-      <div className="hero-v2-inner">
-        <div className="hero-v2-copy">
-          <p className="hero-v2-hello">
-            {g.shown}
-            {!g.done && <span className="typed-cursor" />}
-          </p>
-
-          <h1 className="hero-v2-name">
-            {nm.shown}
-            {g.done && !nm.done && <span className="typed-cursor" />}
-          </h1>
-
-          <p className={`hero-v2-role ${nm.done ? "is-in" : ""}`}>
-            {t("Full-Stack Developer & Digital Creator", "Développeur Full-Stack & Créateur Digital")}
-          </p>
-
-          <p className="hero-v2-bio">
-            {bi.shown}
-            {nm.done && !bi.done && <span className="typed-cursor" />}
-          </p>
-
-          <div className={`hero-v2-actions ${bi.done ? "is-in" : ""}`}>
-            <a href="#portfolio" className="hero-v2-btn hero-v2-btn-primary">
-              {t("View My Work", "Voir Mes Travaux")}
-              <i className="fas fa-arrow-right" aria-hidden="true" />
+    <header id="home" className="hero-bg">
+      <div className="container-sj relative z-10 py-32 md:py-40">
+        <p className="text-[--brand] text-sm uppercase tracking-[0.4em] font-medium mb-4">{t("Welcome", "Bienvenue")}</p>
+        <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight mb-6">
+          <span>{t("I Am", "Je Suis")} </span>
+          <Typewriter />
+        </h1>
+        <p className="text-lg text-slate-300 max-w-2xl mb-10">
+          {t(
+            "Turning ideas into digital reality , Frontend | Backend | Fullstack Magic .",
+            "Transformer les idées en réalité digitale , Frontend | Backend | Magie Fullstack ."
+          )}
+        </p>
+        <div className="hero-social">
+          {socials.map((s) => (
+            <a key={s.i} href={s.href} target="_blank" rel="noreferrer" aria-label={s.i}>
+              <i className={`fab ${s.i}`} />
             </a>
-            <a href="/assets/my-resume.pdf" target="_blank" rel="noreferrer" className="hero-v2-btn hero-v2-btn-ghost">
-              <i className="fas fa-download" aria-hidden="true" />
-              {t("Download CV", "Télécharger CV")}
-            </a>
-          </div>
-
-          <ul className={`hero-v2-stack ${bi.done ? "is-in" : ""}`}>
-            {stack.map((s, i) => (
-              <li key={s.alt} style={{ transitionDelay: `${120 * i}ms` }}>
-                <img src={s.src} alt={s.alt} width={28} height={28} loading="lazy" decoding="async" />
-              </li>
-            ))}
-          </ul>
+          ))}
         </div>
       </div>
-
-      <nav className={`hero-v2-social ${started ? "is-in" : ""}`} aria-label="Social profiles">
-        {socials.map((s, i) => (
-          <a
-            key={s.i}
-            href={s.href}
-            target="_blank"
-            rel="noreferrer"
-            aria-label={s.label}
-            style={{ transitionDelay: `${900 + 120 * i}ms` }}
-          >
-            <i className={`fab ${s.i}`} aria-hidden="true" />
-          </a>
-        ))}
-      </nav>
     </header>
   );
 }

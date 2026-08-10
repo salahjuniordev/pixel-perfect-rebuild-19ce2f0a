@@ -901,3 +901,9 @@ textarea.contact-field { resize: vertical; min-height: 130px; }
   50%, 90%  { transform: rotateY(180deg); }
   100%      { transform: rotateY(360deg); }
 }
+
+.typed-cursor {
+  display: inline-block; width: 3px; background: #1d4ed8; height: 1em;
+  vertical-align: -0.1em; margin-left: 4px; animation: tw-blink 0.9s steps(2) infinite;
+}
+@keyframes tw-blink { 50% { opacity: 0; } }

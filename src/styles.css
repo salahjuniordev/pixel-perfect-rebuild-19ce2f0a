@@ -332,13 +332,13 @@ a { color: inherit; text-decoration: none; }
   }
   .hero-v2-portrait {
     position: relative;
-    height: 60svh;
+    height: 65svh;
     width: 100%;
     z-index: 2;
     order: 2;
-    margin-top: -2rem;
-    -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent);
-    mask-image: linear-gradient(to bottom, black 80%, transparent);
+    margin-top: 1rem;
+    -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent);
+    mask-image: linear-gradient(to bottom, black 85%, transparent);
   }
   .hero-v2-portrait img {
     object-position: center top;

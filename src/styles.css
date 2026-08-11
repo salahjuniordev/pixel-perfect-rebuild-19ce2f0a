@@ -342,17 +342,17 @@ a { color: inherit; text-decoration: none; }
     display: block;
     position: relative;
     height: auto;
-    width: 110%;
-    margin-left: -5%;
+    width: 120%;
+    margin-left: -10%;
     z-index: 2;
-    margin-top: -3.5rem;
+    margin-top: -4.5rem;
     order: 2;
-    mix-blend-mode: multiply;
+    mix-blend-mode: darken;
   }
   .hero-v2-portrait img {
     height: auto;
     width: 100%;
-    max-height: 70vh;
+    max-height: 75vh;
     object-position: center 10%;
     object-fit: contain;
   }

@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo } from "react";
 import { useLanguage } from "@/lib/language";
 import portrait1 from "/hero-portrait.png";
-import portrait2Asset from "@/assets/hero-portrait-2.png.asset.json";
+import portrait2 from "/hero-portrait-2.png";
 
 /** Types out `text` one character at a time once `start` is true. */
 function useTyped(text: string, start: boolean, speed = 55) {

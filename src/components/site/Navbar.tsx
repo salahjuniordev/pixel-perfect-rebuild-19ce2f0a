@@ -47,7 +47,7 @@ export function Navbar() {
     <nav className="nav-shell" aria-label="Main">
       <div className="container-sj flex items-center justify-between py-4">
         <a href="/#home" onClick={(e) => { e.preventDefault(); go("home"); }} className="flex items-center shrink-0">
-          <img src="/logo.png" alt="Salah Junior Dev" width={56} height={56} decoding="async" className="site-logo" />
+          <img src="/logo.png" alt="Salah Junior Dev" width={48} height={48} decoding="async" className="site-logo md:w-14 md:h-14" />
         </a>
         <div className={`${open ? "flex" : "hidden"} md:flex flex-col md:flex-row md:items-center md:gap-1 absolute md:static left-2 right-2 top-[calc(100%+8px)] md:top-auto bg-[#0f172a]/95 md:bg-transparent backdrop-blur-xl md:backdrop-blur-0 border md:border-0 border-white/10 rounded-2xl md:rounded-none py-4 md:py-0 px-6 md:px-0 shadow-xl md:shadow-none`}>
           {links.map((l) => (
@@ -71,9 +71,9 @@ export function Navbar() {
             onClick={() => setOpen(!open)}
             className="md:hidden flex flex-col gap-1.5 p-2"
           >
-            <span className="w-6 h-0.5 bg-white" />
-            <span className="w-6 h-0.5 bg-white" />
-            <span className="w-6 h-0.5 bg-white" />
+            <span className="w-6 h-0.5 bg-[#0f172a]" />
+            <span className="w-6 h-0.5 bg-[#0f172a]" />
+            <span className="w-6 h-0.5 bg-[#0f172a]" />
           </button>
         </div>
       </div>

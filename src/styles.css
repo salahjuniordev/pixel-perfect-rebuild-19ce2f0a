@@ -249,7 +249,7 @@ a { color: inherit; text-decoration: none; }
   transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .hero-v2-stack li img {
-  filter: grayscale(1) brightness(0) invert(0); /* Black icons on white BG */
+  filter: none; /* Keep original colors as requested */
 }
 .hero-v2-stack.is-in li { opacity: 1; transform: none; }
 .hero-v2-social {

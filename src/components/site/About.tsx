@@ -1,5 +1,6 @@
 import { useLanguage } from "@/lib/language";
-import { optimizedImage } from "@/lib/img";
+import portrait1Asset from "@/assets/about-portrait-1.png.asset.json";
+import portrait2Asset from "@/assets/about-portrait-2.webp.asset.json";
 
 const interests = [
   { i: "fa-gamepad", en: "GAMING", fr: "JEU VIDÉO" },

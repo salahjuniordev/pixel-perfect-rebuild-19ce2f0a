@@ -335,12 +335,16 @@ a { color: inherit; text-decoration: none; }
     display: block;
     position: relative;
     height: auto;
-    aspect-ratio: 4/5;
     width: 100%;
     z-index: 2;
-    margin-top: 2rem;
-    -webkit-mask-image: linear-gradient(to bottom, black 95%, transparent);
-    mask-image: linear-gradient(to bottom, black 95%, transparent);
+    margin-top: 3.5rem;
+    -webkit-mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
+  }
+  .hero-v2-portrait img {
+    height: auto;
+    max-height: 60vh;
+    object-position: center top;
   }
   .hero-v2-portrait img {
     object-position: center top;

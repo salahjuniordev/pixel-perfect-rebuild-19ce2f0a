@@ -158,7 +158,7 @@ a { color: inherit; text-decoration: none; }
   width: auto;
   max-width: 42%;
   object-fit: cover;
-  object-position: center bottom;
+  object-position: right center;
   -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 14%);
   mask-image: linear-gradient(to right, transparent 0%, #000 14%);
   z-index: 1;

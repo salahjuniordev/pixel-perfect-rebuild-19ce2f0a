@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLanguage } from "@/lib/language";
-import heroPortrait from "/hero-portrait.png";
+const heroPortrait = "/hero-portrait.png";
 
 /** Types out `text` one character at a time once `start` is true. */
 function useTyped(text: string, start: boolean, speed = 55) {

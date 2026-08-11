@@ -24,10 +24,7 @@ export function About() {
               <div className="about-flip-inner">
                 <div className="about-flip-face">
                   <img
-                    src={optimizedImage(
-                      "https://res.cloudinary.com/drmamswdc/image/upload/v1777468680/file_00000000cc7c720eb597618058b38454_kptzwi.png",
-                      760,
-                    )}
+                    src={portrait1Asset.url}
                     alt="Salah Junior – Full-Stack Web Developer and UI/UX Designer based in Yaoundé Cameroon"
                     width={760}
                     height={950}

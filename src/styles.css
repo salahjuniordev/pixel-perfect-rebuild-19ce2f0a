@@ -291,21 +291,23 @@ a { color: inherit; text-decoration: none; }
     justify-content: flex-start;
     padding-top: 0;
     background: #f3f4f6;
-    min-height: 100svh;
+    min-height: auto;
+    height: auto;
   }
   .hero-v2-word {
-    top: 12%;
+    top: 5%;
     left: 6%;
     font-size: clamp(4rem, 20vw, 8rem);
     opacity: 0.08;
     z-index: 1;
   }
   .hero-v2-inner {
-    padding: 6rem 1.5rem 0;
+    padding: 6rem 1.5rem 1rem;
     margin: 0;
     width: 100%;
     order: 1;
     z-index: 5;
+    background: linear-gradient(to bottom, #f3f4f6 85%, transparent);
   }
   .hero-v2-copy {
     max-width: 100%;
@@ -330,17 +332,19 @@ a { color: inherit; text-decoration: none; }
     border-left-width: 4px;
   }
   .hero-v2-portrait {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    top: auto;
-    height: 55svh;
+    display: block;
+    position: relative;
+    height: auto;
     width: 100%;
     z-index: 2;
-    order: none;
-    -webkit-mask-image: radial-gradient(circle at center 35%, black 40%, transparent 85%);
-    mask-image: radial-gradient(circle at center 35%, black 40%, transparent 85%);
+    margin-top: 3.5rem;
+    -webkit-mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
+  }
+  .hero-v2-portrait img {
+    height: auto;
+    max-height: 60vh;
+    object-position: center top;
   }
   .hero-v2-portrait img {
     object-position: center top;

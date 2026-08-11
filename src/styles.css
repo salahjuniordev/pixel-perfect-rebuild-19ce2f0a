@@ -303,8 +303,7 @@ a { color: inherit; text-decoration: none; }
     left: 20px;
     font-size: 5rem;
     opacity: 0.05;
-    z-index: 0;
-    visibility: hidden;
+    display: none;
   }
   .hero-v2-inner {
     padding: 100px 20px 40px;

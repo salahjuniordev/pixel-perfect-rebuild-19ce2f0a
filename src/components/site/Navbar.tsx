@@ -69,11 +69,10 @@ export function Navbar() {
           <button
             aria-label="Toggle menu"
             onClick={() => setOpen(!open)}
-            className="md:hidden flex flex-col gap-1.5 p-2"
+            className="md:hidden flex flex-col gap-1.5 p-2 bg-[#0f172a] rounded-lg"
           >
-            <span className="w-6 h-0.5 bg-[#0f172a]" />
-            <span className="w-6 h-0.5 bg-[#0f172a]" />
-            <span className="w-6 h-0.5 bg-[#0f172a]" />
+            <span className="w-6 h-0.5 bg-white rounded-full" />
+            <span className="w-6 h-0.5 bg-white rounded-full" />
           </button>
         </div>
       </div>

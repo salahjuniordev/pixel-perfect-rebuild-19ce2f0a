@@ -349,10 +349,10 @@ a { color: inherit; text-decoration: none; }
     display: block;
     position: relative;
     height: auto;
-    width: 135%;
-    margin-left: -17.5%;
+    width: 140%;
+    margin-left: -20%;
     z-index: 2;
-    margin-top: -3rem;
+    margin-top: 1rem;
     order: 3;
     mix-blend-mode: darken;
     mask-image: radial-gradient(circle at center 35%, black 45%, transparent 92%);

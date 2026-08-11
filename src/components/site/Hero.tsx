@@ -37,8 +37,8 @@ const stack = [
 export function Hero() {
   const { t } = useLanguage();
   const images = useMemo(() => [
-    { desktop: portrait1 },
-    { desktop: portrait2 }
+    { desktop: portrait1, mobile: "/hero-mobile-1.png" },
+    { desktop: portrait2, mobile: "/hero-mobile-2.png" }
   ], []);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -117,6 +117,10 @@ export function Hero() {
 
       {images.map((img, index) => (
         <picture key={img.desktop} className={`hero-v2-portrait ${index === currentImageIndex ? "active" : ""}`}>
+          <source
+            media="(max-width: 768px)"
+            srcSet={`${img.mobile}?w=600&q=80 1x, ${img.mobile}?w=1200&q=80 2x`}
+          />
           <source
             media="(min-width: 769px)"
             srcSet={`${img.desktop}?w=1200&q=85 1x, ${img.desktop}?w=2400&q=85 2x`}

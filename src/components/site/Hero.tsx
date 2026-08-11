@@ -1,5 +1,8 @@
 import { useEffect, useState, useMemo } from "react";
 import { useLanguage } from "@/lib/language";
+import heroMobile1 from "@/assets/hero-mobile-1.png.asset.json";
+import heroMobile2 from "@/assets/hero-mobile-2.png.asset.json";
+
 const portrait1 = "/hero-portrait.png";
 const portrait2 = "/hero-portrait-2.png";
 
@@ -35,7 +38,10 @@ const stack = [
 
 export function Hero() {
   const { t } = useLanguage();
-  const images = useMemo(() => [portrait1, portrait2], []);
+  const images = useMemo(() => [
+    { desktop: portrait1, mobile: heroMobile1.url },
+    { desktop: portrait2, mobile: heroMobile2.url }
+  ], []);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
@@ -110,18 +116,18 @@ export function Hero() {
         </div>
       </div>
 
-      {images.map((src, index) => (
-        <picture key={src} className={`hero-v2-portrait ${index === currentImageIndex ? "active" : ""}`}>
+      {images.map((img, index) => (
+        <picture key={img.desktop} className={`hero-v2-portrait ${index === currentImageIndex ? "active" : ""}`}>
           <source
             media="(max-width: 768px)"
-            srcSet={`${src}?w=600&q=80 1x, ${src}?w=1200&q=80 2x`}
+            srcSet={`${img.mobile}?w=600&q=80 1x, ${img.mobile}?w=1200&q=80 2x`}
           />
           <source
             media="(min-width: 769px)"
-            srcSet={`${src}?w=1200&q=85 1x, ${src}?w=2400&q=85 2x`}
+            srcSet={`${img.desktop}?w=1200&q=85 1x, ${img.desktop}?w=2400&q=85 2x`}
           />
           <img
-            src={src}
+            src={img.desktop}
             alt="Salah Junior, full-stack developer"
             width={1920}
             height={1080}

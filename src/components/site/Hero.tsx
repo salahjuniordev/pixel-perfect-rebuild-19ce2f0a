@@ -64,6 +64,9 @@ export function Hero() {
 
   const g = useTyped(greeting, started, 60);
   const nm = useTyped(name, g.done, 70);
+  
+  // Only use typewriter for top 3 lines on mobile to save vertical space/time if needed,
+  // but let's keep it for bio too, just ensure it doesn't break layout.
   const bi = useTyped(bio, nm.done, 16);
 
   return (

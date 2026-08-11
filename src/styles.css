@@ -156,12 +156,16 @@ a { color: inherit; text-decoration: none; }
   bottom: 0;
   height: 100%;
   width: 100%;
-  object-fit: cover;
-  object-position: right center;
   z-index: 1;
   opacity: 0;
   transition: opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1);
   visibility: hidden;
+}
+.hero-v2-portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: right center;
 }
 .hero-v2-portrait.active {
   opacity: 1;
@@ -313,6 +317,8 @@ a { color: inherit; text-decoration: none; }
     margin-top: 1.5rem;
     -webkit-mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
     mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
+  }
+  .hero-v2-portrait img {
     object-position: center top;
   }
   .hero-v2-social {
@@ -351,6 +357,26 @@ a { color: inherit; text-decoration: none; }
     justify-content: center;
   }
 }
+
+@media (min-width: 1440px) {
+  .hero-v2-inner {
+    padding-left: 8rem;
+  }
+  .hero-v2-copy {
+    max-width: 42rem;
+  }
+}
+
+@media (max-width: 1024px) and (min-width: 769px) {
+  .hero-v2-portrait {
+    width: 110%;
+    right: -5%;
+  }
+  .hero-v2-inner {
+    padding-left: 3rem;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hero-v2-word, .hero-v2-portrait { animation: none; }
   .hero-v2-role, .hero-v2-actions, .hero-v2-stack li, .hero-v2-social a {

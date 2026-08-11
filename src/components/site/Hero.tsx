@@ -69,16 +69,24 @@ export function Hero() {
       </div>
 
       {images.map((src, index) => (
-        <img
-          key={src}
-          className={`hero-v2-portrait ${index === currentImageIndex ? "active" : ""}`}
-          src={src}
-          alt="Salah Junior, full-stack developer"
-          width={1920}
-          height={1080}
-          fetchPriority={index === 0 ? "high" : "low"}
-          decoding="async"
-        />
+        <picture key={src} className={`hero-v2-portrait ${index === currentImageIndex ? "active" : ""}`}>
+          <source
+            media="(max-width: 768px)"
+            srcSet={`${src}?w=600&q=80 1x, ${src}?w=1200&q=80 2x`}
+          />
+          <source
+            media="(min-width: 769px)"
+            srcSet={`${src}?w=1200&q=85 1x, ${src}?w=2400&q=85 2x`}
+          />
+          <img
+            src={src}
+            alt="Salah Junior, full-stack developer"
+            width={1920}
+            height={1080}
+            fetchPriority={index === 0 ? "high" : "low"}
+            decoding="async"
+          />
+        </picture>
       ))}
 
       <div className="hero-v2-inner">

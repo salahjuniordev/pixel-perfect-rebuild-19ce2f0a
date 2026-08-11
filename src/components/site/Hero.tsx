@@ -68,27 +68,6 @@ export function Hero() {
         DEVELOPER
       </div>
 
-      {images.map((src, index) => (
-        <picture key={src} className={`hero-v2-portrait ${index === currentImageIndex ? "active" : ""}`}>
-          <source
-            media="(max-width: 768px)"
-            srcSet={`${src}?w=600&q=80 1x, ${src}?w=1200&q=80 2x`}
-          />
-          <source
-            media="(min-width: 769px)"
-            srcSet={`${src}?w=1200&q=85 1x, ${src}?w=2400&q=85 2x`}
-          />
-          <img
-            src={src}
-            alt="Salah Junior, full-stack developer"
-            width={1920}
-            height={1080}
-            fetchPriority={index === 0 ? "high" : "low"}
-            decoding="async"
-          />
-        </picture>
-      ))}
-
       <div className="hero-v2-inner">
         <div className="hero-v2-copy">
           <p className="hero-v2-hello">
@@ -130,6 +109,27 @@ export function Hero() {
           </ul>
         </div>
       </div>
+
+      {images.map((src, index) => (
+        <picture key={src} className={`hero-v2-portrait ${index === currentImageIndex ? "active" : ""}`}>
+          <source
+            media="(max-width: 768px)"
+            srcSet={`${src}?w=600&q=80 1x, ${src}?w=1200&q=80 2x`}
+          />
+          <source
+            media="(min-width: 769px)"
+            srcSet={`${src}?w=1200&q=85 1x, ${src}?w=2400&q=85 2x`}
+          />
+          <img
+            src={src}
+            alt="Salah Junior, full-stack developer"
+            width={1920}
+            height={1080}
+            fetchPriority={index === 0 ? "high" : "low"}
+            decoding="async"
+          />
+        </picture>
+      ))}
 
       <nav className={`hero-v2-social ${started ? "is-in" : ""}`} aria-label="Social profiles">
         {socials.map((s, i) => (

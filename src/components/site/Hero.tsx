@@ -116,17 +116,10 @@ export function Hero() {
       </div>
 
       {images.map((img, index) => (
-        <picture key={img.desktop} className={`hero-v2-portrait ${index === currentImageIndex ? "active" : ""}`}>
-          <source
-            media="(max-width: 768px)"
-            srcSet={`${img.mobile}?w=600&q=80 1x, ${img.mobile}?w=1200&q=80 2x`}
-          />
-          <source
-            media="(min-width: 769px)"
-            srcSet={`${img.desktop}?w=1200&q=85 1x, ${img.desktop}?w=2400&q=85 2x`}
-          />
+        <picture key={img} className={`hero-v2-portrait ${index === currentImageIndex ? "active" : ""}`}>
+          <source srcSet={`${img}?w=1200&q=85 1x, ${img}?w=2400&q=85 2x`} />
           <img
-            src={img.desktop}
+            src={img}
             alt="Salah Junior, full-stack developer"
             width={1920}
             height={1080}

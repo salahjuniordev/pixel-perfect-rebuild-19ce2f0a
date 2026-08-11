@@ -104,16 +104,6 @@ export function Hero() {
             </a>
           </div>
 
-          <div className={`hero-v2-actions ${bi.done ? "is-in" : ""}`}>
-            <a href="#portfolio" className="hero-v2-btn hero-v2-btn-primary">
-              {t("View My Work", "Voir Mes Travaux")}
-              <i className="fas fa-arrow-right" aria-hidden="true" />
-            </a>
-            <a href="/assets/my-resume.pdf" target="_blank" rel="noreferrer" className="hero-v2-btn hero-v2-btn-ghost">
-              <i className="fas fa-download" aria-hidden="true" />
-              {t("Download CV", "Télécharger CV")}
-            </a>
-          </div>
 
           <ul className={`hero-v2-stack ${bi.done ? "is-in" : ""}`}>
             {stack.map((s, i) => (

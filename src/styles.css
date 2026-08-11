@@ -444,6 +444,7 @@ a { color: inherit; text-decoration: none; }
     align-items: flex-end;
     mix-blend-mode: multiply;
     z-index: 1;
+    background: radial-gradient(circle at center 60%, #fff 20%, transparent 70%);
   }
   
   .hero-v2-portrait.active {
@@ -454,12 +455,12 @@ a { color: inherit; text-decoration: none; }
 
   .hero-v2-portrait img {
     height: auto;
-    width: 140%;
+    width: 130%;
     max-height: 52vh;
     object-position: center bottom;
     object-fit: contain;
-    mask-image: radial-gradient(circle at center 40%, black 30%, transparent 85%);
-    -webkit-mask-image: radial-gradient(circle at center 40%, black 30%, transparent 85%);
+    mask-image: radial-gradient(circle at center 40%, black 40%, transparent 90%);
+    -webkit-mask-image: radial-gradient(circle at center 40%, black 40%, transparent 90%);
   }
 
   .hero-v2-social {

@@ -382,6 +382,7 @@ a { color: inherit; text-decoration: none; }
     width: 100% !important;
     opacity: 1 !important;
     transform: none !important;
+    visibility: visible !important;
   }
 
   .hero-v2-btn {
@@ -392,6 +393,7 @@ a { color: inherit; text-decoration: none; }
     justify-content: center !important;
     border-radius: 999px !important;
     white-space: nowrap !important;
+    display: inline-flex !important;
   }
 
   .hero-v2-btn-ghost {

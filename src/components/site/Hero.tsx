@@ -36,10 +36,7 @@ const stack = [
 
 export function Hero() {
   const { t } = useLanguage();
-  const images = useMemo(() => [
-    { desktop: portrait1, mobile: "/hero-mobile-1.png" },
-    { desktop: portrait2, mobile: "/hero-mobile-2.png" }
-  ], []);
+  const images = useMemo(() => [portrait1, portrait2], []);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {

@@ -303,15 +303,16 @@ a { color: inherit; text-decoration: none; }
   .hero-v2-word {
     display: block !important;
     position: absolute;
-    top: 28% !important;
+    top: 25% !important;
     left: 50% !important;
     transform: translate(-50%, -50%) !important;
     font-size: clamp(60px, 18vw, 90px) !important;
     color: rgba(15, 23, 42, 0.03) !important;
-    z-index: 0;
+    z-index: 0 !important;
     width: 100%;
     text-align: center;
     animation: none;
+    pointer-events: none;
   }
 
   .hero-v2-inner {

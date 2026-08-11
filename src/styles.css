@@ -358,8 +358,8 @@ a { color: inherit; text-decoration: none; }
     font-weight: 700;
     color: #0044ff;
     line-height: 1.2;
-    opacity: 1;
-    transform: none;
+    opacity: 1 !important;
+    transform: none !important;
   }
 
   .hero-v2-bio {
@@ -380,8 +380,8 @@ a { color: inherit; text-decoration: none; }
     flex-direction: row;
     display: flex;
     width: 100%;
-    opacity: 1;
-    transform: none;
+    opacity: 1 !important;
+    transform: none !important;
   }
 
   .hero-v2-btn {
@@ -404,8 +404,8 @@ a { color: inherit; text-decoration: none; }
     justify-content: flex-start;
     padding: 0;
     gap: 12px;
-    opacity: 1;
-    transform: none;
+    opacity: 1 !important;
+    transform: none !important;
     width: 100%;
     flex-wrap: nowrap;
     overflow: visible;
@@ -421,6 +421,8 @@ a { color: inherit; text-decoration: none; }
     transform: none !important;
     transition: none;
     flex-shrink: 0;
+    display: grid;
+    place-items: center;
   }
 
   .hero-v2-stack li img {
@@ -430,7 +432,7 @@ a { color: inherit; text-decoration: none; }
 
   .hero-v2-portrait {
     display: flex;
-    position: relative;
+    position: relative !important;
     height: auto;
     width: 100%;
     margin-top: 1.5rem;
@@ -440,6 +442,8 @@ a { color: inherit; text-decoration: none; }
     transform: none !important;
     justify-content: center;
     align-items: flex-end;
+    mix-blend-mode: darken;
+    z-index: 1;
   }
   
   .hero-v2-portrait.active {

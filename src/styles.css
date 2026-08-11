@@ -323,7 +323,7 @@ a { color: inherit; text-decoration: none; }
   .hero-v2-copy {
     max-width: 100% !important;
     position: relative;
-    z-index: 5;
+    z-index: 15 !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: flex-start !important;

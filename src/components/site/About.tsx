@@ -34,10 +34,7 @@ export function About() {
                 </div>
                 <div className="about-flip-face about-flip-back">
                   <img
-                    src={optimizedImage(
-                      "https://res.cloudinary.com/drmamswdc/image/upload/v1777468784/file_00000000ee98722f978579295ecd7e04_dsleyd.png",
-                      760,
-                    )}
+                    src={portrait2Asset.url}
                     alt="Salah Junior – Web Developer and Graphic Designer portrait"
                     width={760}
                     height={950}

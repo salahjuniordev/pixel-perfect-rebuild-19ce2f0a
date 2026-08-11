@@ -169,6 +169,10 @@ a { color: inherit; text-decoration: none; }
   from { opacity: 0; }
   to { opacity: 0.16; }
 }
+@keyframes hv2-portrait {
+  from { opacity: 0; transform: translateX(60px) scale(1.04); }
+  to { opacity: 1; transform: none; }
+}
 .hero-v2-portrait.active {
   animation: hv2-portrait 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
 }

@@ -35,7 +35,7 @@ const stack = [
 
 export function Hero() {
   const { t } = useLanguage();
-  const images = useMemo(() => [portrait1, portrait2Asset.url], []);
+  const images = useMemo(() => [portrait1, portrait2], []);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {

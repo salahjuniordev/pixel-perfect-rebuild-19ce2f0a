@@ -1,7 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
 import { useLanguage } from "@/lib/language";
-import heroMobile1 from "@/assets/hero-mobile-1.png.asset.json";
-import heroMobile2 from "@/assets/hero-mobile-2.png.asset.json";
 
 const portrait1 = "/hero-portrait.png";
 const portrait2 = "/hero-portrait-2.png";

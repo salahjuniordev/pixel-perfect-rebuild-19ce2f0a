@@ -349,69 +349,31 @@ export type Database = {
       }
     }
     Views: {
-      public_site_settings: {
-        Row: {
-          about_text: string | null
-          brand_name: string | null
-          favicon_url: string | null
-          footer_text: string | null
-          hero_subtitle: string | null
-          hero_title: string | null
-          id: string | null
-          location: string | null
-          logo_url: string | null
-          resume_url: string | null
-          social_facebook: string | null
-          social_github: string | null
-          social_instagram: string | null
-          social_linkedin: string | null
-          social_twitter: string | null
-          social_youtube: string | null
-          tagline: string | null
-        }
-        Insert: {
-          about_text?: string | null
-          brand_name?: string | null
-          favicon_url?: string | null
-          footer_text?: string | null
-          hero_subtitle?: string | null
-          hero_title?: string | null
-          id?: string | null
-          location?: string | null
-          logo_url?: string | null
-          resume_url?: string | null
-          social_facebook?: string | null
-          social_github?: string | null
-          social_instagram?: string | null
-          social_linkedin?: string | null
-          social_twitter?: string | null
-          social_youtube?: string | null
-          tagline?: string | null
-        }
-        Update: {
-          about_text?: string | null
-          brand_name?: string | null
-          favicon_url?: string | null
-          footer_text?: string | null
-          hero_subtitle?: string | null
-          hero_title?: string | null
-          id?: string | null
-          location?: string | null
-          logo_url?: string | null
-          resume_url?: string | null
-          social_facebook?: string | null
-          social_github?: string | null
-          social_instagram?: string | null
-          social_linkedin?: string | null
-          social_twitter?: string | null
-          social_youtube?: string | null
-          tagline?: string | null
-        }
-        Relationships: []
-      }
+      [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_public_site_settings: {
+        Args: never
+        Returns: {
+          about_text: string
+          brand_name: string
+          favicon_url: string
+          footer_text: string
+          hero_subtitle: string
+          hero_title: string
+          id: string
+          location: string
+          logo_url: string
+          resume_url: string
+          social_facebook: string
+          social_github: string
+          social_instagram: string
+          social_linkedin: string
+          social_twitter: string
+          social_youtube: string
+          tagline: string
+        }[]
+      }
     }
     Enums: {
       app_role: "admin"

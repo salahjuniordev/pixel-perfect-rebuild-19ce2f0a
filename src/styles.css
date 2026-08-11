@@ -337,8 +337,8 @@ a { color: inherit; text-decoration: none; }
     aspect-ratio: 4/5;
     width: 100%;
     z-index: 2;
-    order: 2;
-    margin-top: 3rem; /* Increased margin to ensure no overlap */
+    order: 3; /* Move it after the copy and icons entirely */
+    margin-top: 2rem;
     -webkit-mask-image: linear-gradient(to bottom, black 95%, transparent);
     mask-image: linear-gradient(to bottom, black 95%, transparent);
   }

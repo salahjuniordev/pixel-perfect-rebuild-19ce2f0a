@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLanguage } from "@/lib/language";
-import heroPortrait from "@/assets/hero-portrait.jpg.asset.json";
+import heroPortrait from "@/assets/hero-portrait.png.asset.json";
 
 /** Types out `text` one character at a time once `start` is true. */
 function useTyped(text: string, start: boolean, speed = 55) {
@@ -55,14 +55,14 @@ export function Hero() {
   return (
     <header id="home" className="hero-v2">
       <div className="hero-v2-word" aria-hidden="true">
-        DEVELOP
+        DEVELOPER
       </div>
 
       <img
         className="hero-v2-portrait"
         src={heroPortrait.url}
         alt="Salah Junior, full-stack developer"
-        width={610}
+        width={1920}
         height={1080}
         fetchPriority="high"
         decoding="async"

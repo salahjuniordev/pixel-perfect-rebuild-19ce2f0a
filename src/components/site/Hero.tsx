@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useLanguage } from "@/lib/language";
-const heroPortrait = "/hero-portrait.png";
+import portrait1 from "/hero-portrait.png";
+import portrait2Asset from "@/assets/hero-portrait-2.png.asset.json";
 
 /** Types out `text` one character at a time once `start` is true. */
 function useTyped(text: string, start: boolean, speed = 55) {
@@ -34,6 +35,15 @@ const stack = [
 
 export function Hero() {
   const { t } = useLanguage();
+  const images = useMemo(() => [portrait1, portrait2Asset.url], []);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % images.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [images]);
 
   const greeting = t("Hello, I'm", "Bonjour, je suis");
   const name = "SalahJuniorDev";
@@ -58,15 +68,18 @@ export function Hero() {
         DEVELOPER
       </div>
 
-      <img
-        className="hero-v2-portrait"
-        src={heroPortrait}
-        alt="Salah Junior, full-stack developer"
-        width={1920}
-        height={1080}
-        fetchPriority="high"
-        decoding="async"
-      />
+      {images.map((src, index) => (
+        <img
+          key={src}
+          className={`hero-v2-portrait ${index === currentImageIndex ? "active" : ""}`}
+          src={src}
+          alt="Salah Junior, full-stack developer"
+          width={1920}
+          height={1080}
+          fetchPriority={index === 0 ? "high" : "low"}
+          decoding="async"
+        />
+      ))}
 
       <div className="hero-v2-inner">
         <div className="hero-v2-copy">

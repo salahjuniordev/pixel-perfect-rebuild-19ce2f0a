@@ -132,6 +132,23 @@ export function Hero() {
         </picture>
       ))}
 
+      <div className="hero-v2-mportrait" aria-hidden="true">
+        {mobilePortraits.map((img, index) => (
+          <img
+            key={img}
+            src={img}
+            alt=""
+            className={index === currentImageIndex % mobilePortraits.length ? "active" : ""}
+            width={1349}
+            height={1920}
+            loading={index === 0 ? "eager" : "lazy"}
+            decoding="async"
+          />
+        ))}
+      </div>
+
+
+
       <nav className={`hero-v2-social ${started ? "is-in" : ""}`} aria-label="Social profiles">
         {socials.map((s, i) => (
           <a

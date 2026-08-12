@@ -6,8 +6,8 @@ let cache: Tables<"site_settings"> | null = null;
 const listeners = new Set<(s: Tables<"site_settings"> | null) => void>();
 
 async function load() {
-  const { data } = await (supabase as any).rpc("get_public_site_settings");
-  const row = Array.isArray(data) ? data[0] : data;
+  const { data } = await supabase.from("site_settings").select("*").limit(1).maybeSingle();
+  const row = data;
   cache = row ?? null;
   listeners.forEach((l) => l(cache));
 }

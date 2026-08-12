@@ -288,10 +288,95 @@ a { color: inherit; text-decoration: none; }
 .hero-v2-social.is-in a { opacity: 1; transform: none; }
 .hero-v2-social a:hover { background: #1d4ed8; color: #fff; }
 
+.hero-v2-mportrait { display: none; }
+
 @media (max-width: 1024px) {
   .hero-v2-portrait { max-width: 62%; opacity: 0.9; }
   .hero-v2-copy { max-width: 26rem; }
 }
+
+/* ── Mobile hero ─────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .hero-v2 {
+    min-height: 100svh;
+    display: block;
+    padding: 0 0 0;
+    background: linear-gradient(170deg, #eef1f8 0%, #e6eaf4 45%, #dfe4f0 100%);
+    overflow: hidden;
+  }
+  .hero-v2-word {
+    top: 92px;
+    left: 16px;
+    right: 16px;
+    font-size: clamp(2.9rem, 15.5vw, 4.5rem);
+    letter-spacing: -0.035em;
+    color: rgba(15, 23, 42, 0.08);
+    z-index: 0;
+  }
+  .hero-v2-inner {
+    padding: 170px 20px 0;
+    z-index: 3;
+  }
+  .hero-v2-copy { max-width: 100%; }
+  .hero-v2-hello { font-size: 1.05rem; font-weight: 600; }
+  .hero-v2-name { font-size: clamp(2.1rem, 10.5vw, 2.9rem); letter-spacing: -0.035em; }
+  .hero-v2-role { font-size: 1.05rem; margin-top: 0.35rem; }
+  .hero-v2-bio {
+    margin-top: 1.4rem;
+    border-left-width: 3px;
+    padding-left: 0.9rem;
+    font-size: 1rem;
+    line-height: 1.55;
+    min-height: 0;
+  }
+  .hero-v2-actions { margin-top: 1.6rem; flex-wrap: nowrap; gap: 0.75rem; }
+  .hero-v2-btn { height: 48px; padding: 0 1.15rem; font-size: 0.9rem; white-space: nowrap; }
+  .hero-v2-btn-ghost { background: #fff; }
+  .hero-v2-stack { margin-top: 1.5rem; gap: 0.6rem; }
+  .hero-v2-stack li {
+    width: 56px; height: 56px; border-radius: 16px;
+    flex: 0 0 auto;
+  }
+  .hero-v2-stack li img { width: 26px; height: 26px; }
+
+  .hero-v2-portrait { display: none; }
+  .hero-v2-social { display: none; }
+
+  .hero-v2-mportrait {
+    display: block;
+    position: relative;
+    z-index: 2;
+    margin-top: -12px;
+    height: min(56vh, 460px);
+  }
+  .hero-v2-mportrait::before {
+    content: "";
+    position: absolute;
+    inset: -12% -20% 0 -20%;
+    background:
+      radial-gradient(60% 45% at 30% 30%, rgba(255, 255, 255, 0.75), transparent 70%),
+      radial-gradient(70% 55% at 80% 70%, rgba(255, 255, 255, 0.55), transparent 70%);
+    z-index: 0;
+    pointer-events: none;
+  }
+  .hero-v2-mportrait img {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    height: 100%;
+    width: auto;
+    max-width: none;
+    object-fit: contain;
+    object-position: bottom center;
+    opacity: 0;
+    transition: opacity 1s ease;
+    z-index: 1;
+  }
+  .hero-v2-mportrait img.active { opacity: 1; }
+}
+
+
 
 
 

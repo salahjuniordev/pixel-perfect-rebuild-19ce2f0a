@@ -352,28 +352,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      get_public_site_settings: {
-        Args: never
-        Returns: {
-          about_text: string
-          brand_name: string
-          favicon_url: string
-          footer_text: string
-          hero_subtitle: string
-          hero_title: string
-          id: string
-          location: string
-          logo_url: string
-          resume_url: string
-          social_facebook: string
-          social_github: string
-          social_instagram: string
-          social_linkedin: string
-          social_twitter: string
-          social_youtube: string
-          tagline: string
-        }[]
-      }
+      [_ in never]: never
     }
     Enums: {
       app_role: "admin"

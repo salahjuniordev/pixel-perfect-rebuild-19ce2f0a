@@ -1,8 +1,11 @@
 import { useEffect, useState, useMemo } from "react";
 import { useLanguage } from "@/lib/language";
+import mobile1Asset from "@/assets/hero-mobile-1.webp.asset.json";
+import mobile2Asset from "@/assets/hero-mobile-2.webp.asset.json";
 
 const portrait1 = "/hero-portrait.png";
 const portrait2 = "/hero-portrait-2.png";
+const mobilePortraits = [mobile1Asset.url, mobile2Asset.url];
 
 /** Types out `text` one character at a time once `start` is true. */
 function useTyped(text: string, start: boolean, speed = 55) {
@@ -42,7 +45,7 @@ export function Hero() {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentImageIndex((prev) => (prev + 1) % images.length);
-    }, 5000);
+    }, 4000);
     return () => clearInterval(timer);
   }, [images]);
 
@@ -128,6 +131,23 @@ export function Hero() {
           />
         </picture>
       ))}
+
+      <div className="hero-v2-mportrait" aria-hidden="true">
+        {mobilePortraits.map((img, index) => (
+          <img
+            key={img}
+            src={img}
+            alt=""
+            className={index === currentImageIndex % mobilePortraits.length ? "active" : ""}
+            width={1349}
+            height={1920}
+            loading={index === 0 ? "eager" : "lazy"}
+            decoding="async"
+          />
+        ))}
+      </div>
+
+
 
       <nav className={`hero-v2-social ${started ? "is-in" : ""}`} aria-label="Social profiles">
         {socials.map((s, i) => (

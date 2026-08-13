@@ -1,11 +1,9 @@
 import { useEffect, useState, useMemo } from "react";
 import { useLanguage } from "@/lib/language";
-import mobile1Asset from "@/assets/hero-mobile-1.webp.asset.json";
-import mobile2Asset from "@/assets/hero-mobile-2.webp.asset.json";
 
 const portrait1 = "/hero-portrait.png";
 const portrait2 = "/hero-portrait-2.png";
-const mobilePortraits = [mobile1Asset.url, mobile2Asset.url];
+const mobilePortraits = ["/assets/hero/hero-mobile-1.webp", "/assets/hero/hero-mobile-2.webp"];
 
 /** Types out `text` one character at a time once `start` is true. */
 function useTyped(text: string, start: boolean, speed = 55) {

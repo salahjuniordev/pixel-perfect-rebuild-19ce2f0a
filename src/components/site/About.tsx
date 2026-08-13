@@ -1,6 +1,7 @@
 import { useLanguage } from "@/lib/language";
-import portrait1Asset from "@/assets/hero-mobile-1.webp.asset.json";
-import portrait2Asset from "@/assets/hero-mobile-2.webp.asset.json";
+
+const portrait1 = "/assets/hero/hero-mobile-1.webp";
+const portrait2 = "/assets/hero/hero-mobile-2.webp";
 
 const interests = [
   { i: "fa-gamepad", en: "GAMING", fr: "JEU VIDÉO" },
@@ -24,7 +25,7 @@ export function About() {
               <div className="about-flip-inner">
                 <div className="about-flip-face">
                   <img
-                    src={portrait1Asset.url}
+                    src={portrait1}
                     alt="Salah Junior – Full-Stack Web Developer and UI/UX Designer based in Yaoundé Cameroon"
                     width={760}
                     height={950}
@@ -34,7 +35,7 @@ export function About() {
                 </div>
                 <div className="about-flip-face about-flip-back">
                   <img
-                    src={portrait2Asset.url}
+                    src={portrait2}
                     alt="Salah Junior – Web Developer and Graphic Designer portrait"
                     width={760}
                     height={950}

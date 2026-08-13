@@ -1,16 +1,11 @@
 import { useLanguage } from "@/lib/language";
-import logoOursBlanc from "@/assets/logo-ours-blanc.png.asset.json";
-import logoKbou from "@/assets/logo-kbou.png.asset.json";
-import logoMario from "@/assets/logo-mario.png.asset.json";
-import logoCoachJunior from "@/assets/logo-coach-junior.png.asset.json";
-import logoManey from "@/assets/logo-maney.png.asset.json";
 
 const clients = [
-  { name: "L'Ours Blanc", logo: logoOursBlanc.url },
-  { name: "K Bou Fitness Club", logo: logoKbou.url },
-  { name: "Mario Digital Store", logo: logoMario.url },
-  { name: "Coach Junior", logo: logoCoachJunior.url },
-  { name: "Maney", logo: logoManey.url },
+  { name: "L'Ours Blanc", logo: "/assets/clients/logo-ours-blanc.png" },
+  { name: "K Bou Fitness Club", logo: "/assets/clients/logo-kbou.jpg" },
+  { name: "Mario Digital Store", logo: "/assets/clients/logo-mario.png" },
+  { name: "Coach Junior", logo: "/assets/clients/logo-coach-junior.png" },
+  { name: "Maney", logo: "/assets/clients/logo-maney.png" },
 ];
 
 export function ClientsMarquee() {

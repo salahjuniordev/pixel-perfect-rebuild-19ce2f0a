@@ -144,6 +144,7 @@ export type Database = {
           link_url: string | null
           order_index: number
           published: boolean
+          slug: string | null
           title: string
           updated_at: string
         }
@@ -156,6 +157,7 @@ export type Database = {
           link_url?: string | null
           order_index?: number
           published?: boolean
+          slug?: string | null
           title: string
           updated_at?: string
         }
@@ -168,6 +170,7 @@ export type Database = {
           link_url?: string | null
           order_index?: number
           published?: boolean
+          slug?: string | null
           title?: string
           updated_at?: string
         }
@@ -352,7 +355,8 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      slugify: { Args: { _txt: string }; Returns: string }
+      unaccent_fallback: { Args: { _txt: string }; Returns: string }
     }
     Enums: {
       app_role: "admin"

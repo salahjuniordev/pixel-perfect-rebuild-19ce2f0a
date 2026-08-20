@@ -13,7 +13,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AuthProvider } from "@/lib/auth";
 import { Toaster } from "@/components/ui/sonner";
-import { asJsonLdScript, organizationSchema, websiteSchema } from "@/lib/seo-schemas";
+import { asJsonLdScript, organizationSchema, websiteSchema, DEFAULT_OG_IMAGE, OG_IMAGE_WIDTH, OG_IMAGE_HEIGHT, OG_IMAGE_TYPE } from "@/lib/seo-schemas";
 
 function NotFoundComponent() {
   return (
@@ -84,13 +84,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "description", content: "Full-Stack Web Developer and UI/UX Designer based in Yaoundé, Cameroon. Turning ideas into digital reality." },
       { name: "author", content: "Salah Junior Ncham" },
       { property: "og:type", content: "website" },
-      { property: "og:image", content: "https://res.cloudinary.com/drmamswdc/image/upload/v1777510474/og-preview_gb0mep.png" },
+      { property: "og:image", content: DEFAULT_OG_IMAGE },
+      { property: "og:image:width", content: String(OG_IMAGE_WIDTH) },
+      { property: "og:image:height", content: String(OG_IMAGE_HEIGHT) },
+      { property: "og:image:type", content: OG_IMAGE_TYPE },
       { name: "twitter:card", content: "summary_large_image" },
       { property: "og:title", content: "Salah Junior | Full-Stack Web Developer & UI/UX Designer – Yaoundé, Cameroon" },
       { name: "twitter:title", content: "Salah Junior | Full-Stack Web Developer & UI/UX Designer – Yaoundé, Cameroon" },
       { property: "og:description", content: "Full-Stack Web Developer and UI/UX Designer based in Yaoundé, Cameroon. Turning ideas into digital reality." },
       { name: "twitter:description", content: "Full-Stack Web Developer and UI/UX Designer based in Yaoundé, Cameroon. Turning ideas into digital reality." },
-      { name: "twitter:image", content: "https://res.cloudinary.com/drmamswdc/image/upload/v1777510474/og-preview_gb0mep.png" },
+      { name: "twitter:image", content: DEFAULT_OG_IMAGE },
     ],
     links: [
       { rel: "stylesheet", href: appCss },

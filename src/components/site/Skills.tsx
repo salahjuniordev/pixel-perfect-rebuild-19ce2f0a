@@ -65,9 +65,9 @@ export function Skills() {
                 <h3 className="font-bold text-white mb-2">{t("Graphic Design", "Design Graphique")}</h3>
                 <p className="text-xs text-slate-400 mb-3">{t("Creating visual content that communicates messages and builds strong brand identity.", "Création de contenu visuel qui communique et bâtit une identité de marque forte.")}</p>
                 <div className="flex gap-2">
-                  <Badge text="Ps" bg="#001e36" border="#31a8ff" />
-                  <Badge text="Ai" bg="#1a0900" border="#ff9a00" />
-                  <Badge text="Id" bg="#1b0030" border="#ff3d9a" />
+                  <Badge text="Ps" bg="#001e36" border="#31a8ff" label="Adobe Photoshop" />
+                  <Badge text="Ai" bg="#1a0900" border="#ff9a00" label="Adobe Illustrator" />
+                  <Badge text="Id" bg="#1b0030" border="#ff3d9a" label="Adobe InDesign" />
                 </div>
               </div>
               <div className="card-blue !p-5">
@@ -75,16 +75,16 @@ export function Skills() {
                 <p className="text-xs text-white/85 mb-3">{t("Building and managing dynamic websites with powerful CMS platforms.", "Construction et gestion de sites dynamiques avec de puissantes plateformes CMS.")}</p>
                 <div className="flex gap-2">
                   <div className="tech-badge"><img src={devicon("wordpress/wordpress-original.svg")} alt="WordPress" width={32} height={32} loading="lazy" decoding="async" /></div>
-                  <Badge text="WIX" bg="#0C6EFC" border="#0C6EFC" />
+                  <Badge text="WIX" bg="#0C6EFC" border="#0C6EFC" label="Wix" />
                 </div>
               </div>
               <div className="card-dark !p-5">
                 <h3 className="font-bold text-white mb-2">Microsoft Office</h3>
                 <p className="text-xs text-slate-400 mb-3">{t("Productive and efficient in creating documents, presentations, and spreadsheets.", "Productif dans la création de documents, présentations et tableurs.")}</p>
                 <div className="flex gap-2">
-                  <Badge text="W" bg="#2B579A" border="#2B579A" />
-                  <Badge text="X" bg="#1E7145" border="#1E7145" />
-                  <Badge text="P" bg="#C43E1C" border="#C43E1C" />
+                  <Badge text="W" bg="#2B579A" border="#2B579A" label="Microsoft Word" />
+                  <Badge text="X" bg="#1E7145" border="#1E7145" label="Microsoft Excel" />
+                  <Badge text="P" bg="#C43E1C" border="#C43E1C" label="Microsoft PowerPoint" />
                 </div>
               </div>
             </div>
@@ -95,8 +95,16 @@ export function Skills() {
   );
 }
 
-function Badge({ text, bg, border }: { text: string; bg: string; border: string }) {
+function Badge({ text, bg, border, label }: { text: string; bg: string; border: string; label?: string }) {
   return (
-    <div className="tech-badge" style={{ background: bg, border: `2px solid ${border}`, color: "#fff" }}>{text}</div>
+    <div
+      className="tech-badge"
+      style={{ background: bg, border: `2px solid ${border}`, color: "#fff" }}
+      role="img"
+      aria-label={label ?? text}
+      title={label ?? text}
+    >
+      {text}
+    </div>
   );
 }

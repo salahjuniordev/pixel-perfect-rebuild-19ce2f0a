@@ -3,18 +3,19 @@ import { useLanguage } from "@/lib/language";
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
 
-export function Pricing() {
+export function Pricing({ initial }: { initial?: Tables<"pricing_tiers">[] }) {
   const { t } = useLanguage();
-  const [plans, setPlans] = useState<Tables<"pricing_tiers">[]>([]);
+  const [plans, setPlans] = useState<Tables<"pricing_tiers">[]>(initial ?? []);
 
   useEffect(() => {
+    if (initial) return;
     supabase
       .from("pricing_tiers")
       .select("*")
       .eq("published", true)
       .order("order_index", { ascending: true })
       .then(({ data }) => setPlans(data ?? []));
-  }, []);
+  }, [initial]);
 
   return (
     <section className="section-padding">

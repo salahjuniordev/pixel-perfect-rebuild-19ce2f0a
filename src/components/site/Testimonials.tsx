@@ -16,19 +16,20 @@ function Stars({ n }: { n: number }) {
 
 const palette = ["#0369a1", "#9d174d", "#046c4e", "#5b21b6", "#92400e", "#991b1b"];
 
-export function Testimonials() {
+export function Testimonials({ initial }: { initial?: Tables<"testimonials">[] }) {
   const { t } = useLanguage();
-  const [items, setItems] = useState<Tables<"testimonials">[]>([]);
+  const [items, setItems] = useState<Tables<"testimonials">[]>(initial ?? []);
   const [i, setI] = useState(0);
 
   useEffect(() => {
+    if (initial) return;
     supabase
       .from("testimonials")
       .select("*")
       .eq("published", true)
       .order("order_index", { ascending: true })
       .then(({ data }) => setItems(data ?? []));
-  }, []);
+  }, [initial]);
 
   useEffect(() => {
     if (items.length === 0) return;

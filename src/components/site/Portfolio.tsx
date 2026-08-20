@@ -4,18 +4,19 @@ import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
 import { optimizedImage } from "@/lib/img";
 
-export function Portfolio() {
+export function Portfolio({ initial }: { initial?: Tables<"projects">[] }) {
   const { t } = useLanguage();
-  const [projects, setProjects] = useState<Tables<"projects">[]>([]);
+  const [projects, setProjects] = useState<Tables<"projects">[]>(initial ?? []);
 
   useEffect(() => {
+    if (initial) return;
     supabase
       .from("projects")
       .select("*")
       .eq("published", true)
       .order("order_index", { ascending: true })
       .then(({ data }) => setProjects(data ?? []));
-  }, []);
+  }, [initial]);
 
   return (
     <section id="portfolio" className="projects-section">

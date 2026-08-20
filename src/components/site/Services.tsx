@@ -4,18 +4,20 @@ import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
 import { optimizedImage } from "@/lib/img";
 
-export function Services() {
+export function Services({ initial }: { initial?: Tables<"services">[] }) {
   const { t } = useLanguage();
-  const [services, setServices] = useState<Tables<"services">[]>([]);
+  const [services, setServices] = useState<Tables<"services">[]>(initial ?? []);
 
   useEffect(() => {
+    // When the route loader already supplied data (SSR), don't refetch on the client.
+    if (initial) return;
     supabase
       .from("services")
       .select("*")
       .eq("published", true)
       .order("order_index", { ascending: true })
       .then(({ data }) => setServices(data ?? []));
-  }, []);
+  }, [initial]);
 
   return (
     <section id="services" className="services-section">

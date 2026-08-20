@@ -56,8 +56,8 @@ export function About() {
           </p>
           <p className="about-lead">
             {t(
-              "I'm Salah Junior — a full-stack developer and designer based in Yaoundé, Cameroon. I started building websites at 17, and what began as curiosity quickly became a craft. Three years later, I've worked with NGOs, logistics companies, and brands across Central Africa — turning ideas into digital products that actually work. I don't just write code. I think about the person on the other side of the screen.",
-              "Je suis Salah Junior, développeur full-stack et designer basé à Yaoundé, au Cameroun. Tout a commencé à 17 ans par pure curiosité pour le code.\n\nTrois ans plus tard, cette curiosité est devenue un vrai métier : j'accompagne aujourd'hui des ONG, des entreprises logistiques et des marques à travers l'Afrique Centrale, en transformant leurs idées en produits numériques qui fonctionnent vraiment. Je ne me contente pas d'écrire du code : je pense toujours à la personne qui se trouve de l'autre côté de l'écran."
+              "I'm Salah Junior — a full-stack web developer and UI/UX designer based in Yaoundé, Cameroon. I started building websites at 17, and what began as curiosity quickly became a craft. Three years later, I've worked with NGOs, logistics companies, and brands across Central Africa — turning ideas into digital products that actually work. I don't just write code. I think about the person on the other side of the screen.",
+              "Je suis Salah Junior, développeur web full-stack et designer UI/UX basé à Yaoundé, au Cameroun. Tout a commencé à 17 ans par pure curiosité pour le code.\n\nTrois ans plus tard, cette curiosité est devenue un vrai métier : j'accompagne aujourd'hui des ONG, des entreprises logistiques et des marques à travers l'Afrique Centrale, en transformant leurs idées en produits numériques qui fonctionnent vraiment. Je ne me contente pas d'écrire du code : je pense toujours à la personne qui se trouve de l'autre côté de l'écran."
             )}
           </p>
 
@@ -67,7 +67,6 @@ export function About() {
             <Info label={t("MY NAME :", "MON NOM :")} value="Salah Junior" icon="fa-user" />
             <Info label={t("ADDRESS :", "ADRESSE :")} value="Emana,Yaounde,CMR" icon="fa-location-dot" />
             <Info label={t("EMAIL :", "E-MAIL :")} value="salahjuniorncham@gmail.com" icon="fa-envelope" href="mailto:salahjuniorncham@gmail.com" />
-            <Info label={t("DATE OF BIRTH :", "DATE DE NAISSANCE :")} value="XXXX" icon="fa-crown" />
           </div>
 
           <div className="flex flex-wrap gap-4 mb-10">

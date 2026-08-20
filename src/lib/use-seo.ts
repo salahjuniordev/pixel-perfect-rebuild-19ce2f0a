@@ -53,8 +53,8 @@ export function useSeo({ title, description, path }: SeoInput) {
     const url = `${origin}${p}`;
     upsertLink("canonical", url);
     upsertMeta("property", "og:url", url);
-    upsertLink("alternate", url, "en");
-    upsertLink("alternate", url, "fr");
-    upsertLink("alternate", url, "x-default");
+    // NOTE: hreflang alternate links are owned by the server-rendered head() (with
+    // correct ?lang= URLs). We intentionally do NOT touch them here — overwriting them
+    // with bare, language-less URLs was collapsing all locales onto one URL after hydration.
   }, [lang, title.en, title.fr, description.en, description.fr, path]);
 }

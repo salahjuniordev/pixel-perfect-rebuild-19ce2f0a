@@ -42,9 +42,16 @@ export function Footer() {
 
       <div className="container-sj grid lg:grid-cols-3 gap-10">
         <div>
-          <a href="/#home" className="inline-flex items-center gap-3 mb-5">
+          <a href="/#home" className="inline-flex items-center gap-3 mb-4">
             <img src={optimizedImage(s?.logo_url, 112) || "/logo.png"} alt={`${brand} Logo`} width={56} height={56} loading="lazy" decoding="async" className="site-logo" />
           </a>
+          <p className="text-white font-bold text-lg leading-tight">{brand}</p>
+          <p className="text-[--brand] text-sm font-medium mb-4">
+            {t(
+              "Full-Stack Web Developer & UI/UX Designer · Yaoundé, Cameroon",
+              "Développeur Web Full-Stack & Designer UI/UX · Yaoundé, Cameroun",
+            )}
+          </p>
           <p className="text-sm text-slate-400 leading-relaxed mb-5">
             {s?.footer_text || t(
               "Turning ideas into digital reality — crafting responsive websites, polished interfaces, and memorable brand identities from Yaoundé, Cameroon.",

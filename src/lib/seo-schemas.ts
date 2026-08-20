@@ -303,7 +303,7 @@ export function twitterMeta(opts: {
   image?: string | null;
   url?: string;
 }) {
-  const image = opts.image || `${SITE_ORIGIN}/logo.png`;
+  const image = opts.image || DEFAULT_OG_IMAGE;
   const meta: Array<Record<string, string>> = [
     { name: "twitter:card", content: "summary_large_image" },
     { name: "twitter:title", content: opts.title },
@@ -330,6 +330,9 @@ export function asJsonLdScript(data: unknown) {
 /* -------------------------------------------------------------------- */
 
 export const DEFAULT_OG_IMAGE = `${SITE_ORIGIN}/img/og-preview.png`;
+export const OG_IMAGE_WIDTH = 851;
+export const OG_IMAGE_HEIGHT = 315;
+export const OG_IMAGE_TYPE = "image/png";
 
 /** Absolute URL for a site path ("/faq" -> "https://host/faq"). */
 export const absUrl = (path: string) =>
@@ -358,6 +361,9 @@ export function ogMeta(opts: {
     { property: "og:description", content: opts.descFr },
     { property: "og:image", content: image },
     { property: "og:image:alt", content: opts.titleFr },
+    { property: "og:image:width", content: String(OG_IMAGE_WIDTH) },
+    { property: "og:image:height", content: String(OG_IMAGE_HEIGHT) },
+    { property: "og:image:type", content: OG_IMAGE_TYPE },
     { property: "og:locale", content: "fr_FR" },
     { property: "og:locale:alternate", content: "en_US" },
   ];

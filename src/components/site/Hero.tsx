@@ -80,14 +80,19 @@ export function Hero() {
             {!g.done && <span className="typed-cursor" />}
           </p>
 
-          <h1 className="hero-v2-name">
+          {/* Brand handle: animated visual centrepiece (not the document heading). */}
+          <p className="hero-v2-name">
             {nm.shown}
             {g.done && !nm.done && <span className="typed-cursor" />}
-          </h1>
-
-          <p className={`hero-v2-role ${nm.done ? "is-in" : ""}`}>
-            {t("Full-Stack Developer & Digital Creator", "Développeur Full-Stack & Créateur Digital")}
           </p>
+
+          {/* Sole page H1: descriptive, keyword-rich, present in server HTML. */}
+          <h1 className={`hero-v2-role ${nm.done ? "is-in" : ""}`}>
+            {t(
+              "Salah Junior — Full-Stack Web Developer in Yaoundé, Cameroon",
+              "Salah Junior — Développeur Web Full-Stack à Yaoundé, Cameroun",
+            )}
+          </h1>
 
           <p className="hero-v2-bio">
             {bi.shown}
@@ -121,7 +126,7 @@ export function Hero() {
           <source srcSet={`${img}?w=1200&q=85 1x, ${img}?w=2400&q=85 2x`} />
           <img
             src={img}
-            alt="Salah Junior, full-stack developer"
+            alt="Salah Junior, full-stack web developer in Yaoundé, Cameroon"
             width={1920}
             height={1080}
             fetchPriority={index === 0 ? "high" : "low"}

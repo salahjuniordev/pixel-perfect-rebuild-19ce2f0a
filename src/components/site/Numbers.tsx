@@ -14,6 +14,9 @@ export function Numbers() {
       backgroundImage: "linear-gradient(rgba(15,23,42,0.92), rgba(15,23,42,0.92)), url('/img/dots.png')",
     }}>
       <div className="container-sj">
+        <h2 className="text-center text-2xl md:text-3xl font-bold text-white mb-10">
+          {t("By the Numbers", "En Chiffres")}
+        </h2>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
           {stats.map((s) => (
             <div key={s.icon}>

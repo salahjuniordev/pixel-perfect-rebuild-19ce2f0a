@@ -5,11 +5,12 @@ import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
 import { optimizedImage } from "@/lib/img";
 
-export function Blog() {
+export function Blog({ initial }: { initial?: Tables<"blog_posts">[] }) {
   const { t } = useLanguage();
-  const [posts, setPosts] = useState<Tables<"blog_posts">[]>([]);
+  const [posts, setPosts] = useState<Tables<"blog_posts">[]>(initial ?? []);
 
   useEffect(() => {
+    if (initial) return;
     supabase
       .from("blog_posts")
       .select("*")
@@ -17,7 +18,7 @@ export function Blog() {
       .order("published_at", { ascending: false, nullsFirst: false })
       .limit(6)
       .then(({ data }) => setPosts(data ?? []));
-  }, []);
+  }, [initial]);
 
   return (
     <section id="blog" className="section-padding bg-[#0a1120]">

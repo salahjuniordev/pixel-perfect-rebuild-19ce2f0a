@@ -17,6 +17,7 @@ import { Footer } from "@/components/site/Footer";
 import { BackToTop } from "@/components/site/BackToTop";
 import { useSeo } from "@/lib/use-seo";
 import { asJsonLdScript, homeGraphs, twitterMeta, ogMeta, altLinks, SITE_ORIGIN } from "@/lib/seo-schemas";
+import { fetchHomeData } from "@/lib/home-data";
 
 const HOME_TITLE_EN =
   "Salah Junior | Full-Stack Web Developer & UI/UX Designer – Yaoundé, Cameroon";
@@ -43,10 +44,12 @@ export const Route = createFileRoute("/")({
     links: altLinks("/"),
     scripts: homeGraphs().map(asJsonLdScript),
   }),
+  loader: () => fetchHomeData(),
   component: Index,
 });
 
 function IndexInner() {
+  const data = Route.useLoaderData();
   useSeo({
     title: {
       en: "Salah Junior | Full-Stack Web Developer & UI/UX Designer – Yaoundé, Cameroon",
@@ -67,13 +70,13 @@ function IndexInner() {
         <About />
         <Skills />
         <ToolsMarquee />
-        <Services />
+        <Services initial={data?.services} />
         <ClientsMarquee />
         <Numbers />
-        <Portfolio />
-        <Testimonials />
-        <Blog />
-        <Pricing />
+        <Portfolio initial={data?.projects} />
+        <Testimonials initial={data?.testimonials} />
+        <Blog initial={data?.posts} />
+        <Pricing initial={data?.pricing} />
         <Contact />
       </main>
       <Footer />

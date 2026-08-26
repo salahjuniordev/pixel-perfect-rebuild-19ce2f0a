@@ -6,8 +6,8 @@ import { FormModal, Field, inputCls } from "@/components/admin/FormModal";
 import { useCrud } from "@/lib/use-crud";
 import type { Tables } from "@/integrations/supabase/types";
 
-type Row = Tables<"services">;
-const empty: Partial<Row> = { title: "", description: "", icon: "fa-code", image_url: "", order_index: 0, published: true };
+type Row = Tables<"services"> & { slug?: string | null; price?: string | null };
+const empty: Partial<Row> = { title: "", description: "", icon: "fa-code", image_url: "", order_index: 0, published: true, slug: "", price: "" };
 
 export const Route = createFileRoute("/admin/services")({ component: ServicesAdmin });
 
@@ -61,7 +61,10 @@ function ServicesAdmin() {
               <Field label="Font Awesome icon" hint="e.g. fa-code, fa-palette"><input className={inputCls} value={editing.icon ?? ""} onChange={(e) => setEditing({ ...editing, icon: e.target.value })} /></Field>
             </div>
             <Field label="Description"><textarea rows={4} className={inputCls} value={editing.description ?? ""} onChange={(e) => setEditing({ ...editing, description: e.target.value })} /></Field>
-            <Field label="Image URL (optional)"><input className={inputCls} value={editing.image_url ?? ""} onChange={(e) => setEditing({ ...editing, image_url: e.target.value })} /></Field>
+            <div className="grid sm:grid-cols-2 gap-4">
+              <Field label="Slug (URL-friendly)" hint="e.g. web-development"><input className={inputCls} value={editing.slug ?? ""} onChange={(e) => setEditing({ ...editing, slug: e.target.value })} /></Field>
+              <Field label="Price" hint="e.g. From $120"><input className={inputCls} value={editing.price ?? ""} onChange={(e) => setEditing({ ...editing, price: e.target.value })} /></Field>
+            </div>
             <div className="grid sm:grid-cols-2 gap-4 items-end">
               <Field label="Order"><input type="number" className={inputCls} value={editing.order_index ?? 0} onChange={(e) => setEditing({ ...editing, order_index: Number(e.target.value) })} /></Field>
               <label className="inline-flex items-center gap-2 text-sm text-slate-300 pb-2.5">

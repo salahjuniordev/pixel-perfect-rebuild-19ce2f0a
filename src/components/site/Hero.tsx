@@ -73,47 +73,6 @@ export function Hero() {
         DEVELOPER
       </div>
 
-      <svg
-        className="hero-v2-blob"
-        viewBox="0 0 1000 700"
-        preserveAspectRatio="none"
-        aria-hidden="true"
-      >
-        <path
-          d="M380,700 C460,640 500,560 560,470 C620,380 690,300 760,230 C830,160 900,90 1000,20 L1000,700 Z"
-          fill="#ffffff"
-        />
-      </svg>
-
-      {images.map((img, index) => (
-        <picture key={img} className={`hero-v2-portrait ${index === currentImageIndex ? "active" : ""}`}>
-          <source srcSet={`${img}?w=1200&q=85 1x, ${img}?w=2400&q=85 2x`} />
-          <img
-            src={img}
-            alt="Salah Junior, full-stack web developer in Yaoundé, Cameroon"
-            width={1920}
-            height={1080}
-            fetchPriority={index === 0 ? "high" : "low"}
-            decoding="async"
-          />
-        </picture>
-      ))}
-
-      <div className="hero-v2-mportrait" aria-hidden="true">
-        {mobilePortraits.map((img, index) => (
-          <img
-            key={img}
-            src={img}
-            alt=""
-            className={index === currentImageIndex % mobilePortraits.length ? "active" : ""}
-            width={1349}
-            height={1920}
-            loading={index === 0 ? "eager" : "lazy"}
-            decoding="async"
-          />
-        ))}
-      </div>
-
       <div className="hero-v2-inner">
         <div className="hero-v2-copy">
           <p className="hero-v2-hello">
@@ -161,6 +120,37 @@ export function Hero() {
           </ul>
         </div>
       </div>
+
+      {images.map((img, index) => (
+        <picture key={img} className={`hero-v2-portrait ${index === currentImageIndex ? "active" : ""}`}>
+          <source srcSet={`${img}?w=1200&q=85 1x, ${img}?w=2400&q=85 2x`} />
+          <img
+            src={img}
+            alt="Salah Junior, full-stack web developer in Yaoundé, Cameroon"
+            width={1920}
+            height={1080}
+            fetchPriority={index === 0 ? "high" : "low"}
+            decoding="async"
+          />
+        </picture>
+      ))}
+
+      <div className="hero-v2-mportrait" aria-hidden="true">
+        {mobilePortraits.map((img, index) => (
+          <img
+            key={img}
+            src={img}
+            alt=""
+            className={index === currentImageIndex % mobilePortraits.length ? "active" : ""}
+            width={1349}
+            height={1920}
+            loading={index === 0 ? "eager" : "lazy"}
+            decoding="async"
+          />
+        ))}
+      </div>
+
+
 
       <nav className={`hero-v2-social ${started ? "is-in" : ""}`} aria-label="Social profiles">
         {socials.map((s, i) => (

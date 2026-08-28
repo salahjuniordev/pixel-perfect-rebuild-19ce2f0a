@@ -3,7 +3,7 @@ import { useLanguage } from "@/lib/language";
 
 const portrait1 = "/hero-portrait.png";
 const portrait2 = "/hero-portrait-2.png";
-const mobilePortraits = ["/assets/hero/hero-mobile-1.webp", "/assets/hero/hero-mobile-2.webp"];
+const mobilePortraits = ["/hero-mobile-1.png", "/hero-mobile-2.png"];
 
 /** Types out `text` one character at a time once `start` is true. */
 function useTyped(text: string, start: boolean, speed = 55) {

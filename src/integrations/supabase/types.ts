@@ -184,9 +184,7 @@ export type Database = {
           id: string
           image_url: string | null
           order_index: number
-          price: string | null
           published: boolean
-          slug: string | null
           title: string
           updated_at: string
         }
@@ -197,9 +195,7 @@ export type Database = {
           id?: string
           image_url?: string | null
           order_index?: number
-          price?: string | null
           published?: boolean
-          slug?: string | null
           title: string
           updated_at?: string
         }
@@ -210,9 +206,7 @@ export type Database = {
           id?: string
           image_url?: string | null
           order_index?: number
-          price?: string | null
           published?: boolean
-          slug?: string | null
           title?: string
           updated_at?: string
         }

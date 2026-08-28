@@ -1,14 +1,12 @@
 import { useEffect, useState } from "react";
-import { Link } from "@tanstack/react-router";
 import { useLanguage } from "@/lib/language";
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
-
-type Service = Tables<"services"> & { slug?: string | null; price?: string | null };
+import { optimizedImage } from "@/lib/img";
 
 export function Services({ initial }: { initial?: Tables<"services">[] }) {
   const { t } = useLanguage();
-  const [services, setServices] = useState<Service[]>(initial ?? []);
+  const [services, setServices] = useState<Tables<"services">[]>(initial ?? []);
 
   useEffect(() => {
     // When the route loader already supplied data (SSR), don't refetch on the client.
@@ -18,44 +16,45 @@ export function Services({ initial }: { initial?: Tables<"services">[] }) {
       .select("*")
       .eq("published", true)
       .order("order_index", { ascending: true })
-      .then(({ data }) => setServices((data as Service[]) ?? []));
+      .then(({ data }) => setServices(data ?? []));
   }, [initial]);
 
-  if (services.length === 0) return null;
-
   return (
-    <section id="services" className="services-section section-padding">
+    <section id="services" className="services-section">
       <div className="container-sj">
-        <div className="text-center mb-16">
-          <p className="sec-head-eyebrow">{t("What I Offer", "Ce que j'offre")}</p>
-          <h2 className="sec-head-title">{t("Services", "Services")}</h2>
-          <div className="sec-head-line mx-auto mt-4" />
+        <div className="services-head">
+          <h2 className="services-title">{t("Services", "Services")}</h2>
+          <div className="services-underline">
+            <span /><span className="dot" /><span />
+          </div>
         </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-7">
           {services.map((s) => (
-            <Link
-              key={s.id}
-              to="/services/$id"
-              params={{ id: s.slug || s.id }}
-              className="svc-new-card group"
-            >
-              <div className="svc-new-icon">
-                <i className={`fa-solid ${s.icon}`} />
+            <div key={s.id} className="svc-card">
+              <div className="svc-card-media">
+                {s.image_url ? (
+                  <img
+                    src={optimizedImage(s.image_url, 640)}
+                    alt={s.title}
+                    width={640}
+                    height={400}
+                    loading="lazy"
+                    decoding="async"
+                    onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+                  />
+                ) : (
+                  <i className={`fa-solid ${s.icon} text-[var(--brand)] text-6xl`} />
+                )}
               </div>
-              <h3 className="svc-new-title">{s.title}</h3>
-              <p className="svc-new-desc">{s.description}</p>
-              {s.price && (
-                <p className="svc-new-price">
-                  {t("From", "À partir de")} <span>{s.price}</span>
-                </p>
-              )}
-              <span className="svc-new-cta">
-                {t("Learn More", "En savoir plus")} <i className="fa-solid fa-arrow-right text-xs" />
-              </span>
-            </Link>
+              <div className="svc-card-body">
+                <h3 className="svc-card-title">{s.title}</h3>
+                <p className="svc-card-desc">{s.description}</p>
+              </div>
+            </div>
           ))}
         </div>
       </div>
     </section>
   );
 }
+

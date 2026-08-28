@@ -19,24 +19,6 @@ const STATIC_ENTRIES: SitemapEntry[] = [
   { path: "/license-copyright", changefreq: "yearly", priority: "0.3" },
 ];
 
-async function serviceEntries(): Promise<SitemapEntry[]> {
-  try {
-    const { data } = await supabase
-      .from("services")
-      .select("id,updated_at,published")
-      .eq("published", true)
-      .order("order_index", { ascending: true });
-    return (data ?? []).map((s) => ({
-      path: `/services/${s.id}`,
-      lastmod: s.updated_at ? new Date(s.updated_at).toISOString() : undefined,
-      changefreq: "monthly" as const,
-      priority: "0.7",
-    }));
-  } catch {
-    return [];
-  }
-}
-
 async function blogEntries(): Promise<SitemapEntry[]> {
   try {
     const { data } = await supabase
@@ -62,7 +44,7 @@ export const Route = createFileRoute("/sitemap.xml")({
   server: {
     handlers: {
       GET: async () => {
-        const entries = [...STATIC_ENTRIES, ...(await serviceEntries()), ...(await blogEntries())];
+        const entries = [...STATIC_ENTRIES, ...(await blogEntries())];
 
         const urls = entries.map((e) => {
           const loc = `${BASE_URL}${e.path}`;

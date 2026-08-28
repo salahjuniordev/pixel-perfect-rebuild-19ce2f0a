@@ -1097,7 +1097,7 @@ textarea.contact-field { resize: vertical; min-height: 130px; }
 /* ── WhatsApp floating button ──────────────────────────────── */
 .whatsapp-float {
   position: fixed;
-  bottom: 28px;
+  bottom: 84px;
   right: 28px;
   z-index: 9999;
   width: 58px;
@@ -1122,7 +1122,7 @@ textarea.contact-field { resize: vertical; min-height: 130px; }
 }
 @media (max-width: 640px) {
   .whatsapp-float {
-    bottom: 18px;
+    bottom: 74px;
     right: 18px;
     width: 52px;
     height: 52px;

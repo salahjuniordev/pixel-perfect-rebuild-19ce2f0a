@@ -391,7 +391,6 @@ a { color: inherit; text-decoration: none; }
     transition: opacity 1s ease;
     position: relative;
     z-index: 1;
-    mix-blend-mode: multiply;
   }
   .hero-v2-mportrait img.active { opacity: 1; }
 }

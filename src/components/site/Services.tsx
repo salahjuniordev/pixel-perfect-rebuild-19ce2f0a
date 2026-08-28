@@ -15,7 +15,7 @@ export function Services({ initial }: { initial?: Tables<"services">[] }) {
     if (initial) return;
     supabase
       .from("services")
-      .select("*, slug, price")
+      .select("*")
       .eq("published", true)
       .order("order_index", { ascending: true })
       .then(({ data }) => setServices((data as Service[]) ?? []));

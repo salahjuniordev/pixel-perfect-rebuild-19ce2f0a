@@ -23,11 +23,11 @@ async function serviceEntries(): Promise<SitemapEntry[]> {
   try {
     const { data } = await supabase
       .from("services")
-      .select("slug,id,updated_at,published")
+      .select("id,updated_at,published")
       .eq("published", true)
       .order("order_index", { ascending: true });
     return (data ?? []).map((s) => ({
-      path: `/services/${s.slug || s.id}`,
+      path: `/services/${s.id}`,
       lastmod: s.updated_at ? new Date(s.updated_at).toISOString() : undefined,
       changefreq: "monthly" as const,
       priority: "0.7",

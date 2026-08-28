@@ -34,7 +34,7 @@ function ServiceDetailPage() {
       // Try slug first, then fall back to id
       let { data } = await supabase
         .from("services")
-        .select("*, slug, price")
+        .select("*")
         .eq("slug", id)
         .eq("published", true)
         .maybeSingle();
@@ -42,7 +42,7 @@ function ServiceDetailPage() {
       if (!data) {
         const result = await supabase
           .from("services")
-          .select("*, slug, price")
+          .select("*")
           .eq("id", id)
           .eq("published", true)
           .maybeSingle();

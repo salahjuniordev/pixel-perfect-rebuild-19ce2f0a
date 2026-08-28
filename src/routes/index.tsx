@@ -15,6 +15,7 @@ import { Pricing } from "@/components/site/Pricing";
 import { Contact } from "@/components/site/Contact";
 import { Footer } from "@/components/site/Footer";
 import { BackToTop } from "@/components/site/BackToTop";
+import { WhatsAppFloat } from "@/components/site/WhatsAppFloat";
 import { useSeo } from "@/lib/use-seo";
 import { asJsonLdScript, homeGraphs, twitterMeta, ogMeta, altLinks, SITE_ORIGIN } from "@/lib/seo-schemas";
 import { fetchHomeData } from "@/lib/home-data";
@@ -81,6 +82,7 @@ function IndexInner() {
       </main>
       <Footer />
       <BackToTop />
+      <WhatsAppFloat />
     </>
   );
 }

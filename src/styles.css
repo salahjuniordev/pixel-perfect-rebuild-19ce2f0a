@@ -313,7 +313,7 @@ a { color: inherit; text-decoration: none; }
 /* ── Mobile hero ─────────────────────────────────────────────── */
 @media (max-width: 768px) {
   .hero-v2 {
-    min-height: auto;
+    min-height: 100svh;
     display: block;
     padding: 0 0 0;
     background: linear-gradient(170deg, #eef1f8 0%, #e6eaf4 45%, #dfe4f0 100%);
@@ -329,7 +329,7 @@ a { color: inherit; text-decoration: none; }
     z-index: 0;
   }
   .hero-v2-inner {
-    padding: 120px 20px 20px;
+    padding: 100px 24px 0;
     position: relative;
     z-index: 3;
   }
@@ -366,20 +366,21 @@ a { color: inherit; text-decoration: none; }
   .hero-v2-mportrait {
     display: block;
     position: absolute;
-    top: 0;
+    bottom: 0;
     left: 0;
     right: 0;
-    height: 100%;
-    z-index: 0;
+    height: min(60vh, 520px);
+    z-index: 1;
     pointer-events: none;
   }
   .hero-v2-mportrait::before {
     content: "";
     position: absolute;
-    inset: -12% -20% 0 -20%;
-    background:
-      radial-gradient(60% 45% at 30% 30%, rgba(255, 255, 255, 0.75), transparent 70%),
-      radial-gradient(70% 55% at 80% 70%, rgba(255, 255, 255, 0.55), transparent 70%);
+    bottom: 0;
+    left: -10%;
+    right: -10%;
+    height: 110%;
+    background: radial-gradient(ellipse 80% 70% at 50% 90%, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.4) 50%, transparent 75%);
     z-index: 0;
     pointer-events: none;
   }
@@ -396,7 +397,6 @@ a { color: inherit; text-decoration: none; }
     opacity: 0;
     transition: opacity 1s ease;
     z-index: 1;
-    mix-blend-mode: multiply;
     -webkit-mask-image: radial-gradient(72% 78% at 50% 55%, #000 62%, transparent 100%);
     mask-image: radial-gradient(72% 78% at 50% 55%, #000 62%, transparent 100%);
   }

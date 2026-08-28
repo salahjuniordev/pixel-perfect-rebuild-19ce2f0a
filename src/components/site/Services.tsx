@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "@tanstack/react-router";
 import { useLanguage } from "@/lib/language";
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
@@ -28,13 +29,17 @@ export function Services({ initial }: { initial?: Tables<"services">[] }) {
         </div>
         <div className="svc-grid">
           {services.map((s) => (
-            <div key={s.id} className="svc-card-new">
+            <Link key={s.id} to="/services/$id" params={{ id: s.id }} className="svc-card-new svc-card-link">
               <div className="svc-icon-circle">
                 <i className={`fa-solid ${s.icon || "fa-cube"}`} />
               </div>
               <h3 className="svc-card-new-title">{s.title}</h3>
               <p className="svc-card-new-desc">{s.description}</p>
-            </div>
+              <span className="svc-card-cta">
+                {t("Learn More", "En savoir plus")}
+                <i className="fa-solid fa-arrow-right" />
+              </span>
+            </Link>
           ))}
         </div>
       </div>

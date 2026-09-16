@@ -1,7 +1,9 @@
-// Real software brand icons via simpleicons CDN. Colors are official brand hex (no #).
-const items: { name: string; slug: string; color: string }[] = [
+// Real software brand icons. Most load via simpleicons CDN; the four icons that
+// were removed from Simple Icons (trademark takedowns) are self-hosted SVGs so
+// they never break — see public/icons/.
+const items: { name: string; slug: string; color: string; local?: boolean }[] = [
   { name: "HTML5", slug: "html5", color: "E34F26" },
-  { name: "CSS3", slug: "css3", color: "1572B6" },
+  { name: "CSS3", slug: "css3", color: "1572B6", local: true },
   { name: "JavaScript", slug: "javascript", color: "F7DF1E" },
   { name: "TypeScript", slug: "typescript", color: "3178C6" },
   { name: "React", slug: "react", color: "61DAFB" },
@@ -13,9 +15,9 @@ const items: { name: string; slug: string; color: string }[] = [
   { name: "GitHub", slug: "github", color: "181717" },
   { name: "Git", slug: "git", color: "F05032" },
   { name: "Figma", slug: "figma", color: "F24E1E" },
-  { name: "Canva", slug: "canva", color: "00C4CC" },
-  { name: "Adobe Photoshop", slug: "adobephotoshop", color: "31A8FF" },
-  { name: "Adobe Illustrator", slug: "adobeillustrator", color: "FF9A00" },
+  { name: "Canva", slug: "canva", color: "00C4CC", local: true },
+  { name: "Adobe Photoshop", slug: "adobephotoshop", color: "31A8FF", local: true },
+  { name: "Adobe Illustrator", slug: "adobeillustrator", color: "FF9A00", local: true },
   { name: "WordPress", slug: "wordpress", color: "21759B" },
   { name: "Wix", slug: "wix", color: "0C6EFC" },
 ];
@@ -28,7 +30,11 @@ export function ToolsMarquee() {
         {doubled.map((item, i) => (
           <span key={i} className="marquee-item" title={item.name} aria-label={item.name}>
             <img
-              src={`https://cdn.simpleicons.org/${item.slug}/${item.color}`}
+              src={
+                item.local
+                  ? `/icons/${item.slug}.svg`
+                  : `https://cdn.simpleicons.org/${item.slug}/${item.color}`
+              }
               alt={item.name}
               loading="lazy"
               width={44}

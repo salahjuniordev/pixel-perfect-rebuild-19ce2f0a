@@ -277,7 +277,13 @@ export function articleSchemas(post: ArticleSeed): unknown[] {
     keywords: post.tag || undefined,
     author: { "@id": `${SITE_ORIGIN}/#person` },
     publisher: { "@id": `${SITE_ORIGIN}/#organization` },
-    mainEntityOfPage: { "@type": "WebPage", "@id": url },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": url,
+      url,
+      name: post.title,
+      inLanguage: langTag(l),
+    },
     url,
   });
   const breadcrumb = (l: Lang) => ({

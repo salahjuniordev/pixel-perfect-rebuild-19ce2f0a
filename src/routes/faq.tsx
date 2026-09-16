@@ -148,7 +148,11 @@ function FAQItem({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false);
   return (
     <div className="card-dark !p-0 overflow-hidden mb-3">
-      <button onClick={() => setOpen(!open)} className="w-full text-left p-5 flex items-center justify-between gap-4">
+      <button
+        onClick={() => setOpen(!open)}
+        aria-expanded={open}
+        className="w-full text-left p-5 flex items-center justify-between gap-4"
+      >
         <span className="text-white font-medium">{q}</span>
         <i className={`fa-solid fa-chevron-down text-[--brand] transition ${open ? "rotate-180" : ""}`} />
       </button>

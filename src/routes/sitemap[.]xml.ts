@@ -19,6 +19,14 @@ const STATIC_ENTRIES: SitemapEntry[] = [
   { path: "/license-copyright", changefreq: "yearly", priority: "0.3" },
 ];
 
+/** Blog slugs are admin-entered; some rows historically stored a full URL. */
+function normalizeSlug(slug: string): string {
+  return slug
+    .replace(/^https?:\/\/[^/]+/i, "")
+    .replace(/^\/+/, "")
+    .replace(/\/+$/, "");
+}
+
 async function blogEntries(): Promise<SitemapEntry[]> {
   try {
     const { data } = await supabase
@@ -27,10 +35,44 @@ async function blogEntries(): Promise<SitemapEntry[]> {
       .eq("published", true)
       .order("published_at", { ascending: false });
     return (data ?? []).map((p) => ({
-      path: `/blog/${p.slug}`,
+      path: `/blog/${normalizeSlug(p.slug)}`,
       lastmod: p.updated_at ? new Date(p.updated_at).toISOString() : undefined,
       changefreq: "monthly" as const,
       priority: "0.8",
+    }));
+  } catch {
+    return [];
+  }
+}
+
+async function projectEntries(): Promise<SitemapEntry[]> {
+  try {
+    const { data } = await supabase
+      .from("projects")
+      .select("slug,updated_at")
+      .not("slug", "is", null)
+      .eq("published", true);
+    return (data ?? []).map((p) => ({
+      path: `/projects/${normalizeSlug(p.slug as string)}`,
+      changefreq: "monthly" as const,
+      priority: "0.8",
+    }));
+  } catch {
+    return [];
+  }
+}
+
+async function serviceEntries(): Promise<SitemapEntry[]> {
+  try {
+    // Service URLs use the row id (the site links to /services/$id), not the slug column.
+    const { data } = await supabase
+      .from("services")
+      .select("id")
+      .eq("published", true);
+    return (data ?? []).map((s) => ({
+      path: `/services/${s.id}`,
+      changefreq: "monthly" as const,
+      priority: "0.9",
     }));
   } catch {
     return [];
@@ -44,7 +86,12 @@ export const Route = createFileRoute("/sitemap.xml")({
   server: {
     handlers: {
       GET: async () => {
-        const entries = [...STATIC_ENTRIES, ...(await blogEntries())];
+        const entries = [
+          ...STATIC_ENTRIES,
+          ...(await blogEntries()),
+          ...(await projectEntries()),
+          ...(await serviceEntries()),
+        ];
 
         const urls = entries.map((e) => {
           const loc = `${BASE_URL}${e.path}`;

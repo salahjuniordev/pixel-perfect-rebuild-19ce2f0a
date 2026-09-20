@@ -11,6 +11,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import notFoundCss from "../notfound.css?url";
+import galleryCss from "../gallery.css?url";
 import { supabase } from "@/integrations/supabase/client";
 
 /** Reads the admin-uploaded OG image from site_settings (SSR-safe, non-fatal). */
@@ -160,6 +161,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     links: [
       { rel: "stylesheet", href: appCss },
       { rel: "stylesheet", href: notFoundCss },
+      { rel: "stylesheet", href: galleryCss },
       { rel: "manifest", href: "/manifest.webmanifest" },
       { rel: "icon", href: "/favicon.png", type: "image/png" },
       { rel: "icon", href: "/pwa-192.png", type: "image/png", sizes: "192x192" },

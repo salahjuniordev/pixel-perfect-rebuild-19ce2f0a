@@ -16,6 +16,7 @@ import { Newsletter } from "@/components/site/Newsletter";
 import { QuoteWizard } from "@/components/site/QuoteWizard";
 import { Ebooks } from "@/components/site/Ebooks";
 import { Pricing } from "@/components/site/Pricing";
+import { GalleryStrip } from "@/components/site/GalleryStrip";
 import { Contact } from "@/components/site/Contact";
 import { Footer } from "@/components/site/Footer";
 import { BackToTop } from "@/components/site/BackToTop";
@@ -80,6 +81,7 @@ function IndexInner() {
         <Process />
         <Numbers />
         <Portfolio initial={data?.projects} />
+        <GalleryStrip />
         <Testimonials initial={data?.testimonials} />
         <Blog initial={data?.posts} />
         <Ebooks />

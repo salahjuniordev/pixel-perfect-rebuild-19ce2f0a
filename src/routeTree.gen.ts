@@ -28,6 +28,7 @@ import { Route as AdminServicesRouteImport } from './routes/admin/services'
 import { Route as AdminProjectsRouteImport } from './routes/admin/projects'
 import { Route as AdminPricingRouteImport } from './routes/admin/pricing'
 import { Route as AdminHeroImagesRouteImport } from './routes/admin/hero-images'
+import { Route as AdminGalleryRouteImport } from './routes/admin/gallery'
 import { Route as AdminEbooksRouteImport } from './routes/admin/ebooks'
 import { Route as AdminBlogRouteImport } from './routes/admin/blog'
 import { Route as AdminActivityRouteImport } from './routes/admin/activity'
@@ -127,6 +128,11 @@ const AdminHeroImagesRoute = AdminHeroImagesRouteImport.update({
   path: '/hero-images',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminGalleryRoute = AdminGalleryRouteImport.update({
+  id: '/gallery',
+  path: '/gallery',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminEbooksRoute = AdminEbooksRouteImport.update({
   id: '/ebooks',
   path: '/ebooks',
@@ -155,6 +161,7 @@ export interface FileRoutesByFullPath {
   '/admin/activity': typeof AdminActivityRoute
   '/admin/blog': typeof AdminBlogRoute
   '/admin/ebooks': typeof AdminEbooksRoute
+  '/admin/gallery': typeof AdminGalleryRoute
   '/admin/hero-images': typeof AdminHeroImagesRoute
   '/admin/pricing': typeof AdminPricingRoute
   '/admin/projects': typeof AdminProjectsRoute
@@ -178,6 +185,7 @@ export interface FileRoutesByTo {
   '/admin/activity': typeof AdminActivityRoute
   '/admin/blog': typeof AdminBlogRoute
   '/admin/ebooks': typeof AdminEbooksRoute
+  '/admin/gallery': typeof AdminGalleryRoute
   '/admin/hero-images': typeof AdminHeroImagesRoute
   '/admin/pricing': typeof AdminPricingRoute
   '/admin/projects': typeof AdminProjectsRoute
@@ -203,6 +211,7 @@ export interface FileRoutesById {
   '/admin/activity': typeof AdminActivityRoute
   '/admin/blog': typeof AdminBlogRoute
   '/admin/ebooks': typeof AdminEbooksRoute
+  '/admin/gallery': typeof AdminGalleryRoute
   '/admin/hero-images': typeof AdminHeroImagesRoute
   '/admin/pricing': typeof AdminPricingRoute
   '/admin/projects': typeof AdminProjectsRoute
@@ -229,6 +238,7 @@ export interface FileRouteTypes {
     | '/admin/activity'
     | '/admin/blog'
     | '/admin/ebooks'
+    | '/admin/gallery'
     | '/admin/hero-images'
     | '/admin/pricing'
     | '/admin/projects'
@@ -252,6 +262,7 @@ export interface FileRouteTypes {
     | '/admin/activity'
     | '/admin/blog'
     | '/admin/ebooks'
+    | '/admin/gallery'
     | '/admin/hero-images'
     | '/admin/pricing'
     | '/admin/projects'
@@ -276,6 +287,7 @@ export interface FileRouteTypes {
     | '/admin/activity'
     | '/admin/blog'
     | '/admin/ebooks'
+    | '/admin/gallery'
     | '/admin/hero-images'
     | '/admin/pricing'
     | '/admin/projects'
@@ -438,6 +450,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminHeroImagesRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/gallery': {
+      id: '/admin/gallery'
+      path: '/gallery'
+      fullPath: '/admin/gallery'
+      preLoaderRoute: typeof AdminGalleryRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/ebooks': {
       id: '/admin/ebooks'
       path: '/ebooks'
@@ -466,6 +485,7 @@ interface AdminRouteChildren {
   AdminActivityRoute: typeof AdminActivityRoute
   AdminBlogRoute: typeof AdminBlogRoute
   AdminEbooksRoute: typeof AdminEbooksRoute
+  AdminGalleryRoute: typeof AdminGalleryRoute
   AdminHeroImagesRoute: typeof AdminHeroImagesRoute
   AdminPricingRoute: typeof AdminPricingRoute
   AdminProjectsRoute: typeof AdminProjectsRoute
@@ -480,6 +500,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminActivityRoute: AdminActivityRoute,
   AdminBlogRoute: AdminBlogRoute,
   AdminEbooksRoute: AdminEbooksRoute,
+  AdminGalleryRoute: AdminGalleryRoute,
   AdminHeroImagesRoute: AdminHeroImagesRoute,
   AdminPricingRoute: AdminPricingRoute,
   AdminProjectsRoute: AdminProjectsRoute,

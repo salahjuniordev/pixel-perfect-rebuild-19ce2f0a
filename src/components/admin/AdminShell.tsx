@@ -9,6 +9,7 @@ const nav = [
   { to: "/admin/subscribers", label: "Subscribers", icon: "fa-envelope-open-text" },
   { to: "/admin/blog", label: "Blog Posts", icon: "fa-newspaper" },
   { to: "/admin/projects", label: "Projects", icon: "fa-briefcase" },
+  { to: "/admin/gallery", label: "Gallery", icon: "fa-images" },
   { to: "/admin/services", label: "Services", icon: "fa-screwdriver-wrench" },
   { to: "/admin/testimonials", label: "Testimonials", icon: "fa-comment-dots" },
   { to: "/admin/pricing", label: "Pricing", icon: "fa-tags" },

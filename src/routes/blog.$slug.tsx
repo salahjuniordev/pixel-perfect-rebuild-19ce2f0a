@@ -5,6 +5,7 @@ import { Footer } from "@/components/site/Footer";
 import { BackToTop } from "@/components/site/BackToTop";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { sanitizeRichText } from "@/lib/sanitize";
 import type { Tables } from "@/integrations/supabase/types";
 import { useSeo } from "@/lib/use-seo";
 import { optimizedImage } from "@/lib/img";
@@ -160,7 +161,7 @@ function BlogPostPage() {
               className="w-full rounded-2xl mb-10"
             />
           )}
-          <div className="prose-blog" dangerouslySetInnerHTML={{ __html: post.body }} />
+          <div className="prose-blog" dangerouslySetInnerHTML={{ __html: sanitizeRichText(post.body) }} />
         </div>
       </article>
       <Footer />

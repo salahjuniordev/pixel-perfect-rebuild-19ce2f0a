@@ -336,8 +336,16 @@ export function asJsonLdScript(data: unknown) {
 /* -------------------------------------------------------------------- */
 
 export const DEFAULT_OG_IMAGE = `${SITE_ORIGIN}/img/og-preview.png`;
-export const OG_IMAGE_WIDTH = 851;
-export const OG_IMAGE_HEIGHT = 315;
+/**
+ * The effective OG image: the admin-uploaded one (site_settings.og_image_url)
+ * when present, else the bundled default. Accepts absolute or root-relative URLs.
+ */
+export function ogImage(url?: string | null): string {
+  if (!url) return DEFAULT_OG_IMAGE;
+  return url.startsWith("http") ? url : `${SITE_ORIGIN}${url}`;
+}
+export const OG_IMAGE_WIDTH = 1200;
+export const OG_IMAGE_HEIGHT = 630;
 export const OG_IMAGE_TYPE = "image/png";
 
 /** Absolute URL for a site path ("/faq" -> "https://host/faq"). */

@@ -11,9 +11,11 @@ import type { Tables } from "@/integrations/supabase/types";
 export const Route = createFileRoute("/admin/settings")({ component: SettingsAdmin });
 
 type Settings = Tables<"site_settings">;
+// og_image_url is new; the generated DB types may lag behind the migration.
+type SettingsForm = Partial<Settings> & { og_image_url?: string | null };
 
 function SettingsAdmin() {
-  const [s, setS] = useState<Partial<Settings> | null>(null);
+  const [s, setS] = useState<SettingsForm | null>(null);
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
@@ -33,7 +35,7 @@ function SettingsAdmin() {
     );
   }
 
-  const set = <K extends keyof Settings>(k: K, v: any) => setS({ ...s, [k]: v });
+  const set = <K extends keyof SettingsForm>(k: K, v: any) => setS({ ...s, [k]: v });
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -88,6 +90,17 @@ function SettingsAdmin() {
               onChange={(url) => set("favicon_url", url)}
               accept="image/*"
               label="Upload favicon"
+            />
+          </Field>
+          <Field
+            label="Social share image (Open Graph)"
+            hint="Shown when your links are shared on WhatsApp, LinkedIn, X… Recommended: 1200×630 px, PNG or JPG. Leave empty to use the default."
+          >
+            <MediaUpload
+              value={s.og_image_url}
+              onChange={(url) => set("og_image_url", url)}
+              accept="image/*"
+              label="Upload share image"
             />
           </Field>
           <Field label="Resume / CV (PDF)">

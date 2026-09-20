@@ -8,6 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useSeo } from "@/lib/use-seo";
 import { optimizedImage } from "@/lib/img";
 import { SITE_ORIGIN } from "@/lib/seo-schemas";
+import { sanitizeRichText } from "@/lib/sanitize";
 
 type Project = {
   id: string;
@@ -19,13 +20,17 @@ type Project = {
   slug: string | null;
   case_study: string | null;
   published: boolean;
+  gallery: { url: string; alt?: string }[] | null;
+  client: string | null;
+  year: string | null;
+  tags: string[] | null;
 };
 
 async function loadProject(slug: string): Promise<Project | null> {
   try {
     const { data } = await supabase
       .from("projects")
-      .select("id,title,description,category,image_url,link_url,slug,case_study,published")
+      .select("id,title,description,category,image_url,link_url,slug,case_study,published,gallery,client,year,tags")
       .eq("slug", slug)
       .eq("published", true)
       .maybeSingle();
@@ -66,6 +71,9 @@ function ProjectDetailPage() {
   }
 
   const cover = project.image_url ? optimizedImage(project.image_url, 1200) : null;
+  const gallery = (project.gallery ?? []).filter(
+    (g): g is { url: string; alt?: string } => !!g && typeof g === "object" && typeof g.url === "string",
+  );
   const siteOrigin = typeof window !== "undefined" ? window.location.origin : SITE_ORIGIN;
 
   // Article JSON-LD for rich results
@@ -97,6 +105,13 @@ function ProjectDetailPage() {
               {project.category && <span className="proj-card-pill">{project.category}</span>}
               <h1 className="svc-detail-title">{project.title}</h1>
               {project.description && <p className="svc-detail-desc">{project.description}</p>}
+              {(project.client || project.year) && (
+                <p className="svc-detail-sub text-slate-400 text-sm mt-2">
+                  {project.client && <span><i className="fa-solid fa-user mr-1" />{project.client}</span>}
+                  {project.client && project.year && <span className="mx-2">·</span>}
+                  {project.year && <span><i className="fa-regular fa-calendar mr-1" />{project.year}</span>}
+                </p>
+              )}
               {project.link_url && (
                 <div className="svc-detail-actions">
                   <a href={project.link_url} target="_blank" rel="noreferrer" className="svc-detail-btn svc-detail-btn-primary">
@@ -120,13 +135,46 @@ function ProjectDetailPage() {
           </section>
         )}
 
+        {/* Gallery — for visual work (design/branding) uploaded from the dashboard */}
+        {gallery.length > 0 && (
+          <section className="svc-detail-section">
+            <div className="container-sj">
+              <h2 className="svc-detail-section-title">{t("The Work", "Le Travail")}</h2>
+              <div className="proj-gallery">
+                {gallery.map((item, i) => (
+                  <figure key={i} className="proj-gallery-item">
+                    <img
+                      src={optimizedImage(item.url, 1200)}
+                      alt={item.alt || project.title}
+                      width={1200}
+                      height={800}
+                      loading={i < 2 ? "eager" : "lazy"}
+                      decoding="async"
+                    />
+                    {item.alt && <figcaption className="proj-gallery-caption">{item.alt}</figcaption>}
+                  </figure>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* Tags */}
+        {!!project.tags?.length && (
+          <div className="container-sj proj-card-tags" style={{ justifyContent: "center", marginTop: "-1.5rem", marginBottom: "2.5rem" }}>
+            {project.tags.map((tag) => (
+              <span key={tag} className="proj-card-tag">{tag}</span>
+            ))}
+          </div>
+        )}
+
         {/* Case study body */}
         <section className="svc-detail-section">
           <div className="container-sj">
             {project.case_study ? (
               <div
                 className="prose-case-study"
-                dangerouslySetInnerHTML={{ __html: project.case_study }}
+                dangerouslySetInnerHTML={{ __html: sanitizeRichText(project.case_study) }}
               />
             ) : (
               <p className="svc-detail-desc">

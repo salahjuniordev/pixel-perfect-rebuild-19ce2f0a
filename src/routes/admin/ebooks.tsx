@@ -4,6 +4,7 @@ import { AdminShell } from "@/components/admin/AdminShell";
 import { CrudTable } from "@/components/admin/CrudTable";
 import { FormModal, Field, inputCls } from "@/components/admin/FormModal";
 import { MediaUpload } from "@/components/admin/MediaUpload";
+import { SuggestButton } from "@/components/admin/SuggestButton";
 import { useCrud } from "@/lib/use-crud";
 
 type EbookRow = {
@@ -122,12 +123,22 @@ function EbooksAdmin() {
               />
             </Field>
             <Field label="Description">
-              <textarea
-                rows={3}
-                className={inputCls}
-                value={editing.description ?? ""}
-                onChange={(e) => setEditing({ ...editing, description: e.target.value })}
-              />
+              <div className="space-y-1.5">
+                <textarea
+                  rows={3}
+                  className={inputCls}
+                  value={editing.description ?? ""}
+                  onChange={(e) => setEditing({ ...editing, description: e.target.value })}
+                />
+                <div className="flex items-center gap-2 text-xs text-slate-400">
+                  <SuggestButton
+                    kind="ebook_description"
+                    context={`Ebook title: ${editing.title ?? ""}.`}
+                    onResult={(r) => r.text && setEditing((prev) => (prev ? { ...prev, description: r.text! } : prev))}
+                    label="AI draft"
+                  />
+                </div>
+              </div>
             </Field>
             <div className="grid sm:grid-cols-2 gap-4">
               <Field label="Price" hint="e.g. 9.99">

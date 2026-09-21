@@ -5,6 +5,7 @@ import { CrudTable } from "@/components/admin/CrudTable";
 import { FormModal, Field, inputCls } from "@/components/admin/FormModal";
 import { RichEditor } from "@/components/admin/RichEditor";
 import { MediaUpload } from "@/components/admin/MediaUpload";
+import { SuggestButton } from "@/components/admin/SuggestButton";
 import { useCrud } from "@/lib/use-crud";
 import type { Tables } from "@/integrations/supabase/types";
 
@@ -85,10 +86,31 @@ function BlogAdmin() {
               <MediaUpload value={editing.cover_image_url} onChange={(url) => setEditing({ ...editing, cover_image_url: url })} />
             </Field>
             <Field label="Excerpt">
-              <textarea className={inputCls} rows={2} value={editing.excerpt ?? ""} onChange={(e) => setEditing({ ...editing, excerpt: e.target.value })} />
+              <div className="space-y-1.5">
+                <textarea className={inputCls} rows={2} value={editing.excerpt ?? ""} onChange={(e) => setEditing({ ...editing, excerpt: e.target.value })} />
+                <div className="flex items-center gap-2 text-xs text-slate-400">
+                  <SuggestButton
+                    kind="excerpt"
+                    context={`Post title: ${editing.title ?? ""}${editing.tag ? `. Tag: ${editing.tag}` : ""}.`}
+                    onResult={(r) => r.text && setEditing((prev) => (prev ? { ...prev, excerpt: r.text! } : prev))}
+                    label="AI draft"
+                  />
+                </div>
+              </div>
             </Field>
             <Field label="Body">
-              <RichEditor value={editing.body ?? ""} onChange={(v) => setEditing({ ...editing, body: v })} />
+              <div className="space-y-1.5">
+                <div className="flex items-center gap-2 text-xs text-slate-400">
+                  <SuggestButton
+                    kind="blog_body"
+                    context={`Post title: ${editing.title ?? ""}${editing.tag ? `. Tag: ${editing.tag}` : ""}. Excerpt: ${editing.excerpt || "n/a"}.`}
+                    onResult={(r) => r.text && setEditing((prev) => (prev ? { ...prev, body: r.text! } : prev))}
+                    label="AI draft full post"
+                  />
+                  <span>replaces the editor content — copy anything you want to keep first</span>
+                </div>
+                <RichEditor value={editing.body ?? ""} onChange={(v) => setEditing({ ...editing, body: v })} />
+              </div>
             </Field>
             <label className="inline-flex items-center gap-2 text-sm text-slate-300">
               <input type="checkbox" checked={!!editing.published} onChange={(e) => setEditing({ ...editing, published: e.target.checked })} className="accent-[var(--brand)]" />

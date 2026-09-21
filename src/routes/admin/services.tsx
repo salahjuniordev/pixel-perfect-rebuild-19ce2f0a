@@ -3,6 +3,7 @@ import { useState } from "react";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { CrudTable } from "@/components/admin/CrudTable";
 import { FormModal, Field, inputCls } from "@/components/admin/FormModal";
+import { SuggestButton } from "@/components/admin/SuggestButton";
 import { useCrud } from "@/lib/use-crud";
 import type { Tables } from "@/integrations/supabase/types";
 
@@ -60,7 +61,19 @@ function ServicesAdmin() {
               <Field label="Title"><input required className={inputCls} value={editing.title ?? ""} onChange={(e) => setEditing({ ...editing, title: e.target.value })} /></Field>
               <Field label="Font Awesome icon" hint="e.g. fa-code, fa-palette"><input className={inputCls} value={editing.icon ?? ""} onChange={(e) => setEditing({ ...editing, icon: e.target.value })} /></Field>
             </div>
-            <Field label="Description"><textarea rows={4} className={inputCls} value={editing.description ?? ""} onChange={(e) => setEditing({ ...editing, description: e.target.value })} /></Field>
+            <Field label="Description">
+              <div className="space-y-1.5">
+                <textarea rows={4} className={inputCls} value={editing.description ?? ""} onChange={(e) => setEditing({ ...editing, description: e.target.value })} />
+                <div className="flex items-center gap-2 text-xs text-slate-400">
+                  <SuggestButton
+                    kind="service_description"
+                    context={`Service: ${editing.title ?? ""}.`}
+                    onResult={(r) => r.text && setEditing((prev) => (prev ? { ...prev, description: r.text! } : prev))}
+                    label="AI draft"
+                  />
+                </div>
+              </div>
+            </Field>
             <Field label="Image URL (optional)"><input className={inputCls} value={editing.image_url ?? ""} onChange={(e) => setEditing({ ...editing, image_url: e.target.value })} /></Field>
             <div className="grid sm:grid-cols-2 gap-4 items-end">
               <Field label="Order"><input type="number" className={inputCls} value={editing.order_index ?? 0} onChange={(e) => setEditing({ ...editing, order_index: Number(e.target.value) })} /></Field>

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { CrudTable } from "@/components/admin/CrudTable";
 import { FormModal, Field, inputCls } from "@/components/admin/FormModal";
+import { SuggestButton } from "@/components/admin/SuggestButton";
 import { useCrud } from "@/lib/use-crud";
 import type { Tables } from "@/integrations/supabase/types";
 
@@ -77,7 +78,17 @@ function PricingAdmin() {
               <Field label="Period"><input className={inputCls} value={editing.period ?? ""} onChange={(e) => setEditing({ ...editing, period: e.target.value })} /></Field>
             </div>
             <Field label="Features" hint="One per line">
-              <textarea rows={6} className={inputCls} value={featuresText} onChange={(e) => setFeaturesText(e.target.value)} />
+              <div className="space-y-1.5">
+                <textarea rows={6} className={inputCls} value={featuresText} onChange={(e) => setFeaturesText(e.target.value)} />
+                <div className="flex items-center gap-2 text-xs text-slate-400">
+                  <SuggestButton
+                    kind="pricing_features"
+                    context={`Plan: ${editing.name ?? ""}. Description: ${editing.description || "n/a"}. Price: ${editing.price || "n/a"} ${editing.period || ""}.`}
+                    onResult={(r) => r.text && setFeaturesText(r.text)}
+                    label="AI suggest"
+                  />
+                </div>
+              </div>
             </Field>
             <div className="grid sm:grid-cols-3 gap-4 items-end">
               <Field label="Order"><input type="number" className={inputCls} value={editing.order_index ?? 0} onChange={(e) => setEditing({ ...editing, order_index: Number(e.target.value) })} /></Field>

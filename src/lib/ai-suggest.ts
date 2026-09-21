@@ -84,11 +84,21 @@ const TEXT_PROMPTS: Record<string, (ctx: string) => string> = {
   description: (ctx) =>
     `Write a 1-2 sentence project description for a portfolio card. Confident, concrete, no buzzwords, no emoji. Reply STRICT JSON: {"text":"..."}\nContext: ${ctx}`,
   case_study: (ctx) =>
-    `Write a short case-study intro paragraph (3-4 sentences, first person "I") for this portfolio project. Reply STRICT JSON: {"text":"..."}\nContext: ${ctx}`,
+    `Write a short case study as simple HTML for a portfolio project: exactly three sections — <h2>The Problem</h2><p>…</p><h2>The Approach</h2><p>…</p><h2>The Result</h2><p>…</p> — 2-3 sentences per section, first person "I", no other tags, no markdown fences. Reply STRICT JSON: {"text":"<the html>"}\nContext: ${ctx}`,
   tags: (ctx) =>
     `Suggest 5-8 short tech/skill tags (lowercase, comma-separated, no #). Reply STRICT JSON: {"text":"tag1, tag2, ..."}\nContext: ${ctx}`,
   excerpt: (ctx) =>
     `Write a 1-2 sentence blog excerpt that makes people want to read. Reply STRICT JSON: {"text":"..."}\nContext: ${ctx}`,
+  blog_body: (ctx) =>
+    `Write a short blog post as simple HTML: one <h2> per section (3-4 sections), <p> paragraphs, maybe one <ul>. 300-450 words, engaging but factual, no markdown fences. Reply STRICT JSON: {"text":"<the html>"}\nContext: ${ctx}`,
+  service_description: (ctx) =>
+    `Write a 2-3 sentence service description for a freelance designer/developer's service card. Clear about what the client gets. No buzzwords, no emoji. Reply STRICT JSON: {"text":"..."}\nContext: ${ctx}`,
+  ebook_description: (ctx) =>
+    `Write a 2-3 sentence description selling an ebook (what the reader learns, who it's for). Persuasive but honest. Reply STRICT JSON: {"text":"..."}\nContext: ${ctx}`,
+  testimonial_polish: (ctx) =>
+    `Fix grammar and light-polish this customer quote. Keep the speaker's voice and meaning — do not invent claims, do not change names. Reply STRICT JSON: {"text":"..."}\nQuote: ${ctx}`,
+  pricing_features: (ctx) =>
+    `Suggest 5-6 short feature bullets (one per line, no dashes, max 6 words each) for this pricing plan. Reply STRICT JSON: {"text":"line1\\nline2\\n..."}\nContext: ${ctx}`,
 };
 
 export const aiSuggestImage = createServerFn({ method: "POST" })

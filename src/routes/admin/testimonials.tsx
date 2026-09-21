@@ -3,6 +3,7 @@ import { useState } from "react";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { CrudTable } from "@/components/admin/CrudTable";
 import { FormModal, Field, inputCls } from "@/components/admin/FormModal";
+import { SuggestButton } from "@/components/admin/SuggestButton";
 import { useCrud } from "@/lib/use-crud";
 import type { Tables } from "@/integrations/supabase/types";
 
@@ -65,7 +66,20 @@ function TestimonialsAdmin() {
               <Field label="Role"><input className={inputCls} value={editing.role ?? ""} onChange={(e) => setEditing({ ...editing, role: e.target.value })} /></Field>
               <Field label="Company"><input className={inputCls} value={editing.company ?? ""} onChange={(e) => setEditing({ ...editing, company: e.target.value })} /></Field>
             </div>
-            <Field label="Quote"><textarea rows={4} className={inputCls} value={editing.content ?? ""} onChange={(e) => setEditing({ ...editing, content: e.target.value })} /></Field>
+            <Field label="Quote">
+              <div className="space-y-1.5">
+                <textarea rows={4} className={inputCls} value={editing.content ?? ""} onChange={(e) => setEditing({ ...editing, content: e.target.value })} />
+                <div className="flex items-center gap-2 text-xs text-slate-400">
+                  <SuggestButton
+                    kind="testimonial_polish"
+                    context={editing.content ?? ""}
+                    onResult={(r) => r.text && setEditing((prev) => (prev ? { ...prev, content: r.text! } : prev))}
+                    label="AI polish"
+                  />
+                  <span>fixes grammar, keeps the person's voice — paste their raw words first</span>
+                </div>
+              </div>
+            </Field>
             <div className="grid sm:grid-cols-3 gap-4 items-end">
               <Field label="Rating (1-5)"><input type="number" step="0.5" min={1} max={5} className={inputCls} value={editing.rating ?? 5} onChange={(e) => setEditing({ ...editing, rating: Number(e.target.value) })} /></Field>
               <Field label="Order"><input type="number" className={inputCls} value={editing.order_index ?? 0} onChange={(e) => setEditing({ ...editing, order_index: Number(e.target.value) })} /></Field>

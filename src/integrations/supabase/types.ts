@@ -134,6 +134,42 @@ export type Database = {
         }
         Relationships: []
       }
+      gallery_items: {
+        Row: {
+          alt: string | null
+          caption: string | null
+          created_at: string
+          id: string
+          link_url: string | null
+          order_index: number
+          published: boolean
+          size: string
+          url: string
+        }
+        Insert: {
+          alt?: string | null
+          caption?: string | null
+          created_at?: string
+          id?: string
+          link_url?: string | null
+          order_index?: number
+          published?: boolean
+          size?: string
+          url: string
+        }
+        Update: {
+          alt?: string | null
+          caption?: string | null
+          created_at?: string
+          id?: string
+          link_url?: string | null
+          order_index?: number
+          published?: boolean
+          size?: string
+          url?: string
+        }
+        Relationships: []
+      }
       hero_images: {
         Row: {
           active: boolean

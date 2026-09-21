@@ -370,6 +370,7 @@ export type Database = {
           intro_video_url: string | null
           location: string | null
           logo_url: string | null
+          og_image_url: string | null
           resume_url: string | null
           social_facebook: string | null
           social_github: string | null
@@ -397,6 +398,7 @@ export type Database = {
           intro_video_url?: string | null
           location?: string | null
           logo_url?: string | null
+          og_image_url?: string | null
           resume_url?: string | null
           social_facebook?: string | null
           social_github?: string | null
@@ -424,6 +426,7 @@ export type Database = {
           intro_video_url?: string | null
           location?: string | null
           logo_url?: string | null
+          og_image_url?: string | null
           resume_url?: string | null
           social_facebook?: string | null
           social_github?: string | null

@@ -26,8 +26,13 @@ async function assertAdmin(): Promise<void> {
   const token = auth.startsWith("Bearer ") ? auth.slice(7) : "";
   if (!token) throw new Error("Unauthorized");
 
-  const url = import.meta.env.VITE_SUPABASE_URL;
-  const anon = import.meta.env.VITE_SUPABASE_ANON_KEY;
+  // Match the app's Supabase client resolution: VITE_* in the browser bundle,
+  // plain SUPABASE_URL / SUPABASE_PUBLISHABLE_KEY on the server (Vercel env).
+  const url =
+    (import.meta.env.VITE_SUPABASE_URL as string | undefined) || process.env.SUPABASE_URL;
+  const anon =
+    (import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY as string | undefined) ||
+    process.env.SUPABASE_PUBLISHABLE_KEY;
   if (!url || !anon) throw new Error("Supabase not configured");
 
   const db = createClient(url, anon, {

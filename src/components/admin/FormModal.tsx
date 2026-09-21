@@ -1,4 +1,4 @@
-import { type ReactNode } from "react";
+import { useRef, type ReactNode } from "react";
 
 export function FormModal({
   open, onClose, title, children, onSubmit, busy,
@@ -10,9 +10,21 @@ export function FormModal({
   onSubmit: (e: React.FormEvent) => void;
   busy?: boolean;
 }) {
+  // Only close on a "real" backdrop click: both press AND release must happen
+  // on the backdrop itself. This stops drag-selecting text in an input (mouse
+  // down inside, released outside) from dismissing the form.
+  const backdropPressed = useRef(false);
+
   if (!open) return null;
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm" onClick={onClose}>
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
+      onMouseDown={(e) => { backdropPressed.current = e.target === e.currentTarget; }}
+      onMouseUp={(e) => {
+        if (backdropPressed.current && e.target === e.currentTarget) onClose();
+        backdropPressed.current = false;
+      }}
+    >
       <form
         onSubmit={onSubmit}
         onClick={(e) => e.stopPropagation()}

@@ -224,48 +224,96 @@ export type Database = {
         }
         Relationships: []
       }
+      project_categories: {
+        Row: {
+          created_at: string
+          has_link: boolean
+          id: string
+          name: string
+          order_index: number
+          published: boolean
+          slug: string
+        }
+        Insert: {
+          created_at?: string
+          has_link?: boolean
+          id?: string
+          name: string
+          order_index?: number
+          published?: boolean
+          slug: string
+        }
+        Update: {
+          created_at?: string
+          has_link?: boolean
+          id?: string
+          name?: string
+          order_index?: number
+          published?: boolean
+          slug?: string
+        }
+        Relationships: []
+      }
       projects: {
         Row: {
           case_study: string | null
           category: string
+          client: string | null
+          cover_alt: string | null
           created_at: string
           description: string
+          featured: boolean
+          gallery: Json
           id: string
           image_url: string | null
           link_url: string | null
           order_index: number
           published: boolean
           slug: string | null
+          tags: string[]
           title: string
           updated_at: string
+          year: string | null
         }
         Insert: {
           case_study?: string | null
           category?: string
+          client?: string | null
+          cover_alt?: string | null
           created_at?: string
           description?: string
+          featured?: boolean
+          gallery?: Json
           id?: string
           image_url?: string | null
           link_url?: string | null
           order_index?: number
           published?: boolean
           slug?: string | null
+          tags?: string[]
           title: string
           updated_at?: string
+          year?: string | null
         }
         Update: {
           case_study?: string | null
           category?: string
+          client?: string | null
+          cover_alt?: string | null
           created_at?: string
           description?: string
+          featured?: boolean
+          gallery?: Json
           id?: string
           image_url?: string | null
           link_url?: string | null
           order_index?: number
           published?: boolean
           slug?: string | null
+          tags?: string[]
           title?: string
           updated_at?: string
+          year?: string | null
         }
         Relationships: []
       }

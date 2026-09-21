@@ -5,14 +5,8 @@ import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
 import { optimizedImage } from "@/lib/img";
 
-type Project = Tables<"projects"> & {
-  case_study?: string | null;
+type Project = Omit<Tables<"projects">, "gallery"> & {
   gallery?: { url: string; alt?: string }[] | null;
-  featured?: boolean | null;
-  client?: string | null;
-  year?: string | null;
-  tags?: string[] | null;
-  cover_alt?: string | null;
 };
 
 // Local type — the generated supabase types may lag behind the project_categories migration.
@@ -36,9 +30,13 @@ function toGallery(value: unknown): GalleryItem[] {
 
 const TAB_ALL = "__all";
 
+function normalizeProject(p: Tables<"projects">): Project {
+  return { ...p, gallery: toGallery(p.gallery) };
+}
+
 export function Portfolio({ initial }: { initial?: Tables<"projects">[] }) {
   const { t } = useLanguage();
-  const [projects, setProjects] = useState<Project[]>(initial ?? []);
+  const [projects, setProjects] = useState<Project[]>(initial?.map(normalizeProject) ?? []);
   const [categories, setCategories] = useState<Category[]>([]);
   const [activeTab, setActiveTab] = useState<string>(TAB_ALL);
 
@@ -49,7 +47,7 @@ export function Portfolio({ initial }: { initial?: Tables<"projects">[] }) {
       .select("*")
       .eq("published", true)
       .order("order_index", { ascending: true })
-      .then(({ data }) => setProjects((data as unknown as Project[]) ?? []));
+      .then(({ data }) => setProjects((data ?? []).map(normalizeProject)));
   }, [initial]);
 
   useEffect(() => {

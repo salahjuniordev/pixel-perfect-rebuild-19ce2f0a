@@ -4,6 +4,7 @@ import { AdminShell } from "@/components/admin/AdminShell";
 import { CrudTable } from "@/components/admin/CrudTable";
 import { FormModal, Field, inputCls } from "@/components/admin/FormModal";
 import { MediaUpload } from "@/components/admin/MediaUpload";
+import { SuggestButton } from "@/components/admin/SuggestButton";
 import { useCrud } from "@/lib/use-crud";
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
@@ -142,7 +143,18 @@ function ProjectsAdmin() {
               </Field>
             </div>
             <Field label="Description" hint="Shown on featured cards and in search results">
-              <textarea rows={3} className={inputCls} value={editing.description ?? ""} onChange={(e) => setEditing({ ...editing, description: e.target.value })} />
+              <div className="space-y-1.5">
+                <textarea rows={3} className={inputCls} value={editing.description ?? ""} onChange={(e) => setEditing({ ...editing, description: e.target.value })} />
+                <div className="flex items-center gap-2 text-xs text-slate-400">
+                  <SuggestButton
+                    kind="description"
+                    context={`Project: ${editing.title ?? ""}${editing.category ? ` (${editing.category})` : ""}. Client: ${editing.client || "not specified"}.`}
+                    onResult={(r) => r.text && setEditing((prev) => (prev ? { ...prev, description: r.text! } : prev))}
+                    label="AI draft"
+                  />
+                  <span>uses the title, category & client above</span>
+                </div>
+              </div>
             </Field>
 
             <div className="grid sm:grid-cols-2 gap-4">
@@ -180,21 +192,47 @@ function ProjectsAdmin() {
             )}
 
             <Field label="Tags" hint="Comma-separated, e.g. React, Supabase, Figma — shown as chips on featured cards">
-              <input
-                className={inputCls}
-                value={(editing.tags ?? []).join(", ")}
-                onChange={(e) => setEditing({ ...editing, tags: e.target.value.split(",").map((s) => s.trim()).filter(Boolean) })}
-              />
+              <div className="space-y-1.5">
+                <input
+                  className={inputCls}
+                  value={(editing.tags ?? []).join(", ")}
+                  onChange={(e) => setEditing({ ...editing, tags: e.target.value.split(",").map((s) => s.trim()).filter(Boolean) })}
+                />
+                <div className="flex items-center gap-2 text-xs text-slate-400">
+                  <SuggestButton
+                    kind="tags"
+                    context={`Project: ${editing.title ?? ""}${editing.category ? ` (${editing.category})` : ""}. Description: ${editing.description || "n/a"}.`}
+                    onResult={(r) =>
+                      r.text &&
+                      setEditing((prev) =>
+                        prev ? { ...prev, tags: r.text!.split(",").map((s) => s.trim()).filter(Boolean) } : prev,
+                      )
+                    }
+                    label="AI suggest"
+                  />
+                </div>
+              </div>
             </Field>
 
             <Field label="Case Study (HTML — creates a detail page at /projects/slug)">
-              <textarea
-                rows={6}
-                className={inputCls}
-                placeholder={"<h2>The Problem</h2>\n<p>…</p>\n<h2>What I Built</h2>\n<p>…</p>"}
-                value={(editing as any).case_study ?? ""}
-                onChange={(e) => setEditing({ ...editing, case_study: e.target.value } as any)}
-              />
+              <div className="space-y-1.5">
+                <div className="flex items-center gap-2 text-xs text-slate-400">
+                  <SuggestButton
+                    kind="case_study"
+                    context={`Project: ${editing.title ?? ""}${editing.category ? ` (${editing.category})` : ""}. Client: ${editing.client || "independent"}. Description: ${editing.description || "n/a"}. Tags: ${(editing.tags ?? []).join(", ")}.`}
+                    onResult={(r) => r.text && setEditing((prev) => (prev ? { ...prev, case_study: r.text! } as any : prev))}
+                    label="AI draft case study"
+                  />
+                  <span>replaces the editor content — copy anything you want to keep first</span>
+                </div>
+                <textarea
+                  rows={6}
+                  className={inputCls}
+                  placeholder={"<h2>The Problem</h2>\n<p>…</p>\n<h2>What I Built</h2>\n<p>…</p>"}
+                  value={(editing as any).case_study ?? ""}
+                  onChange={(e) => setEditing({ ...editing, case_study: e.target.value } as any)}
+                />
+              </div>
             </Field>
 
             <div className="grid sm:grid-cols-3 gap-4 items-end">

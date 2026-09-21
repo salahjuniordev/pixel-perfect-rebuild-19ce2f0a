@@ -4,6 +4,7 @@ import { AdminShell } from "@/components/admin/AdminShell";
 import { CrudTable } from "@/components/admin/CrudTable";
 import { FormModal, Field, inputCls } from "@/components/admin/FormModal";
 import { MediaUpload } from "@/components/admin/MediaUpload";
+import { SuggestButton } from "@/components/admin/SuggestButton";
 import { useCrud } from "@/lib/use-crud";
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
@@ -94,6 +95,27 @@ function GalleryAdmin() {
             <Field label="Image" hint="Design work, poster, branding shot…">
               <MediaUpload value={editing.url} onChange={(url) => setEditing({ ...editing, url })} accept="image/*" label="Upload image" />
             </Field>
+            {editing.url && !/\.(mp4|webm|mov)(\?|$)/i.test(editing.url) && (
+              <div className="flex items-center gap-2 text-xs text-slate-400 -mt-1">
+                <SuggestButton
+                  imageUrl={editing.url}
+                  onResult={(r) =>
+                    setEditing((prev) =>
+                      prev
+                        ? {
+                            ...prev,
+                            caption: r.caption || prev.caption,
+                            alt: r.alt || prev.alt,
+                            size: r.size ?? prev.size,
+                          }
+                        : prev,
+                    )
+                  }
+                  label="AI fill caption, alt & size"
+                />
+                <span>fills the three fields below as editable drafts</span>
+              </div>
+            )}
             <div className="grid sm:grid-cols-2 gap-4">
               <Field label="Size" hint="Big cards alternate with small ones on the strip">
                 <select className={inputCls} value={editing.size ?? "small"} onChange={(e) => setEditing({ ...editing, size: e.target.value as "big" | "small" })}>

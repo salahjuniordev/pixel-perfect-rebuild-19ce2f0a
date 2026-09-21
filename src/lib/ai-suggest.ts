@@ -128,7 +128,15 @@ export const aiSuggestImage = createServerFn({ method: "POST" })
       ],
       true,
     );
-    const parsed = JSON.parse(content) as Partial<ImageSuggestion>;
+    // Defensive parse: models occasionally wrap JSON in fences or prose.
+    const jsonMatch = content.match(/\{[\s\S]*\}/);
+    let parsed: Partial<ImageSuggestion> = {};
+    try {
+      parsed = JSON.parse(jsonMatch ? jsonMatch[0] : content) as Partial<ImageSuggestion>;
+    } catch {
+      // Last resort: take the raw text as caption/alt.
+      return { caption: content.slice(0, 80).trim(), alt: content.slice(0, 200).trim(), size: "small" };
+    }
     return {
       caption: String(parsed.caption ?? "").slice(0, 80),
       alt: String(parsed.alt ?? "").slice(0, 200),
@@ -146,11 +154,16 @@ export const aiSuggestText = createServerFn({ method: "POST" })
   })
   .handler(async ({ data }): Promise<TextSuggestion> => {
     await assertAdmin();
-    const content = await groqChat(
-      TEXT_MODEL,
-      [{ role: "user", content: TEXT_PROMPTS[data.kind](data.context) }],
-      true,
+    // Plain text, not JSON mode: asking the model to embed HTML inside JSON
+    // escapes breaks generation on some models (json_validate_failed).
+    const prompt = TEXT_PROMPTS[data.kind](data.context).replace(
+      /Reply STRICT JSON[^\n]*\n?/g,
+      "Reply with the content only — no JSON wrapper, no markdown fences, no commentary.\n",
     );
-    const parsed = JSON.parse(content) as { text?: string };
-    return { text: String(parsed.text ?? "").slice(0, 1200) };
+    const content = await groqChat(TEXT_MODEL, [{ role: "user", content: prompt }], false);
+    const cleaned = content
+      .replace(/^```[a-z]*\n?|\n?```$/g, "") // strip accidental code fences
+      .replace(/^"|"$/g, "") // strip stray wrapping quotes
+      .trim();
+    return { text: cleaned.slice(0, 4000) };
   });

@@ -159,9 +159,9 @@ function ProjectDetailPage() {
           </section>
         )}
 
-        {/* Tags */}
+        {/* Tags — below the cover, never overlapping the image */}
         {!!project.tags?.length && (
-          <div className="container-sj proj-card-tags" style={{ justifyContent: "center", marginTop: "-1.5rem", marginBottom: "2.5rem" }}>
+          <div className="container-sj proj-card-tags" style={{ justifyContent: "center", marginTop: "1.75rem", marginBottom: "2.5rem" }}>
             {project.tags.map((tag) => (
               <span key={tag} className="proj-card-tag">{tag}</span>
             ))}

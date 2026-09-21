@@ -4,6 +4,40 @@ import { toast } from "sonner";
 
 const TEN_YEARS = 60 * 60 * 24 * 365 * 10;
 
+/**
+ * Client-side image compression: keeps storage (and upload time) small by
+ * resizing in-browser before anything touches Supabase storage.
+ *
+ * - Images wider than maxWidth are downscaled (default 1920px — plenty for
+ *   hero/gallery/og use, retina included).
+ * - Re-encoded as WebP at 0.82 quality (typically 3-10x smaller than a
+ *   camera PNG/JPEG).
+ * - Skipped when the compressed result isn't actually smaller than the
+ *   original (tiny images, already-optimized WebP) or for GIFs/videos.
+ */
+async function compressImage(file: File, maxWidth = 1920, quality = 0.82): Promise<File> {
+  if (!file.type.startsWith("image/") || file.type === "image/gif") return file;
+  try {
+    const bitmap = await createImageBitmap(file);
+    const scale = Math.min(1, maxWidth / bitmap.width);
+    const w = Math.round(bitmap.width * scale);
+    const h = Math.round(bitmap.height * scale);
+    const canvas = document.createElement("canvas");
+    canvas.width = w;
+    canvas.height = h;
+    canvas.getContext("2d")!.drawImage(bitmap, 0, 0, w, h);
+    bitmap.close();
+    const blob = await new Promise<Blob | null>((resolve) =>
+      canvas.toBlob(resolve, "image/webp", quality),
+    );
+    if (!blob || blob.size >= file.size) return file;
+    return new File([blob], file.name.replace(/\.[^.]+$/, "") + ".webp", { type: "image/webp" });
+  } catch {
+    // Decode failure (unsupported format etc.) — upload the original as-is.
+    return file;
+  }
+}
+
 export function MediaUpload({
   value,
   onChange,
@@ -17,14 +51,15 @@ export function MediaUpload({
 }) {
   const [uploading, setUploading] = useState(false);
 
-  const handle = async (file: File) => {
-    if (!file) return;
-    if (file.size > 50 * 1024 * 1024) {
+  const handle = async (rawFile: File) => {
+    if (!rawFile) return;
+    if (rawFile.size > 50 * 1024 * 1024) {
       toast.error("File too large (max 50MB)");
       return;
     }
     setUploading(true);
     try {
+      const file = await compressImage(rawFile);
       const ext = file.name.split(".").pop() || "bin";
       const path = `${crypto.randomUUID()}.${ext}`;
       const { error } = await supabase.storage.from("media").upload(path, file, {

@@ -30,9 +30,13 @@ function toGallery(value: unknown): GalleryItem[] {
 
 const TAB_ALL = "__all";
 
+function normalizeProject(p: Tables<"projects">): Project {
+  return { ...p, gallery: toGallery(p.gallery) };
+}
+
 export function Portfolio({ initial }: { initial?: Tables<"projects">[] }) {
   const { t } = useLanguage();
-  const [projects, setProjects] = useState<Project[]>(initial ?? []);
+  const [projects, setProjects] = useState<Project[]>(initial?.map(normalizeProject) ?? []);
   const [categories, setCategories] = useState<Category[]>([]);
   const [activeTab, setActiveTab] = useState<string>(TAB_ALL);
 
@@ -43,7 +47,7 @@ export function Portfolio({ initial }: { initial?: Tables<"projects">[] }) {
       .select("*")
       .eq("published", true)
       .order("order_index", { ascending: true })
-      .then(({ data }) => setProjects((data as unknown as Project[]) ?? []));
+      .then(({ data }) => setProjects((data ?? []).map(normalizeProject)));
   }, [initial]);
 
   useEffect(() => {

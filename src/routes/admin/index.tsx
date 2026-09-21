@@ -11,6 +11,7 @@ const cards = [
   { table: "services", label: "Services", icon: "fa-screwdriver-wrench", to: "/admin/services" },
   { table: "testimonials", label: "Testimonials", icon: "fa-comment-dots", to: "/admin/testimonials" },
   { table: "pricing_tiers", label: "Pricing Tiers", icon: "fa-tags", to: "/admin/pricing" },
+  { table: "ebooks", label: "Ebooks", icon: "fa-book", to: "/admin/ebooks", publishedOnly: true },
 ] as const;
 
 function Overview() {
@@ -20,7 +21,10 @@ function Overview() {
     (async () => {
       const result: Record<string, number> = {};
       for (const c of cards) {
-        const { count } = await supabase.from(c.table).select("*", { count: "exact", head: true });
+        // "publishedOnly" cards count only published rows (e.g. what visitors actually see)
+        let q = supabase.from(c.table).select("*", { count: "exact", head: true });
+        if ("publishedOnly" in c && c.publishedOnly) q = q.eq("published", true);
+        const { count } = await q;
         result[c.table] = count ?? 0;
       }
       setCounts(result);

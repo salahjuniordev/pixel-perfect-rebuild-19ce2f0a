@@ -5,14 +5,8 @@ import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
 import { optimizedImage } from "@/lib/img";
 
-type Project = Tables<"projects"> & {
-  case_study?: string | null;
+type Project = Omit<Tables<"projects">, "gallery"> & {
   gallery?: { url: string; alt?: string }[] | null;
-  featured?: boolean | null;
-  client?: string | null;
-  year?: string | null;
-  tags?: string[] | null;
-  cover_alt?: string | null;
 };
 
 // Local type — the generated supabase types may lag behind the project_categories migration.

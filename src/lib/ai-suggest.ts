@@ -15,7 +15,7 @@ import { createClient } from "@supabase/supabase-js";
  */
 const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
 const VISION_MODEL = process.env.GROQ_VISION_MODEL || "meta-llama/llama-4-scout-17b-16e-instruct";
-const TEXT_MODEL = process.env.GROQ_TEXT_MODEL || "llama-3.3-70b-versatile";
+const TEXT_MODEL = process.env.GROQ_TEXT_MODEL || "openai/gpt-oss-120b";
 
 type ImageSuggestion = { caption: string; alt: string; size: "big" | "small" };
 type TextSuggestion = { text: string };

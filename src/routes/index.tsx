@@ -16,6 +16,7 @@ import { Newsletter } from "@/components/site/Newsletter";
 import { QuoteWizard } from "@/components/site/QuoteWizard";
 import { Ebooks } from "@/components/site/Ebooks";
 import { Pricing } from "@/components/site/Pricing";
+import { HomeFaq, homeFaqSchemas } from "@/components/site/HomeFaq";
 import { GalleryStrip } from "@/components/site/GalleryStrip";
 import { Contact } from "@/components/site/Contact";
 import { Footer } from "@/components/site/Footer";
@@ -48,7 +49,7 @@ export const Route = createFileRoute("/")({
       ...twitterMeta({ title: HOME_TITLE_EN, description: HOME_DESC_EN, url: `${SITE_ORIGIN}/` }),
     ],
     links: altLinks("/"),
-    scripts: homeGraphs().map(asJsonLdScript),
+    scripts: [...homeGraphs(), ...homeFaqSchemas()].map(asJsonLdScript),
   }),
   loader: () => fetchHomeData(),
   component: Index,
@@ -86,6 +87,7 @@ function IndexInner() {
         <Blog initial={data?.posts} />
         <Ebooks />
         <Pricing initial={data?.pricing} />
+        <HomeFaq />
         <Contact />
         <Newsletter />
       </main>

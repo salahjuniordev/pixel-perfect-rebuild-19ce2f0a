@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { getRequest } from "@tanstack/react-start/server";
 import { createClient } from "@supabase/supabase-js";
+import { AI_SYSTEM_PROMPT, AI_KIND_GUIDE } from "@/lib/ai-knowledge";
 
 /**
  * AI field suggestions for the admin dashboard (Groq, OpenAI-compatible API).
@@ -12,10 +13,20 @@ import { createClient } from "@supabase/supabase-js";
  * Models (override with env if Groq renames them):
  *   GROQ_VISION_MODEL — image understanding (caption/alt/size)
  *   GROQ_TEXT_MODEL   — copy drafting (descriptions, tags…)
+ *   GROQ_REASONING_EFFORT — low|medium|high (default high = maximum thinking)
+ *
+ * Reasoning: both models think before answering. `reasoning_effort: "high"`
+ * maximizes accuracy on drafting tasks. Reasoning tokens count toward the
+ * completion budget, so max_completion_tokens is generous — a small cap
+ * would be consumed by thinking and return empty drafts.
  */
 const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
 const VISION_MODEL = process.env.GROQ_VISION_MODEL || "qwen/qwen3.8-27b";
 const TEXT_MODEL = process.env.GROQ_TEXT_MODEL || "openai/gpt-oss-120b";
+const REASONING_EFFORT = (process.env.GROQ_REASONING_EFFORT || "high") as
+  | "low"
+  | "medium"
+  | "high";
 
 type ImageSuggestion = { caption: string; alt: string; size: "big" | "small" };
 type TextSuggestion = { text: string };
@@ -49,7 +60,11 @@ async function assertAdmin(): Promise<void> {
   if (!role) throw new Error("Forbidden");
 }
 
-async function groqChat(model: string, messages: unknown[], jsonMode: boolean): Promise<string> {
+async function groqChat(
+  model: string,
+  messages: unknown[],
+  jsonMode: boolean,
+): Promise<string> {
   const key = process.env.GROQ_API_KEY;
   if (!key) throw new Error("GROQ_API_KEY is not set on the server");
   const res = await fetch(GROQ_URL, {
@@ -57,10 +72,17 @@ async function groqChat(model: string, messages: unknown[], jsonMode: boolean): 
     headers: { "Content-Type": "application/json", Authorization: `Bearer ${key}` },
     body: JSON.stringify({
       model,
-      messages,
+      // System message carries the knowledge base + voice on EVERY call.
+      messages: [{ role: "system", content: AI_SYSTEM_PROMPT }, ...messages],
       temperature: 0.6,
-      max_tokens: 500,
-      ...(jsonMode ? { response_format: { type: "json_object" } } : {}),
+      top_p: 0.95,
+      // Generous budget: reasoning tokens (high effort) consume it before
+      // the visible answer. 8k covers a full blog post after thinking.
+      max_completion_tokens: 8192,
+      // Maximum thinking for accuracy (supported by gpt-oss-120b and qwen3.8-27b).
+      reasoning_effort: REASONING_EFFORT,
+      // JSON mode defaults to parsed reasoning — never set "raw" here (400).
+      ...(jsonMode ? { response_format: { type: "json_object" } } : { reasoning_format: "hidden" }),
     }),
   });
   if (!res.ok) {
@@ -80,30 +102,29 @@ async function toDataUrl(imageUrl: string): Promise<string> {
   return `data:${type};base64,${buf.toString("base64")}`;
 }
 
-const IMAGE_INSTRUCTION = `You label portfolio design work for a freelance designer's website.
-Look at the image and reply with STRICT JSON only:
+const IMAGE_INSTRUCTION = `Look at this piece of design work for Salah's portfolio and reply with STRICT JSON only:
 {"caption":"<4-8 word caption, title-case, no period>","alt":"<one sentence, factual, for SEO/screen readers, mention medium/style if visual work>","size":"big"|"small"}
-Rules: "size" = "big" for tall/detailed hero-worthy pieces (posters, full designs), "small" for logos, icons, small shots. Captions must be in English. No extra keys, no markdown.`;
+Rules: "size" = "big" for tall/detailed hero-worthy pieces (posters, full designs), "small" for logos, icons, small shots. Captions must be in English. Describe what you actually see — do not guess a client name or industry that isn't visible. No extra keys, no markdown.`;
 
 const TEXT_PROMPTS: Record<string, (ctx: string) => string> = {
   description: (ctx) =>
-    `Write a 1-2 sentence project description for a portfolio card. Confident, concrete, no buzzwords, no emoji. Reply STRICT JSON: {"text":"..."}\nContext: ${ctx}`,
+    `Write a 1-2 sentence project description for Salah's portfolio card. Follow the voice guide: lead with the client's problem/goal, then what he built and one concrete choice he made. Reply STRICT JSON: {"text":"..."}\nContext: ${ctx}`,
   case_study: (ctx) =>
-    `Write a short case study as simple HTML for a portfolio project: exactly three sections — <h2>The Problem</h2><p>…</p><h2>The Approach</h2><p>…</p><h2>The Result</h2><p>…</p> — 2-3 sentences per section, first person "I", no other tags, no markdown fences. Reply STRICT JSON: {"text":"<the html>"}\nContext: ${ctx}`,
+    `Write a short case study as simple HTML for this portfolio project: exactly three sections — <h2>The Problem</h2><p>…</p><h2>The Approach</h2><p>…</p><h2>The Result</h2><p>…</p> — 2-3 sentences per section, first person "I", explaining WHY each technical/UX choice was made in plain client language. No other tags, no markdown fences. Reply STRICT JSON: {"text":"<the html>"}\nContext: ${ctx}`,
   tags: (ctx) =>
-    `Suggest 5-8 short tech/skill tags (lowercase, comma-separated, no #). Reply STRICT JSON: {"text":"tag1, tag2, ..."}\nContext: ${ctx}`,
+    `Suggest 5-8 short tech/skill tags reflecting the stack implied by this project (lowercase, comma-separated, no #). Reply STRICT JSON: {"text":"tag1, tag2, ..."}\nContext: ${ctx}`,
   excerpt: (ctx) =>
-    `Write a 1-2 sentence blog excerpt that makes people want to read. Reply STRICT JSON: {"text":"..."}\nContext: ${ctx}`,
+    `Write a 1-2 sentence blog excerpt that hooks the reader on the title's promise. Reply STRICT JSON: {"text":"..."}\nContext: ${ctx}`,
   blog_body: (ctx) =>
-    `Write a short blog post as simple HTML: one <h2> per section (3-4 sections), <p> paragraphs, maybe one <ul>. 300-450 words, engaging but factual, no markdown fences. Reply STRICT JSON: {"text":"<the html>"}\nContext: ${ctx}`,
+    `Write a short blog post as simple HTML in Salah's voice (experienced practitioner sharing how he solves this problem): direct answer to the reader's question in the first 2-3 sentences, then one <h2> per section (3-4 sections, H2s phrased as reader questions), <p> paragraphs, maybe one <ul>. 300-450 words, concrete and honest, no invented statistics, no markdown fences. Reply STRICT JSON: {"text":"<the html>"}\nContext: ${ctx}`,
   service_description: (ctx) =>
-    `Write a 2-3 sentence service description for a freelance designer/developer's service card. Clear about what the client gets. No buzzwords, no emoji. Reply STRICT JSON: {"text":"..."}\nContext: ${ctx}`,
+    `Write a 2-3 sentence service description for this service card: what the client gets and why Salah's direct, full-stack, responsive/SEO-first way of working solves their problem. Reply STRICT JSON: {"text":"..."}\nContext: ${ctx}`,
   ebook_description: (ctx) =>
-    `Write a 2-3 sentence description selling an ebook (what the reader learns, who it's for). Persuasive but honest. Reply STRICT JSON: {"text":"..."}\nContext: ${ctx}`,
+    `Write a 2-3 sentence description selling this ebook (what the reader can DO after reading, who it's for). Persuasive but honest. Reply STRICT JSON: {"text":"..."}\nContext: ${ctx}`,
   testimonial_polish: (ctx) =>
-    `Fix grammar and light-polish this customer quote. Keep the speaker's voice and meaning — do not invent claims, do not change names. Reply STRICT JSON: {"text":"..."}\nQuote: ${ctx}`,
+    `Fix grammar and light-polish this customer quote. This is a CLIENT speaking, not Salah — keep their voice, their claims, their names exactly. Do not invent anything. Reply STRICT JSON: {"text":"..."}\nQuote: ${ctx}`,
   pricing_features: (ctx) =>
-    `Suggest 5-6 short feature bullets (one per line, no dashes, max 6 words each) for this pricing plan. Reply STRICT JSON: {"text":"line1\\nline2\\n..."}\nContext: ${ctx}`,
+    `Suggest 5-6 short feature bullets (one per line, no dashes, max 6 words each) of concrete deliverables for this pricing plan. Reply STRICT JSON: {"text":"line1\\nline2\\n..."}\nContext: ${ctx}`,
 };
 
 export const aiSuggestImage = createServerFn({ method: "POST" })
@@ -156,12 +177,14 @@ export const aiSuggestText = createServerFn({ method: "POST" })
     await assertAdmin();
     // Plain text, not JSON mode: asking the model to embed HTML inside JSON
     // escapes breaks generation on some models (json_validate_failed).
-    const prompt = TEXT_PROMPTS[data.kind](data.context).replace(
+    const kindGuide = AI_KIND_GUIDE[data.kind] ? `\n${AI_KIND_GUIDE[data.kind]}\n` : "\n";
+    const prompt = (kindGuide + TEXT_PROMPTS[data.kind](data.context)).replace(
       /Reply STRICT JSON[^\n]*\n?/g,
       "Reply with the content only — no JSON wrapper, no markdown fences, no commentary.\n",
     );
     const content = await groqChat(TEXT_MODEL, [{ role: "user", content: prompt }], false);
     const cleaned = content
+      .replace(/<think>[\s\S]*?<\/think>/g, "") // strip any leaked reasoning
       .replace(/^```[a-z]*\n?|\n?```$/g, "") // strip accidental code fences
       .replace(/^"|"$/g, "") // strip stray wrapping quotes
       .trim();

@@ -77,12 +77,22 @@ function esc(s: string): string {
 }
 
 function buildHtml(body: string): string {
+  const logoUrl = process.env.EMAIL_LOGO_URL || `${SITE_ORIGIN}/logo.png`;
   return `<!doctype html>
 <html><body style="margin:0;padding:0;background:#f4f5f7;font-family:Arial,Helvetica,sans-serif;">
   <div style="max-width:600px;margin:0 auto;padding:24px;">
     <div style="background:#0b1220;border-radius:16px 16px 0 0;padding:20px 24px;">
-      <span style="color:#9bfa06;font-weight:bold;font-size:18px;">${esc(BRAND)}</span>
-      <span style="color:#94a3b8;font-size:12px;display:block;margin-top:2px;">Web Developer &amp; Designer — Yaoundé, Cameroon</span>
+      <table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
+        <tr>
+          <td style="padding-right:12px;vertical-align:middle;">
+            <img src="${logoUrl}" width="42" height="42" alt="${esc(BRAND)} logo" style="border-radius:10px;display:block;border:0;" />
+          </td>
+          <td style="vertical-align:middle;">
+            <span style="color:#9bfa06;font-weight:bold;font-size:18px;display:block;">${esc(BRAND)}</span>
+            <span style="color:#94a3b8;font-size:12px;">Web Developer &amp; Designer — Yaoundé, Cameroon</span>
+          </td>
+        </tr>
+      </table>
     </div>
     <div style="background:#ffffff;padding:28px 24px;border-radius:0 0 16px 16px;color:#1f2937;line-height:1.7;font-size:15px;">
       ${esc(body).replace(/\n/g, "<br/>")}

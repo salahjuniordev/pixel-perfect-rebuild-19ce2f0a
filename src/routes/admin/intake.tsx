@@ -279,9 +279,11 @@ function DetailPanel({ row, onStatus, onNotes, onDelete, onBack }: {
     } catch (e) {
       const msg = e instanceof Error ? e.message : "Could not send";
       toast.error(
-        msg.includes("RESEND_API_KEY")
-          ? "Email not configured: add RESEND_API_KEY in Settings → Environment"
-          : msg,
+        msg.includes("EMAIL_NOT_CONFIGURED")
+          ? "Email not configured: add GMAIL_USER + GMAIL_APP_PASSWORD in Settings → Environment (see chat for the 2-minute Gmail App Password guide)"
+          : msg.includes("Gmail") || msg.includes("535")
+            ? "Gmail rejected the login: check GMAIL_USER / GMAIL_APP_PASSWORD (must be a 16-char App Password with 2-Step Verification on)"
+            : msg,
       );
     } finally {
       setSending(false);

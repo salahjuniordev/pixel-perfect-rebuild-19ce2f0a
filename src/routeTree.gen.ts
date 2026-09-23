@@ -10,12 +10,14 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermsConditionsRouteImport } from './routes/terms-conditions'
+import { Route as StartRouteImport } from './routes/start'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as RefundPolicyRouteImport } from './routes/refund-policy'
 import { Route as LicenseCopyrightRouteImport } from './routes/license-copyright'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AdminRouteImport } from './routes/admin'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as ServicesIdRouteImport } from './routes/services.$id'
@@ -27,6 +29,7 @@ import { Route as AdminSettingsRouteImport } from './routes/admin/settings'
 import { Route as AdminServicesRouteImport } from './routes/admin/services'
 import { Route as AdminProjectsRouteImport } from './routes/admin/projects'
 import { Route as AdminPricingRouteImport } from './routes/admin/pricing'
+import { Route as AdminIntakeRouteImport } from './routes/admin/intake'
 import { Route as AdminHeroImagesRouteImport } from './routes/admin/hero-images'
 import { Route as AdminGalleryRouteImport } from './routes/admin/gallery'
 import { Route as AdminEbooksRouteImport } from './routes/admin/ebooks'
@@ -36,6 +39,11 @@ import { Route as AdminActivityRouteImport } from './routes/admin/activity'
 const TermsConditionsRoute = TermsConditionsRouteImport.update({
   id: '/terms-conditions',
   path: '/terms-conditions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StartRoute = StartRouteImport.update({
+  id: '/start',
+  path: '/start',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -66,6 +74,11 @@ const AuthRoute = AuthRouteImport.update({
 const AdminRoute = AdminRouteImport.update({
   id: '/admin',
   path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -123,6 +136,11 @@ const AdminPricingRoute = AdminPricingRouteImport.update({
   path: '/pricing',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminIntakeRoute = AdminIntakeRouteImport.update({
+  id: '/intake',
+  path: '/intake',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminHeroImagesRoute = AdminHeroImagesRouteImport.update({
   id: '/hero-images',
   path: '/hero-images',
@@ -151,18 +169,21 @@ const AdminActivityRoute = AdminActivityRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
   '/faq': typeof FaqRoute
   '/license-copyright': typeof LicenseCopyrightRoute
   '/refund-policy': typeof RefundPolicyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/start': typeof StartRoute
   '/terms-conditions': typeof TermsConditionsRoute
   '/admin/activity': typeof AdminActivityRoute
   '/admin/blog': typeof AdminBlogRoute
   '/admin/ebooks': typeof AdminEbooksRoute
   '/admin/gallery': typeof AdminGalleryRoute
   '/admin/hero-images': typeof AdminHeroImagesRoute
+  '/admin/intake': typeof AdminIntakeRoute
   '/admin/pricing': typeof AdminPricingRoute
   '/admin/projects': typeof AdminProjectsRoute
   '/admin/services': typeof AdminServicesRoute
@@ -176,17 +197,20 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/faq': typeof FaqRoute
   '/license-copyright': typeof LicenseCopyrightRoute
   '/refund-policy': typeof RefundPolicyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/start': typeof StartRoute
   '/terms-conditions': typeof TermsConditionsRoute
   '/admin/activity': typeof AdminActivityRoute
   '/admin/blog': typeof AdminBlogRoute
   '/admin/ebooks': typeof AdminEbooksRoute
   '/admin/gallery': typeof AdminGalleryRoute
   '/admin/hero-images': typeof AdminHeroImagesRoute
+  '/admin/intake': typeof AdminIntakeRoute
   '/admin/pricing': typeof AdminPricingRoute
   '/admin/projects': typeof AdminProjectsRoute
   '/admin/services': typeof AdminServicesRoute
@@ -201,18 +225,21 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
   '/faq': typeof FaqRoute
   '/license-copyright': typeof LicenseCopyrightRoute
   '/refund-policy': typeof RefundPolicyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/start': typeof StartRoute
   '/terms-conditions': typeof TermsConditionsRoute
   '/admin/activity': typeof AdminActivityRoute
   '/admin/blog': typeof AdminBlogRoute
   '/admin/ebooks': typeof AdminEbooksRoute
   '/admin/gallery': typeof AdminGalleryRoute
   '/admin/hero-images': typeof AdminHeroImagesRoute
+  '/admin/intake': typeof AdminIntakeRoute
   '/admin/pricing': typeof AdminPricingRoute
   '/admin/projects': typeof AdminProjectsRoute
   '/admin/services': typeof AdminServicesRoute
@@ -228,18 +255,21 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/about'
     | '/admin'
     | '/auth'
     | '/faq'
     | '/license-copyright'
     | '/refund-policy'
     | '/sitemap.xml'
+    | '/start'
     | '/terms-conditions'
     | '/admin/activity'
     | '/admin/blog'
     | '/admin/ebooks'
     | '/admin/gallery'
     | '/admin/hero-images'
+    | '/admin/intake'
     | '/admin/pricing'
     | '/admin/projects'
     | '/admin/services'
@@ -253,17 +283,20 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/about'
     | '/auth'
     | '/faq'
     | '/license-copyright'
     | '/refund-policy'
     | '/sitemap.xml'
+    | '/start'
     | '/terms-conditions'
     | '/admin/activity'
     | '/admin/blog'
     | '/admin/ebooks'
     | '/admin/gallery'
     | '/admin/hero-images'
+    | '/admin/intake'
     | '/admin/pricing'
     | '/admin/projects'
     | '/admin/services'
@@ -277,18 +310,21 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/about'
     | '/admin'
     | '/auth'
     | '/faq'
     | '/license-copyright'
     | '/refund-policy'
     | '/sitemap.xml'
+    | '/start'
     | '/terms-conditions'
     | '/admin/activity'
     | '/admin/blog'
     | '/admin/ebooks'
     | '/admin/gallery'
     | '/admin/hero-images'
+    | '/admin/intake'
     | '/admin/pricing'
     | '/admin/projects'
     | '/admin/services'
@@ -303,12 +339,14 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
   AdminRoute: typeof AdminRouteWithChildren
   AuthRoute: typeof AuthRoute
   FaqRoute: typeof FaqRoute
   LicenseCopyrightRoute: typeof LicenseCopyrightRoute
   RefundPolicyRoute: typeof RefundPolicyRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  StartRoute: typeof StartRoute
   TermsConditionsRoute: typeof TermsConditionsRoute
   BlogSlugRoute: typeof BlogSlugRoute
   ProjectsSlugRoute: typeof ProjectsSlugRoute
@@ -322,6 +360,13 @@ declare module '@tanstack/react-router' {
       path: '/terms-conditions'
       fullPath: '/terms-conditions'
       preLoaderRoute: typeof TermsConditionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/start': {
+      id: '/start'
+      path: '/start'
+      fullPath: '/start'
+      preLoaderRoute: typeof StartRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sitemap.xml': {
@@ -364,6 +409,13 @@ declare module '@tanstack/react-router' {
       path: '/admin'
       fullPath: '/admin'
       preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -443,6 +495,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminPricingRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/intake': {
+      id: '/admin/intake'
+      path: '/intake'
+      fullPath: '/admin/intake'
+      preLoaderRoute: typeof AdminIntakeRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/hero-images': {
       id: '/admin/hero-images'
       path: '/hero-images'
@@ -487,6 +546,7 @@ interface AdminRouteChildren {
   AdminEbooksRoute: typeof AdminEbooksRoute
   AdminGalleryRoute: typeof AdminGalleryRoute
   AdminHeroImagesRoute: typeof AdminHeroImagesRoute
+  AdminIntakeRoute: typeof AdminIntakeRoute
   AdminPricingRoute: typeof AdminPricingRoute
   AdminProjectsRoute: typeof AdminProjectsRoute
   AdminServicesRoute: typeof AdminServicesRoute
@@ -502,6 +562,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminEbooksRoute: AdminEbooksRoute,
   AdminGalleryRoute: AdminGalleryRoute,
   AdminHeroImagesRoute: AdminHeroImagesRoute,
+  AdminIntakeRoute: AdminIntakeRoute,
   AdminPricingRoute: AdminPricingRoute,
   AdminProjectsRoute: AdminProjectsRoute,
   AdminServicesRoute: AdminServicesRoute,
@@ -515,12 +576,14 @@ const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
   AdminRoute: AdminRouteWithChildren,
   AuthRoute: AuthRoute,
   FaqRoute: FaqRoute,
   LicenseCopyrightRoute: LicenseCopyrightRoute,
   RefundPolicyRoute: RefundPolicyRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  StartRoute: StartRoute,
   TermsConditionsRoute: TermsConditionsRoute,
   BlogSlugRoute: BlogSlugRoute,
   ProjectsSlugRoute: ProjectsSlugRoute,

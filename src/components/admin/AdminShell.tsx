@@ -4,6 +4,7 @@ import { useState, type ReactNode } from "react";
 
 const nav = [
   { to: "/admin", label: "Overview", icon: "fa-gauge-high", exact: true },
+  { to: "/admin/intake", label: "Project Requests", icon: "fa-inbox" },
   { to: "/admin/ebooks", label: "Ebooks", icon: "fa-book" },
   { to: "/admin/hero-images", label: "Hero Images", icon: "fa-images" },
   { to: "/admin/subscribers", label: "Subscribers", icon: "fa-envelope-open-text" },

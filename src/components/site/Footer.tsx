@@ -5,7 +5,8 @@ import { optimizedImage } from "@/lib/img";
 
 const quick = [
   { id: "home", en: "Home", fr: "Accueil" },
-  { id: "about", en: "About Me", fr: "À Propos" },
+  { id: "about", en: "About Me", fr: "À Propos", href: "/about" },
+  { id: "start", en: "Start a Project", fr: "Démarrer un Projet", href: "/start" },
   { id: "services", en: "Services", fr: "Services" },
   { id: "portfolio", en: "Portfolio", fr: "Portfolio" },
   { id: "testimonials", en: "Reviews", fr: "Avis" },
@@ -69,7 +70,7 @@ export function Footer() {
           <ul className="grid grid-cols-2 gap-2 text-sm text-slate-300">
             {quick.map((l) => (
               <li key={l.id}>
-                <a href={`/#${l.id}`} className="hover:text-[--brand] inline-flex items-center gap-2">
+                <a href={l.href ?? `/#${l.id}`} className="hover:text-[--brand] inline-flex items-center gap-2">
                   <i className="fa-solid fa-angle-right text-[--brand] text-xs" />{t(l.en, l.fr)}
                 </a>
               </li>

@@ -82,9 +82,9 @@ function NotFoundComponent() {
             <i className="fa-solid fa-house" aria-hidden="true" />
             {t("Back home", "Retour à l'accueil")}
           </Link>
-          <a href="/#services" className="notfound-btn notfound-btn-ghost">
-            <i className="fa-solid fa-screwdriver-wrench" aria-hidden="true" />
-            {t("Explore services", "Voir les services")}
+          <a href="/start" className="notfound-btn notfound-btn-ghost">
+            <i className="fa-solid fa-rocket" aria-hidden="true" />
+            {t("Start a Project", "Démarrer un Projet")}
           </a>
         </div>
       </div>

@@ -6,6 +6,7 @@ import { AdminShell } from "@/components/admin/AdminShell";
 export const Route = createFileRoute("/admin/")({ component: Overview });
 
 const cards = [
+  { table: "project_intake", label: "Project Requests", icon: "fa-inbox", to: "/admin/intake", newOnly: true },
   { table: "blog_posts", label: "Blog Posts", icon: "fa-newspaper", to: "/admin/blog" },
   { table: "projects", label: "Projects", icon: "fa-briefcase", to: "/admin/projects" },
   { table: "services", label: "Services", icon: "fa-screwdriver-wrench", to: "/admin/services" },
@@ -22,8 +23,11 @@ function Overview() {
       const result: Record<string, number> = {};
       for (const c of cards) {
         // "publishedOnly" cards count only published rows (e.g. what visitors actually see)
-        let q = supabase.from(c.table).select("*", { count: "exact", head: true });
+        // "newOnly" counts unread intake submissions instead of all rows
+        const table = ("newOnly" in c && c.newOnly ? "project_intake" : c.table) as never;
+        let q = supabase.from(table).select("*", { count: "exact", head: true });
         if ("publishedOnly" in c && c.publishedOnly) q = q.eq("published", true);
+        if ("newOnly" in c && c.newOnly) q = (q as unknown as { eq: (c: string, v: string) => typeof q }).eq("status", "new");
         const { count } = await q;
         result[c.table] = count ?? 0;
       }
@@ -45,7 +49,12 @@ function Overview() {
             <div className="text-3xl font-bold text-white">
               {counts[c.table] ?? <i className="fa-solid fa-spinner fa-spin text-base text-slate-500" />}
             </div>
-            <div className="text-sm text-slate-400 mt-1">{c.label}</div>
+            <div className="text-sm text-slate-400 mt-1">
+              {c.label}
+              {"newOnly" in c && c.newOnly && counts[c.table] ? (
+                <span className="ml-2 text-xs px-2 py-0.5 rounded-full bg-red-500/15 text-red-400">new</span>
+              ) : null}
+            </div>
           </Link>
         ))}
       </div>

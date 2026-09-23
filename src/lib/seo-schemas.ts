@@ -195,6 +195,85 @@ export function faqPageSchema(entries: FaqEntry[], lang: Lang) {
 }
 
 /* -------------------------------------------------------------------- */
+/*  Service detail page: Service + HowTo + FAQPage + BreadcrumbList      */
+/* -------------------------------------------------------------------- */
+
+export type ServiceSeed = {
+  id: string;
+  title: string;
+  description?: string | null;
+  image_url?: string | null;
+  /** Bullet list shown in the "What's Included" card — becomes HowTo steps. */
+  includes?: string[];
+  /** Optional FAQ pairs for this service ([en, fr] tuples, like FaqEntry). */
+  faqs?: FaqEntry[];
+};
+
+export function servicePageSchemas(seed: ServiceSeed, lang: Lang): unknown[] {
+  const url = `${SITE_ORIGIN}/services/${seed.id}`;
+  const isFr = lang === "fr";
+  const out: unknown[] = [
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "@id": `${url}#service-${lang}`,
+      name: seed.title,
+      description: seed.description || undefined,
+      image: seed.image_url || undefined,
+      url,
+      serviceType: seed.title,
+      provider: { "@id": `${SITE_ORIGIN}/#organization` },
+      areaServed: ["CM", "Africa", "Worldwide"],
+      inLanguage: langTag(lang),
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "@id": `${url}#breadcrumbs-${lang}`,
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: isFr ? "Accueil" : "Home", item: SITE_ORIGIN },
+        { "@type": "ListItem", position: 2, name: isFr ? "Services" : "Services", item: `${SITE_ORIGIN}/#services` },
+        { "@type": "ListItem", position: 3, name: seed.title, item: url },
+      ],
+    },
+  ];
+
+  if (seed.includes && seed.includes.length > 0) {
+    out.push({
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "@id": `${url}#howto-${lang}`,
+      name: isFr ? `Comment se déroule le service ${seed.title}` : `How the ${seed.title} service works`,
+      description: seed.description || undefined,
+      inLanguage: langTag(lang),
+      step: seed.includes.map((label, i) => ({
+        "@type": "HowToStep",
+        position: i + 1,
+        name: label,
+        text: label,
+      })),
+    });
+  }
+
+  if (seed.faqs && seed.faqs.length > 0) {
+    const idx = isFr ? 1 : 0;
+    out.push({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "@id": `${url}#faq-${lang}`,
+      inLanguage: langTag(lang),
+      mainEntity: seed.faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q[idx],
+        acceptedAnswer: { "@type": "Answer", text: f.a[idx] },
+      })),
+    });
+  }
+
+  return out;
+}
+
+/* -------------------------------------------------------------------- */
 /*  Legal pages (WebPage + BreadcrumbList)                              */
 /* -------------------------------------------------------------------- */
 
@@ -335,7 +414,9 @@ export function asJsonLdScript(data: unknown) {
 /*  Open Graph (French-first) + canonical / hreflang helpers             */
 /* -------------------------------------------------------------------- */
 
-export const DEFAULT_OG_IMAGE = `${SITE_ORIGIN}/img/og-preview.png`;
+// Fallback OG image. The former /img/og-preview.png was removed from the repo;
+// the bundled logo is the standing fallback when no dashboard image is set.
+export const DEFAULT_OG_IMAGE = `${SITE_ORIGIN}/logo.png`;
 /**
  * The effective OG image: the admin-uploaded one (site_settings.og_image_url)
  * when present, else the bundled default. Accepts absolute or root-relative URLs.

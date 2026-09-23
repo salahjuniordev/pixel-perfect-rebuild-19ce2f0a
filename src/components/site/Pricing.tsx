@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "@tanstack/react-router";
 import { useLanguage } from "@/lib/language";
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
@@ -47,6 +48,7 @@ const FR_PLAN_TEXT: Record<string, string> = {
 
 export function Pricing({ initial }: { initial?: Tables<"pricing_tiers">[] }) {
   const { t, lang } = useLanguage();
+  const navigate = useNavigate();
   const tx = (s: string | null | undefined) =>
     lang === "fr" && s ? (FR_PLAN_TEXT[s] ?? s) : (s ?? "");
   const [plans, setPlans] = useState<Tables<"pricing_tiers">[]>(initial ?? []);
@@ -104,7 +106,12 @@ export function Pricing({ initial }: { initial?: Tables<"pricing_tiers">[] }) {
                     </li>
                   ))}
                 </ul>
-                <a href="#contact" onClick={(e) => { e.preventDefault(); document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" }); }}
+                <a
+                  href={`/start?service=pricing:${encodeURIComponent(p.name)}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate({ to: "/start", search: { service: `pricing:${p.name}` } });
+                  }}
                   className={p.highlighted ? "btn-brand w-full justify-center" : "btn-outline w-full justify-center"}>
                   {t("Get Started", "Commencer")}
                 </a>

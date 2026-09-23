@@ -156,13 +156,13 @@ export function Hero() {
           </p>
 
           <div className={`hero-v2-actions ${bi.done ? "is-in" : ""}`}>
-            <a href="#portfolio" className="hero-v2-btn hero-v2-btn-primary">
-              {t("View My Work", "Voir Mes Travaux")}
+            <a href="/start" className="hero-v2-btn hero-v2-btn-primary">
+              {t("Start a Project", "Démarrer un Projet")}
               <i className="fas fa-arrow-right" aria-hidden="true" />
             </a>
-            <a href="/assets/my-resume.pdf" target="_blank" rel="noreferrer" className="hero-v2-btn hero-v2-btn-ghost">
-              <i className="fas fa-download" aria-hidden="true" />
-              {t("Download CV", "Télécharger CV")}
+            <a href="#portfolio" className="hero-v2-btn hero-v2-btn-ghost">
+              <i className="fas fa-eye" aria-hidden="true" />
+              {t("View My Work", "Voir Mes Travaux")}
             </a>
           </div>
 

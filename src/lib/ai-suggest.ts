@@ -125,6 +125,8 @@ const TEXT_PROMPTS: Record<string, (ctx: string) => string> = {
     `Fix grammar and light-polish this customer quote. This is a CLIENT speaking, not Salah — keep their voice, their claims, their names exactly. Do not invent anything. Reply STRICT JSON: {"text":"..."}\nQuote: ${ctx}`,
   pricing_features: (ctx) =>
     `Suggest 5-6 short feature bullets (one per line, no dashes, max 6 words each) of concrete deliverables for this pricing plan. Reply STRICT JSON: {"text":"line1\\nline2\\n..."}\nContext: ${ctx}`,
+  client_reply: (ctx) =>
+    `Write the email reply to this client's project request. Follow the context closely: greet by name, acknowledge their specific details, give clear next steps, sign off as Salah. Plain text email (no HTML, no markdown). Context: ${ctx}`,
 };
 
 export const aiSuggestImage = createServerFn({ method: "POST" })

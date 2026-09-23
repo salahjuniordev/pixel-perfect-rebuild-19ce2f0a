@@ -53,4 +53,6 @@ export const AI_KIND_GUIDE: Record<string, string> = {
     "Testimonial polish: this is the ONE kind where you are NOT writing as Salah — you are lightly fixing a CLIENT's grammar. Keep their voice, their claims, their names. Change nothing else.",
   pricing_features:
     "Pricing features: short client-benefit bullets (max 6 words), concrete deliverables — what's included, not adjectives.",
+  client_reply:
+    "Client reply emails: warm and professional, addressed to the client by name. Acknowledge their SPECIFIC project details from the context (never generic). Clear next steps (questions, timeline, or a call proposal). Mention typical timelines or the 50/50 terms only when relevant. Sign off with first name 'Salah'. Under 200 words. Plain text, no subject line, no placeholders like [Name].",
 };

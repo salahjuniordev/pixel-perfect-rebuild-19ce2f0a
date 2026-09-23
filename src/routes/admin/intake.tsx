@@ -1,7 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
+import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { AdminShell } from "@/components/admin/AdminShell";
+import { SuggestButton } from "@/components/admin/SuggestButton";
+import { sendClientReply } from "@/lib/email-reply";
 import { INTAKE_STATUS, kindForService } from "@/lib/intake-schema";
 
 type Submission = {
@@ -19,6 +22,25 @@ type Submission = {
   status: keyof typeof INTAKE_STATUS;
   admin_notes: string;
 };
+
+type ReplyRow = {
+  id: string;
+  created_at: string;
+  subject: string;
+  body: string;
+  status: string;
+};
+
+/** Typed accessor for email_replies (created by migration 20260923120000). */
+const repliesTable = () =>
+  (supabase.from("email_replies" as never) as unknown as {
+    select: (cols: string) => {
+      eq: (col: string, v: string) => {
+        order: (col: string, opts: { ascending: boolean }) => Promise<{ data: ReplyRow[] | null; error: unknown }>;
+      };
+    };
+    insert: (row: { intake_id: string; to_email: string; subject: string; body: string; status: string }) => Promise<{ error: unknown }>;
+  });
 
 const BUDGET_LABELS: Record<string, string> = {
   "<100k": "Under 100k FCFA",
@@ -205,6 +227,67 @@ function DetailPanel({ row, onStatus, onNotes, onDelete, onBack }: {
   const [savedFlash, setSavedFlash] = useState(false);
   const kind = useMemo(() => kindForService(row.service_title), [row.service_title]);
 
+  // Reply composer state
+  const [replies, setReplies] = useState<ReplyRow[]>([]);
+  const [subject, setSubject] = useState(`Re: your ${row.service_title || "project"} request`);
+  const [body, setBody] = useState("");
+  const [sending, setSending] = useState(false);
+  const [showComposer, setShowComposer] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      const { data } = await repliesTable().select("*").eq("intake_id", row.id).order("created_at", { ascending: false });
+      setReplies(data ?? []);
+    })();
+  }, [row.id]);
+
+  /** Context the AI uses to draft the reply as Salah, grounded in the brief. */
+  const replyContext = useMemo(() => {
+    const details = kind.fields
+      .map((f) => {
+        const v = row.answers?.[f.key];
+        if (v === undefined || v === "" || v === false) return null;
+        const label = f.label[0];
+        const value = typeof v === "boolean" ? "yes" : f.options?.find((o) => o.value === v)?.label[0] ?? v;
+        return `${label}: ${value}`;
+      })
+      .filter(Boolean)
+      .join("; ");
+    return [
+      `Client name: ${row.name}.`,
+      `Service requested: ${row.service_title || "general"}.`,
+      row.budget ? `Stated budget: ${BUDGET_LABELS[row.budget] ?? row.budget}.` : "",
+      row.deadline ? `Stated deadline: ${DEADLINE_LABELS[row.deadline] ?? row.deadline}.` : "",
+      details ? `Their project details: ${details}.` : "",
+      row.message ? `Their message: "${row.message.slice(0, 500)}".` : "",
+      `Write a reply to their email address ${row.email}. Greet them by name. Acknowledge their specific project details. Outline next steps (questions or a timeline). Sign off as Salah. Keep it warm, clear, under 200 words.`,
+    ].filter(Boolean).join(" ");
+  }, [row, kind]);
+
+  const send = async () => {
+    if (!subject.trim() || !body.trim() || sending) return;
+    setSending(true);
+    try {
+      await sendClientReply({ data: { intake_id: row.id, to_email: row.email, subject, body } });
+      // Optimistic local history update
+      setReplies((rs) => [
+        { id: `local-${Date.now()}`, created_at: new Date().toISOString(), subject, body, status: "sent" },
+        ...rs,
+      ]);
+      setBody("");
+      toast.success(`Reply sent to ${row.email}`);
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : "Could not send";
+      toast.error(
+        msg.includes("RESEND_API_KEY")
+          ? "Email not configured: add RESEND_API_KEY in Settings → Environment"
+          : msg,
+      );
+    } finally {
+      setSending(false);
+    }
+  };
+
   const saveNotes = () => {
     onNotes(row.id, notes);
     setSavedFlash(true);
@@ -304,6 +387,83 @@ function DetailPanel({ row, onStatus, onNotes, onDelete, onBack }: {
           <p className="text-sm text-slate-200 whitespace-pre-wrap bg-white/[0.03] rounded-lg p-3">
             {row.message}
           </p>
+        </div>
+      )}
+
+      {/* Reply to client */}
+      <div className="border-t border-white/10 pt-5">
+        {!showComposer ? (
+          <button
+            onClick={() => setShowComposer(true)}
+            className="svc-detail-btn svc-detail-btn-primary !py-2 !px-4 text-sm"
+          >
+            <i className="fa-solid fa-reply" /> Reply to {row.name.split(" ")[0]} by email
+          </button>
+        ) : (
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <h4 className="text-xs uppercase tracking-wider text-slate-500 font-semibold">
+                Email reply → {row.email}
+              </h4>
+              <button onClick={() => setShowComposer(false)} className="text-xs text-slate-400 hover:text-white">
+                <i className="fa-solid fa-xmark" /> Close
+              </button>
+            </div>
+            <input
+              value={subject}
+              onChange={(e) => setSubject(e.target.value)}
+              placeholder="Subject"
+              className="w-full rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-sm text-white placeholder:text-slate-500 outline-none focus:border-[var(--brand)]"
+            />
+            <div className="space-y-1.5">
+              <textarea
+                rows={6}
+                value={body}
+                onChange={(e) => setBody(e.target.value)}
+                placeholder={`Hi ${row.name.split(" ")[0]}, thanks for your request…`}
+                className="w-full rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-sm text-white placeholder:text-slate-500 outline-none focus:border-[var(--brand)] font-[inherit]"
+              />
+              <div className="flex items-center gap-2 text-xs text-slate-400">
+                <SuggestButton
+                  kind="client_reply"
+                  context={replyContext}
+                  onResult={(r) => r.text && setBody(r.text)}
+                  label="AI draft reply"
+                />
+                <span>drafts in your voice from their brief — review before sending</span>
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={send}
+                disabled={sending || !subject.trim() || !body.trim()}
+                className="svc-detail-btn svc-detail-btn-primary !py-2 !px-4 text-sm disabled:opacity-50"
+              >
+                {sending ? <><i className="fa-solid fa-spinner fa-spin" /> Sending…</> : <><i className="fa-solid fa-paper-plane" /> Send email</>}
+              </button>
+              <span className="text-xs text-slate-500">lands in their inbox — no Gmail needed</span>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Sent replies (conversation history) */}
+      {replies.length > 0 && (
+        <div className="border-t border-white/10 pt-5">
+          <h4 className="text-xs uppercase tracking-wider text-slate-500 font-semibold mb-3">
+            Sent replies ({replies.length})
+          </h4>
+          <div className="space-y-2">
+            {replies.map((r) => (
+              <details key={r.id} className="bg-white/[0.03] rounded-lg">
+                <summary className="px-3 py-2 text-xs text-slate-300 cursor-pointer flex items-center justify-between gap-2">
+                  <span className="truncate"><i className="fa-solid fa-envelope text-[var(--brand)] mr-2" />{r.subject}</span>
+                  <span className="text-slate-500 shrink-0">{new Date(r.created_at).toLocaleDateString()}</span>
+                </summary>
+                <div className="px-3 pb-3 text-xs text-slate-400 whitespace-pre-wrap">{r.body}</div>
+              </details>
+            ))}
+          </div>
         </div>
       )}
 

@@ -134,6 +134,44 @@ export type Database = {
         }
         Relationships: []
       }
+      email_replies: {
+        Row: {
+          body: string
+          created_at: string
+          id: string
+          intake_id: string
+          status: string
+          subject: string
+          to_email: string
+        }
+        Insert: {
+          body: string
+          created_at?: string
+          id?: string
+          intake_id: string
+          status?: string
+          subject: string
+          to_email: string
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          id?: string
+          intake_id?: string
+          status?: string
+          subject?: string
+          to_email?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "email_replies_intake_id_fkey"
+            columns: ["intake_id"]
+            isOneToOne: false
+            referencedRelation: "project_intake"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       gallery_items: {
         Row: {
           alt: string | null

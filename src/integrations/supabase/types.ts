@@ -290,6 +290,65 @@ export type Database = {
         }
         Relationships: []
       }
+      project_intake: {
+        Row: {
+          admin_notes: string
+          answers: Json
+          budget: string | null
+          created_at: string
+          deadline: string | null
+          email: string
+          honeypot: string
+          id: string
+          message: string
+          name: string
+          phone: string | null
+          service_id: string | null
+          service_title: string
+          status: string
+        }
+        Insert: {
+          admin_notes?: string
+          answers?: Json
+          budget?: string | null
+          created_at?: string
+          deadline?: string | null
+          email: string
+          honeypot?: string
+          id?: string
+          message?: string
+          name: string
+          phone?: string | null
+          service_id?: string | null
+          service_title?: string
+          status?: string
+        }
+        Update: {
+          admin_notes?: string
+          answers?: Json
+          budget?: string | null
+          created_at?: string
+          deadline?: string | null
+          email?: string
+          honeypot?: string
+          id?: string
+          message?: string
+          name?: string
+          phone?: string | null
+          service_id?: string | null
+          service_title?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_intake_service_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "services"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       projects: {
         Row: {
           case_study: string | null

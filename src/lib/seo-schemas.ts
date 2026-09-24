@@ -34,9 +34,9 @@ const langTag = (l: Lang) => (l === "fr" ? "fr" : "en");
 /* -------------------------------------------------------------------- */
 
 /**
- * The standing OG image: a real 1200×630 branded card shipped in /public
- * (navy background, name + role). The admin-uploaded og_image_url (site
- * settings) overrides it at the __root level.
+ * The standing OG image: the brand's real 1200×630 preview card
+ * (source: public/img/og-preview.png). The admin-uploaded og_image_url
+ * (site settings) overrides it at the __root level.
  */
 export const DEFAULT_OG_IMAGE = `${SITE_ORIGIN}/og-image.png`;
 export const OG_IMAGE_ALT = "Salah Junior, Full-Stack Web Developer in Yaoundé, Cameroon";

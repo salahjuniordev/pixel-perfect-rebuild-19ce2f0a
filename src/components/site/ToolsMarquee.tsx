@@ -11,8 +11,9 @@ const items: { name: string; slug: string; color: string; local?: boolean }[] = 
   { name: "Tailwind CSS", slug: "tailwindcss", color: "06B6D4" },
   { name: "Vite", slug: "vite", color: "646CFF" },
   { name: "Supabase", slug: "supabase", color: "3ECF8E" },
-  { name: "Vercel", slug: "vercel", color: "000000" },
-  { name: "GitHub", slug: "github", color: "181717" },
+  // White variants: the stock black glyphs are invisible on the dark background.
+  { name: "Vercel", slug: "vercel", color: "ffffff" },
+  { name: "GitHub", slug: "github", color: "ffffff" },
   { name: "Git", slug: "git", color: "F05032" },
   { name: "Figma", slug: "figma", color: "F24E1E" },
   { name: "Canva", slug: "canva", color: "00C4CC", local: true },

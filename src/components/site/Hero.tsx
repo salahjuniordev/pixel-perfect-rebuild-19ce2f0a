@@ -36,7 +36,8 @@ const socials = [
 
 const stack = [
   { src: "https://cdn.simpleicons.org/react/61DAFB", alt: "React" },
-  { src: "https://cdn.simpleicons.org/nextdotjs/000000", alt: "Next.js" },
+  // Dark glyphs (Next.js black) vanish on the navy hero — force white variants.
+  { src: "https://cdn.simpleicons.org/nextdotjs/ffffff", alt: "Next.js" },
   { src: "https://cdn.simpleicons.org/javascript/F7DF1E", alt: "JavaScript" },
   { src: "https://cdn.simpleicons.org/mongodb/47A248", alt: "MongoDB" },
   { src: "https://cdn.simpleicons.org/tailwindcss/06B6D4", alt: "Tailwind CSS" },
@@ -196,7 +197,7 @@ export function Hero() {
           <img
             key={img}
             src={img}
-            alt=""
+            alt="Salah Junior, full-stack web developer in Yaoundé, Cameroon"
             className={index === currentImageIndex % mobilePortraits.length ? "active" : ""}
             width={1349}
             height={1920}

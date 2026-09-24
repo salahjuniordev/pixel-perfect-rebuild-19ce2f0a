@@ -7,6 +7,7 @@ import { RichEditor } from "@/components/admin/RichEditor";
 import { MediaUpload } from "@/components/admin/MediaUpload";
 import { SuggestButton } from "@/components/admin/SuggestButton";
 import { useCrud } from "@/lib/use-crud";
+import { cleanSlug } from "@/lib/slug";
 import type { Tables } from "@/integrations/supabase/types";
 
 type Post = Tables<"blog_posts">;
@@ -62,7 +63,13 @@ function BlogAdmin() {
           e.preventDefault();
           if (!editing) return;
           setBusy(true);
-          const payload = { ...editing, published_at: editing.published ? (editing.published_at ?? new Date().toISOString()) : null };
+          // Never store a full URL as the slug — it produced broken links like
+          // /blog/https%3A%2F%2Fsalahjuniordev.vercel.app%2Fblog%2F...
+          const payload = {
+            ...editing,
+            slug: cleanSlug(editing.slug ?? ""),
+            published_at: editing.published ? (editing.published_at ?? new Date().toISOString()) : null,
+          };
           const ok = await save(payload);
           setBusy(false);
           if (ok) setEditing(null);
@@ -74,7 +81,7 @@ function BlogAdmin() {
               <Field label="Title">
                 <input className={inputCls} value={editing.title ?? ""} onChange={(e) => setEditing({ ...editing, title: e.target.value })} required />
               </Field>
-              <Field label="Slug" hint="URL-friendly identifier">
+              <Field label="Slug" hint="URL-friendly identifier — pasted URLs are cleaned automatically">
                 <input className={inputCls} value={editing.slug ?? ""} onChange={(e) => setEditing({ ...editing, slug: e.target.value })} required />
               </Field>
             </div>

@@ -16,6 +16,8 @@ export const Route = createFileRoute("/license-copyright")({
       { title: L_TITLE_EN },
       { name: "description", content: L_DESC_EN },
       ...ogMeta({
+        titleEn: L_TITLE_EN,
+        descEn: L_DESC_EN,
         titleFr: L_TITLE_FR,
         descFr: L_DESC_FR,
         url: L_URL,

@@ -16,6 +16,8 @@ export const Route = createFileRoute("/terms-conditions")({
       { title: T_TITLE_EN },
       { name: "description", content: T_DESC_EN },
       ...ogMeta({
+        titleEn: T_TITLE_EN,
+        descEn: T_DESC_EN,
         titleFr: T_TITLE_FR,
         descFr: T_DESC_FR,
         url: T_URL,

@@ -122,6 +122,8 @@ export const Route = createFileRoute("/faq")({
       { title: FAQ_TITLE_EN },
       { name: "description", content: FAQ_DESC_EN },
       ...ogMeta({
+        titleEn: FAQ_TITLE_EN,
+        descEn: FAQ_DESC_EN,
         titleFr: FAQ_TITLE_FR,
         descFr: FAQ_DESC_FR,
         url: FAQ_URL,

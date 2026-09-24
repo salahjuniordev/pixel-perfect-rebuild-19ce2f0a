@@ -26,14 +26,12 @@ import { useSeo } from "@/lib/use-seo";
 import { asJsonLdScript, homeGraphs, twitterMeta, ogMeta, altLinks, SITE_ORIGIN } from "@/lib/seo-schemas";
 import { fetchHomeData } from "@/lib/home-data";
 
-const HOME_TITLE_EN =
-  "Salah Junior | Full-Stack Web Developer & UI/UX Designer – Yaoundé, Cameroon";
+const HOME_TITLE_EN = "Salah Junior | Full-Stack Web Developer in Yaoundé, Cameroon";
 const HOME_DESC_EN =
-  "Full-Stack Web Developer and UI/UX Designer based in Yaoundé, Cameroon. Turning ideas into digital reality.";
-const HOME_TITLE_FR =
-  "Salah Junior | Développeur Web Full-Stack & Designer UI/UX – Yaoundé, Cameroun";
+  "Full-stack web developer in Yaoundé, Cameroon. I build fast, bilingual websites and web apps for businesses and NGOs. Fixed prices, delivery in 5 to 10 days.";
+const HOME_TITLE_FR = "Salah Junior | Développeur Web Full-Stack à Yaoundé, Cameroun";
 const HOME_DESC_FR =
-  "Développeur Web Full-Stack et Designer UI/UX basé à Yaoundé, Cameroun. Je transforme vos idées en réalité digitale.";
+  "Développeur web full-stack à Yaoundé, Cameroun. Je crée des sites et applications web rapides et bilingues pour entreprises et ONG. Prix fixes, livraison en 5 à 10 jours.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -41,6 +39,8 @@ export const Route = createFileRoute("/")({
       { title: HOME_TITLE_EN },
       { name: "description", content: HOME_DESC_EN },
       ...ogMeta({
+        titleEn: HOME_TITLE_EN,
+        descEn: HOME_DESC_EN,
         titleFr: HOME_TITLE_FR,
         descFr: HOME_DESC_FR,
         url: `${SITE_ORIGIN}/`,
@@ -58,14 +58,8 @@ export const Route = createFileRoute("/")({
 function IndexInner() {
   const data = Route.useLoaderData();
   useSeo({
-    title: {
-      en: "Salah Junior | Full-Stack Web Developer & UI/UX Designer – Yaoundé, Cameroon",
-      fr: "Salah Junior | Développeur Web Full-Stack & Designer UI/UX – Yaoundé, Cameroun",
-    },
-    description: {
-      en: "Full-Stack Web Developer and UI/UX Designer based in Yaoundé, Cameroon. Turning ideas into digital reality.",
-      fr: "Développeur Web Full-Stack et Designer UI/UX basé à Yaoundé, Cameroun. Je transforme vos idées en réalité digitale.",
-    },
+    title: { en: HOME_TITLE_EN, fr: HOME_TITLE_FR },
+    description: { en: HOME_DESC_EN, fr: HOME_DESC_FR },
     path: "/",
   });
 

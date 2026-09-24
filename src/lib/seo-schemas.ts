@@ -1,5 +1,5 @@
 /**
- * Server-safe JSON-LD builders and Twitter Card meta helpers.
+ * Server-safe JSON-LD builders and Open Graph / Twitter Card meta helpers.
  *
  * All builders return plain JSON-serializable objects so they can be
  * embedded via TanStack Router `head().scripts` and emitted in the
@@ -16,10 +16,13 @@ export const CONTACT_EMAIL = "salahjuniorncham@gmail.com";
 export const CONTACT_PHONE = "+237683693011";
 export const LOCALITY = "Yaoundé";
 export const COUNTRY = "CM";
+
+/** Social profiles (used for Person.sameAs / Organization.sameAs). */
 export const SAME_AS = [
   "https://github.com/salahjuniordev",
+  "https://www.linkedin.com/in/salah-junior-987684398",
   "https://www.instagram.com/salahjuniordev",
-  "https://www.facebook.com/salahjuniordev",
+  "https://www.facebook.com/profile.php?id=61586199631543",
 ];
 
 type Lang = "en" | "fr";
@@ -27,7 +30,112 @@ type Lang = "en" | "fr";
 const langTag = (l: Lang) => (l === "fr" ? "fr" : "en");
 
 /* -------------------------------------------------------------------- */
-/*  Sitewide: Person + ProfessionalService + Organization/ContactPoint  */
+/*  Open Graph (English-first) + canonical / hreflang helpers             */
+/* -------------------------------------------------------------------- */
+
+/**
+ * The standing OG image: a real 1200×630 branded card shipped in /public
+ * (navy background, name + role). The admin-uploaded og_image_url (site
+ * settings) overrides it at the __root level.
+ */
+export const DEFAULT_OG_IMAGE = `${SITE_ORIGIN}/og-image.png`;
+export const OG_IMAGE_ALT = "Salah Junior, Full-Stack Web Developer in Yaoundé, Cameroon";
+
+/** Absolute URL for a site path ("/faq" -> "https://host/faq"). */
+export const absUrl = (path: string) =>
+  `${SITE_ORIGIN}${path.startsWith("/") ? path : `/${path}`}`;
+
+/**
+ * The effective OG image: the admin-uploaded one (site_settings.og_image_url)
+ * when present, else the bundled default. Accepts absolute or root-relative URLs.
+ */
+export function ogImage(url?: string | null): string {
+  if (!url) return DEFAULT_OG_IMAGE;
+  return url.startsWith("http") ? url : `${SITE_ORIGIN}${url}`;
+}
+export const OG_IMAGE_WIDTH = 1200;
+export const OG_IMAGE_HEIGHT = 630;
+export const OG_IMAGE_TYPE = "image/png";
+
+/**
+ * Open Graph tags with English as the primary locale (og:title /
+ * og:description in English) and French exposed as the alternate locale.
+ */
+export function ogMeta(opts: {
+  titleEn: string;
+  descEn: string;
+  titleFr: string;
+  descFr: string;
+  url: string;
+  image?: string | null;
+  type?: "website" | "article" | "profile";
+  siteName?: string;
+  imageAlt?: string;
+}) {
+  const image = opts.image || DEFAULT_OG_IMAGE;
+  return [
+    { property: "og:site_name", content: opts.siteName ?? BRAND },
+    { property: "og:type", content: opts.type ?? "website" },
+    { property: "og:url", content: opts.url },
+    { property: "og:title", content: opts.titleEn },
+    { property: "og:description", content: opts.descEn },
+    { property: "og:image", content: image },
+    { property: "og:image:alt", content: opts.imageAlt ?? OG_IMAGE_ALT },
+    { property: "og:image:width", content: String(OG_IMAGE_WIDTH) },
+    { property: "og:image:height", content: String(OG_IMAGE_HEIGHT) },
+    { property: "og:image:type", content: OG_IMAGE_TYPE },
+    { property: "og:locale", content: "en_US" },
+    { property: "og:locale:alternate", content: "fr_FR" },
+  ];
+}
+
+/** canonical + hreflang (fr / en / x-default) link tags for a site path. */
+export function altLinks(path: string) {
+  const base = absUrl(path);
+  const sep = base.includes("?") ? "&" : "?";
+  return [
+    { rel: "canonical", href: base },
+    { rel: "alternate", hrefLang: "fr", href: `${base}${sep}lang=fr` },
+    { rel: "alternate", hrefLang: "en", href: `${base}${sep}lang=en` },
+    { rel: "alternate", hrefLang: "x-default", href: base },
+  ];
+}
+
+/* -------------------------------------------------------------------- */
+/*  Twitter Card meta                                                    */
+/* -------------------------------------------------------------------- */
+
+export function twitterMeta(opts: {
+  title: string;
+  description: string;
+  image?: string | null;
+  url?: string;
+}) {
+  const image = opts.image || DEFAULT_OG_IMAGE;
+  const meta: Array<Record<string, string>> = [
+    { name: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:title", content: opts.title },
+    { name: "twitter:description", content: opts.description },
+    { name: "twitter:image", content: image },
+    { name: "twitter:image:alt", content: OG_IMAGE_ALT },
+    { name: "twitter:site", content: "@salahjuniordev" },
+    { name: "twitter:creator", content: "@salahjuniordev" },
+  ];
+  if (opts.url) meta.push({ name: "twitter:url", content: opts.url });
+  return meta;
+}
+
+/** Encode any JSON-LD object as a TanStack Router head() script entry. */
+export function asJsonLdScript(data: unknown) {
+  return {
+    type: "application/ld+json",
+    children: JSON.stringify(data),
+  };
+}
+
+/* -------------------------------------------------------------------- */
+/*  Sitewide: Organization + Person + WebSite + ProfessionalService       */
+/*  (single-node builders used by __root.tsx and the static validator)    */
 /* -------------------------------------------------------------------- */
 
 export function organizationSchema(lang: Lang) {
@@ -40,7 +148,7 @@ export function organizationSchema(lang: Lang) {
     alternateName: BRAND,
     url: SITE_ORIGIN,
     logo: `${SITE_ORIGIN}/logo.png`,
-    image: `${SITE_ORIGIN}/logo.png`,
+    image: `${SITE_ORIGIN}/og-image.png`,
     email: `mailto:${CONTACT_EMAIL}`,
     telephone: CONTACT_PHONE,
     description: isFr
@@ -86,13 +194,13 @@ export function personSchema(lang: Lang) {
     name: BRAND_FULL,
     alternateName: BRAND,
     url: SITE_ORIGIN,
-    image: `${SITE_ORIGIN}/logo.png`,
+    image: `${SITE_ORIGIN}/hero-portrait.png`,
     jobTitle: isFr
-      ? "Développeur Web Full-Stack & Designer UI/UX"
-      : "Full-Stack Web Developer & UI/UX Designer",
+      ? "Développeur Web Full-Stack"
+      : "Full-Stack Web Developer",
     description: isFr
-      ? "Développeur Web Full-Stack et Designer UI/UX basé à Yaoundé, Cameroun."
-      : "Full-Stack Web Developer and UI/UX Designer based in Yaoundé, Cameroon.",
+      ? "Développeur Web Full-Stack basé à Yaoundé, Cameroun."
+      : "Full-Stack Web Developer based in Yaoundé, Cameroon.",
     email: `mailto:${CONTACT_EMAIL}`,
     telephone: CONTACT_PHONE,
     address: {
@@ -103,13 +211,12 @@ export function personSchema(lang: Lang) {
     worksFor: { "@id": `${SITE_ORIGIN}/#organization` },
     sameAs: SAME_AS,
     knowsAbout: [
-      "Web Development",
-      "UI/UX Design",
-      "Branding",
+      "Web development",
       "React",
-      "TypeScript",
-      "Supabase",
-      "Figma",
+      "Next.js",
+      "Node.js",
+      "UI/UX design",
+      "SEO",
     ],
     knowsLanguage: ["en", "fr"],
     inLanguage: langTag(lang),
@@ -121,9 +228,9 @@ export function websiteSchema(lang: Lang) {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "@id": `${SITE_ORIGIN}/#website`,
-    name: `${BRAND} Portfolio`,
+    name: BRAND,
     url: SITE_ORIGIN,
-    inLanguage: [langTag(lang), langTag(lang === "fr" ? "en" : "fr")],
+    inLanguage: ["en", "fr"],
     publisher: { "@id": `${SITE_ORIGIN}/#organization` },
     potentialAction: {
       "@type": "SearchAction",
@@ -138,12 +245,15 @@ export function professionalServiceSchema(lang: Lang) {
   return {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
-    "@id": `${SITE_ORIGIN}/#service`,
-    name: "SalahJuniorDev",
+    "@id": `${SITE_ORIGIN}/#business`,
+    name: "Salah Junior Dev",
     url: SITE_ORIGIN,
-    image: `${SITE_ORIGIN}/logo.png`,
-    priceRange: "$$",
-    areaServed: ["CM", "Africa", "Worldwide"],
+    logo: `${SITE_ORIGIN}/logo.png`,
+    image: `${SITE_ORIGIN}/og-image.png`,
+    founder: { "@id": `${SITE_ORIGIN}/#person` },
+    priceRange: "$149 - $799",
+    areaServed: ["Cameroon", "Central Africa"],
+    availableLanguage: ["English", "French"],
     address: {
       "@type": "PostalAddress",
       addressLocality: LOCALITY,
@@ -160,15 +270,75 @@ export function professionalServiceSchema(lang: Lang) {
   };
 }
 
+/* -------------------------------------------------------------------- */
+/*  Homepage: one JSON-LD @graph per language                             */
+/*  (Person + ProfessionalService + WebSite, linked via @id)              */
+/* -------------------------------------------------------------------- */
+
 /**
- * Home page: emit English + French copies of each schema in one call.
+ * Home page structured data as a single @graph per language so the nodes
+ * are explicitly linked (founder → #person, publisher → #organization),
+ * exactly as Google recommends for a personal-brand site.
  */
 export function homeGraphs(): unknown[] {
   const langs: Lang[] = ["en", "fr"];
-  return [
-    ...langs.map(personSchema),
-    ...langs.map(professionalServiceSchema),
-  ];
+  return langs.map((lang) => ({
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": `${SITE_ORIGIN}/#person`,
+        name: BRAND_FULL,
+        alternateName: BRAND,
+        url: SITE_ORIGIN,
+        image: `${SITE_ORIGIN}/hero-portrait.png`,
+        jobTitle: lang === "fr" ? "Développeur Web Full-Stack" : "Full-Stack Web Developer",
+        email: `mailto:${CONTACT_EMAIL}`,
+        telephone: CONTACT_PHONE,
+        address: {
+          "@type": "PostalAddress",
+          addressLocality: LOCALITY,
+          addressCountry: COUNTRY,
+        },
+        knowsAbout: [
+          "Web development",
+          "React",
+          "Next.js",
+          "Node.js",
+          "UI/UX design",
+          "SEO",
+        ],
+        sameAs: SAME_AS,
+        inLanguage: langTag(lang),
+      },
+      {
+        "@type": "ProfessionalService",
+        "@id": `${SITE_ORIGIN}/#business`,
+        name: "Salah Junior Dev",
+        url: SITE_ORIGIN,
+        logo: `${SITE_ORIGIN}/logo.png`,
+        image: `${SITE_ORIGIN}/og-image.png`,
+        founder: { "@id": `${SITE_ORIGIN}/#person` },
+        areaServed: ["Cameroon", "Central Africa"],
+        availableLanguage: ["English", "French"],
+        priceRange: "$149 - $799",
+        address: {
+          "@type": "PostalAddress",
+          addressLocality: LOCALITY,
+          addressCountry: COUNTRY,
+        },
+        inLanguage: langTag(lang),
+      },
+      {
+        "@type": "WebSite",
+        "@id": `${SITE_ORIGIN}/#website`,
+        name: BRAND,
+        url: SITE_ORIGIN,
+        inLanguage: ["en", "fr"],
+        publisher: { "@id": `${SITE_ORIGIN}/#organization` },
+      },
+    ],
+  }));
 }
 
 /* -------------------------------------------------------------------- */
@@ -376,103 +546,4 @@ export function articleSchemas(post: ArticleSeed): unknown[] {
     ],
   });
   return langs.flatMap((l) => [article(l), breadcrumb(l)]);
-}
-
-/* -------------------------------------------------------------------- */
-/*  Twitter Card meta                                                    */
-/* -------------------------------------------------------------------- */
-
-export function twitterMeta(opts: {
-  title: string;
-  description: string;
-  image?: string | null;
-  url?: string;
-}) {
-  const image = opts.image || DEFAULT_OG_IMAGE;
-  const meta: Array<Record<string, string>> = [
-    { name: "twitter:card", content: "summary_large_image" },
-    { name: "twitter:title", content: opts.title },
-    { name: "twitter:description", content: opts.description },
-    { name: "twitter:image", content: image },
-    { name: "twitter:image:alt", content: opts.title },
-    { name: "twitter:site", content: "@salahjuniordev" },
-    { name: "twitter:creator", content: "@salahjuniordev" },
-  ];
-  if (opts.url) meta.push({ name: "twitter:url", content: opts.url });
-  return meta;
-}
-
-/** Encode any JSON-LD object as a TanStack Router head() script entry. */
-export function asJsonLdScript(data: unknown) {
-  return {
-    type: "application/ld+json",
-    children: JSON.stringify(data),
-  };
-}
-
-/* -------------------------------------------------------------------- */
-/*  Open Graph (French-first) + canonical / hreflang helpers             */
-/* -------------------------------------------------------------------- */
-
-// Fallback OG image. The former /img/og-preview.png was removed from the repo;
-// the bundled logo is the standing fallback when no dashboard image is set.
-export const DEFAULT_OG_IMAGE = `${SITE_ORIGIN}/logo.png`;
-/**
- * The effective OG image: the admin-uploaded one (site_settings.og_image_url)
- * when present, else the bundled default. Accepts absolute or root-relative URLs.
- */
-export function ogImage(url?: string | null): string {
-  if (!url) return DEFAULT_OG_IMAGE;
-  return url.startsWith("http") ? url : `${SITE_ORIGIN}${url}`;
-}
-export const OG_IMAGE_WIDTH = 1200;
-export const OG_IMAGE_HEIGHT = 630;
-export const OG_IMAGE_TYPE = "image/png";
-
-/** Absolute URL for a site path ("/faq" -> "https://host/faq"). */
-export const absUrl = (path: string) =>
-  `${SITE_ORIGIN}${path.startsWith("/") ? path : `/${path}`}`;
-
-/**
- * Open Graph tags with French as the primary locale (og:title / og:description
- * in French) and English exposed as the alternate locale.
- */
-export function ogMeta(opts: {
-  titleFr: string;
-  descFr: string;
-  titleEn?: string;
-  descEn?: string;
-  url: string;
-  image?: string | null;
-  type?: "website" | "article" | "profile";
-  siteName?: string;
-}) {
-  const image = opts.image || DEFAULT_OG_IMAGE;
-  const meta: Array<Record<string, string>> = [
-    { property: "og:site_name", content: opts.siteName ?? BRAND },
-    { property: "og:type", content: opts.type ?? "website" },
-    { property: "og:url", content: opts.url },
-    { property: "og:title", content: opts.titleFr },
-    { property: "og:description", content: opts.descFr },
-    { property: "og:image", content: image },
-    { property: "og:image:alt", content: opts.titleFr },
-    { property: "og:image:width", content: String(OG_IMAGE_WIDTH) },
-    { property: "og:image:height", content: String(OG_IMAGE_HEIGHT) },
-    { property: "og:image:type", content: OG_IMAGE_TYPE },
-    { property: "og:locale", content: "fr_FR" },
-    { property: "og:locale:alternate", content: "en_US" },
-  ];
-  return meta;
-}
-
-/** canonical + hreflang (fr / en / x-default) link tags for a site path. */
-export function altLinks(path: string) {
-  const base = absUrl(path);
-  const sep = base.includes("?") ? "&" : "?";
-  return [
-    { rel: "canonical", href: base },
-    { rel: "alternate", hrefLang: "fr", href: `${base}${sep}lang=fr` },
-    { rel: "alternate", hrefLang: "en", href: `${base}${sep}lang=en` },
-    { rel: "alternate", hrefLang: "x-default", href: base },
-  ];
 }

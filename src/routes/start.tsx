@@ -47,7 +47,13 @@ export const Route = createFileRoute("/start")({
     meta: [
       { title: START_TITLE_EN },
       { name: "description", content: START_DESC_EN },
-      ...ogMeta({ titleFr: START_TITLE_FR, descFr: START_DESC_FR, url: `${SITE_ORIGIN}/start` }),
+      ...ogMeta({
+        titleEn: START_TITLE_EN,
+        descEn: START_DESC_EN,
+        titleFr: START_TITLE_FR,
+        descFr: START_DESC_FR,
+        url: `${SITE_ORIGIN}/start`,
+      }),
       ...twitterMeta({ title: START_TITLE_EN, description: START_DESC_EN, url: `${SITE_ORIGIN}/start` }),
     ],
     links: altLinks("/start"),

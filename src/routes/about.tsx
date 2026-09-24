@@ -89,6 +89,8 @@ export const Route = createFileRoute("/about")({
       { title: `${ABOUT_TITLE_EN} | Salah Junior` },
       { name: "description", content: ABOUT_DESC_EN },
       ...ogMeta({
+        titleEn: ABOUT_TITLE_EN,
+        descEn: ABOUT_DESC_EN,
         titleFr: ABOUT_TITLE_FR,
         descFr: ABOUT_DESC_FR,
         url: `${SITE_ORIGIN}/about`,

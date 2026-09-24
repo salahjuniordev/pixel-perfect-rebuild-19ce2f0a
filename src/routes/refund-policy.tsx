@@ -16,6 +16,8 @@ export const Route = createFileRoute("/refund-policy")({
       { title: R_TITLE_EN },
       { name: "description", content: R_DESC_EN },
       ...ogMeta({
+        titleEn: R_TITLE_EN,
+        descEn: R_DESC_EN,
         titleFr: R_TITLE_FR,
         descFr: R_DESC_FR,
         url: R_URL,

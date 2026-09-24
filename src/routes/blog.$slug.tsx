@@ -55,10 +55,13 @@ export const Route = createFileRoute("/blog/$slug")({
       { title: `${title} | Salah Junior Blog` },
       { name: "description", content: desc },
       ...ogMeta({
+        titleEn: title,
+        descEn: desc,
         titleFr: title,
         descFr: desc,
         url,
         image: seed?.cover ?? null,
+        imageAlt: title,
         type: "article",
       }),
       ...twitterMeta({ title, description: desc, image: seed?.cover ?? null, url }),

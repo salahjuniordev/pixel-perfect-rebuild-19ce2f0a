@@ -31,7 +31,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AuthProvider } from "@/lib/auth";
 import { LanguageProvider, useLanguage } from "@/lib/language";
 import { Toaster } from "@/components/ui/sonner";
-import { asJsonLdScript, organizationSchema, websiteSchema, DEFAULT_OG_IMAGE, OG_IMAGE_WIDTH, OG_IMAGE_HEIGHT, OG_IMAGE_TYPE } from "@/lib/seo-schemas";
+import { asJsonLdScript, organizationSchema, websiteSchema, DEFAULT_OG_IMAGE, OG_IMAGE_ALT, OG_IMAGE_WIDTH, OG_IMAGE_HEIGHT, OG_IMAGE_TYPE } from "@/lib/seo-schemas";
 
 function NotFoundComponent() {
   const { t } = useLanguage();
@@ -143,20 +143,21 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Salah Junior | Full-Stack Web Developer & UI/UX Designer – Yaoundé, Cameroon" },
-      { name: "description", content: "Full-Stack Web Developer and UI/UX Designer based in Yaoundé, Cameroon. Turning ideas into digital reality." },
+      { title: "Salah Junior | Full-Stack Web Developer in Yaoundé, Cameroon" },
+      { name: "description", content: "Full-stack web developer in Yaoundé, Cameroon. I build fast, bilingual websites and web apps for businesses and NGOs. Fixed prices, delivery in 5 to 10 days." },
       { name: "author", content: "Salah Junior Ncham" },
       { name: "theme-color", content: "#07101f" },
       { property: "og:type", content: "website" },
       { property: "og:image", content: match.context.ogImage ?? DEFAULT_OG_IMAGE },
+      { property: "og:image:alt", content: OG_IMAGE_ALT },
       { property: "og:image:width", content: String(OG_IMAGE_WIDTH) },
       { property: "og:image:height", content: String(OG_IMAGE_HEIGHT) },
       { property: "og:image:type", content: OG_IMAGE_TYPE },
       { name: "twitter:card", content: "summary_large_image" },
-      { property: "og:title", content: "Salah Junior | Full-Stack Web Developer & UI/UX Designer – Yaoundé, Cameroon" },
-      { name: "twitter:title", content: "Salah Junior | Full-Stack Web Developer & UI/UX Designer – Yaoundé, Cameroon" },
-      { property: "og:description", content: "Full-Stack Web Developer and UI/UX Designer based in Yaoundé, Cameroon. Turning ideas into digital reality." },
-      { name: "twitter:description", content: "Full-Stack Web Developer and UI/UX Designer based in Yaoundé, Cameroon. Turning ideas into digital reality." },
+      { property: "og:title", content: "Salah Junior | Full-Stack Web Developer in Yaoundé, Cameroon" },
+      { name: "twitter:title", content: "Salah Junior | Full-Stack Web Developer in Yaoundé, Cameroon" },
+      { property: "og:description", content: "Fast, bilingual websites and web apps for businesses and NGOs across Central Africa." },
+      { name: "twitter:description", content: "Fast, bilingual websites and web apps for businesses and NGOs across Central Africa." },
       { name: "twitter:image", content: match.context.ogImage ?? DEFAULT_OG_IMAGE },
     ],
     links: [

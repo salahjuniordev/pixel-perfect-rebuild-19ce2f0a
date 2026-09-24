@@ -3,6 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { useLanguage } from "@/lib/language";
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
+import { slugify } from "@/lib/slug";
 
 export function Services({ initial }: { initial?: Tables<"services">[] }) {
   const { t } = useLanguage();
@@ -28,8 +29,11 @@ export function Services({ initial }: { initial?: Tables<"services">[] }) {
           </div>
         </div>
         <div className="svc-grid">
-          {services.map((s) => (
-            <Link key={s.id} to="/services/$id" params={{ id: s.id }} className="svc-card-new svc-card-link">
+          {services.map((s) => {
+            // SEO: slug URLs when available (DB migration), else stable title slug.
+            const serviceId = (s as { slug?: string | null }).slug || slugify(s.title);
+            return (
+            <Link key={s.id} to="/services/$id" params={{ id: serviceId }} className="svc-card-new svc-card-link">
               <div className="svc-icon-circle">
                 <i className={`fa-solid ${s.icon || "fa-cube"}`} />
               </div>
@@ -40,7 +44,8 @@ export function Services({ initial }: { initial?: Tables<"services">[] }) {
                 <i className="fa-solid fa-arrow-right" />
               </span>
             </Link>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

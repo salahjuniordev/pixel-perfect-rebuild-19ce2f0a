@@ -122,6 +122,11 @@ async function runStatic() {
   validate(mod.personSchema("en"), "personSchema(en)");
   validate(mod.websiteSchema("en"), "websiteSchema(en)");
   validate(mod.professionalServiceSchema("en"), "professionalServiceSchema(en)");
+  // Homepage @graph nodes (Person + ProfessionalService + WebSite per language)
+  for (const g of mod.homeGraphs()) {
+    const lang = g["@graph"]?.[0]?.inLanguage ?? "?";
+    validate(g, `homeGraphs(${lang})`);
+  }
   validate(
     mod.faqPageSchema([{ q: ["Q?", "Q?"], a: ["A", "A"] }], "en"),
     "faqPageSchema",

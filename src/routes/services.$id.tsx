@@ -7,6 +7,7 @@ import { WhatsAppFloat } from "@/components/site/WhatsAppFloat";
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
 import { useSeo } from "@/lib/use-seo";
+import { slugify } from "@/lib/slug";
 import { IntakeForm } from "@/components/site/IntakeForm";
 import {
   servicePageSchemas,
@@ -22,6 +23,9 @@ import {
 type Service = Tables<"services">;
 
 type Lang = "en" | "fr";
+
+const UUID_RE =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 const SERVICE_INCLUDES: Array<[string, string]> = [
   ["Professional consultation", "Consultation professionnelle"],
@@ -81,15 +85,29 @@ function toServiceSeed(s: Service, lang: Lang): ServiceSeed {
   };
 }
 
-async function loadService(id: string): Promise<Service | null> {
+async function loadService(idOrSlug: string): Promise<Service | null> {
   try {
-    const { data } = await supabase
+    // The URL may be a slug ("/services/seo-optimization") or the row UUID.
+    if (UUID_RE.test(idOrSlug)) {
+      const { data } = await supabase
+        .from("services")
+        .select("*")
+        .eq("id", idOrSlug)
+        .eq("published", true)
+        .maybeSingle();
+      if (data) return data;
+    }
+    // Slug match: prefer the DB slug column when present (select * keeps this
+    // safe even before the migration), else fall back to the slugified title.
+    const { data: rows } = await supabase
       .from("services")
       .select("*")
-      .eq("id", id)
-      .eq("published", true)
-      .maybeSingle();
-    return data;
+      .eq("published", true);
+    return (
+      (rows as Array<Service & { slug?: string | null }> | null)?.find(
+        (s) => s.slug === idOrSlug || slugify(s.title) === idOrSlug,
+      ) ?? null
+    );
   } catch {
     return null;
   }
@@ -108,7 +126,14 @@ export const Route = createFileRoute("/services/$id")({
       meta: [
         { title },
         { name: "description", content: desc },
-        ...ogMeta({ titleFr: title, descFr: desc, url, image: service?.image_url ?? null }),
+        ...ogMeta({
+          titleEn: title,
+          descEn: desc,
+          titleFr: title,
+          descFr: desc,
+          url,
+          image: service?.image_url ?? null,
+        }),
         ...twitterMeta({ title, description: desc, image: service?.image_url ?? null, url }),
       ],
       links: altLinks(`/services/${params.id}`),
@@ -139,7 +164,7 @@ function ServiceDetailPage() {
       en: service?.description || "Service by Salah Junior, full-stack web developer in Yaoundé, Cameroon.",
       fr: service?.description || "Service de Salah Junior, développeur web full-stack à Yaoundé, Cameroun.",
     },
-    path: `/services/${service?.id ?? ""}`,
+    path: `/services/${(service as { slug?: string | null })?.slug || (service?.id ?? "")}`,
     image: service?.image_url ?? undefined,
   });
 

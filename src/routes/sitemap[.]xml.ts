@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
+import { slugify } from "@/lib/slug";
 
 const BASE_URL = "https://salahjuniordev.vercel.app";
 
@@ -66,13 +67,14 @@ async function projectEntries(): Promise<SitemapEntry[]> {
 
 async function serviceEntries(): Promise<SitemapEntry[]> {
   try {
-    // Service URLs use the row id (the site links to /services/$id), not the slug column.
+    // Slug URLs (slugified title), matching the links the site renders —
+    // works before AND after the services_slug migration lands.
     const { data } = await supabase
       .from("services")
-      .select("id")
+      .select("id,title")
       .eq("published", true);
     return (data ?? []).map((s) => ({
-      path: `/services/${s.id}`,
+      path: `/services/${slugify(s.title)}`,
       changefreq: "monthly" as const,
       priority: "0.9",
     }));

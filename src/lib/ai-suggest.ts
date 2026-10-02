@@ -120,7 +120,7 @@ const TEXT_PROMPTS: Record<string, (ctx: string) => string> = {
   service_description: (ctx) =>
     `Write a 2-3 sentence service description for this service card: what the client gets and why Salah's direct, full-stack, responsive/SEO-first way of working solves their problem. Reply STRICT JSON: {"text":"..."}\nContext: ${ctx}`,
   ebook_description: (ctx) =>
-    `Write a 2-3 sentence description selling this ebook (what the reader can DO after reading, who it's for). Persuasive but honest. Reply STRICT JSON: {"text":"..."}\nContext: ${ctx}`,
+    `Write a 2-3 sentence description for this free guide (what the reader can DO after reading, who it's for). Persuasive but honest — it is free, so sell the value, not a price. Reply STRICT JSON: {"text":"..."}\nContext: ${ctx}`,
   testimonial_polish: (ctx) =>
     `Fix grammar and light-polish this customer quote. This is a CLIENT speaking, not Salah — keep their voice, their claims, their names exactly. Do not invent anything. Reply STRICT JSON: {"text":"..."}\nQuote: ${ctx}`,
   pricing_features: (ctx) =>

@@ -48,7 +48,7 @@ export const AI_KIND_GUIDE: Record<string, string> = {
   service_description:
     "Service descriptions: what the client gets + why Salah's way of working (direct, full-stack, responsive/SEO-built-in) solves their problem. 2-3 sentences.",
   ebook_description:
-    "Ebook descriptions: what the reader will be able to DO after reading, who it's for. Persuasive but honest, no hype.",
+    "Free ebook descriptions: what the reader will be able to DO after reading, who it's for. Persuasive but honest, no hype, and never mention a price.",
   testimonial_polish:
     "Testimonial polish: this is the ONE kind where you are NOT writing as Salah — you are lightly fixing a CLIENT's grammar. Keep their voice, their claims, their names. Change nothing else.",
   pricing_features:

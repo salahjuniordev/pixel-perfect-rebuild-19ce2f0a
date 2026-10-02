@@ -1400,6 +1400,15 @@ textarea.contact-field { resize: vertical; min-height: 130px; }
   font-weight: 800;
   color: var(--brand);
 }
+/* Guides with no file uploaded yet — no download button to click. */
+.ebook-coming-soon {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--soft);
+  padding: 9px 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
 .ebook-buy-btn {
   display: inline-flex;
   align-items: center;
@@ -1411,6 +1420,9 @@ textarea.contact-field { resize: vertical; min-height: 130px; }
   padding: 9px 18px;
   border-radius: 999px;
   text-decoration: none;
+  border: 0;
+  cursor: pointer;
+  font-family: inherit;
   transition: background 0.2s ease, transform 0.2s ease;
 }
 .ebook-buy-btn:hover {

@@ -11,9 +11,8 @@ type EbookRow = {
   id: string;
   title: string;
   description: string | null;
-  price: string | null;
-  currency: string | null;
   cover_url: string | null;
+  /** Supabase Storage URL of the free PDF. */
   buy_url: string;
   badge: string | null;
   order_index: number;
@@ -23,8 +22,6 @@ type EbookRow = {
 const empty: Partial<EbookRow> = {
   title: "",
   description: "",
-  price: "",
-  currency: "USD",
   cover_url: "",
   buy_url: "",
   badge: "",
@@ -42,7 +39,7 @@ function EbooksAdmin() {
   return (
     <AdminShell
       title="Ebooks"
-      subtitle="Digital products sold via Gumroad — checkout, delivery and refunds are handled by Gumroad"
+      subtitle="Free guides used as lead magnets — visitors enter an email, then the PDF downloads"
       actions={
         <button
           onClick={() => setEditing({ ...empty, order_index: rows.length + 1 })}
@@ -54,8 +51,9 @@ function EbooksAdmin() {
     >
       <div className="rounded-xl bg-[var(--brand)]/10 border border-[var(--brand)]/20 px-4 py-3 text-sm text-slate-300 mb-4">
         <i className="fa-solid fa-circle-info text-[var(--brand)] mr-2" />
-        Upload the ebook file itself in <strong className="text-white">Gumroad</strong> (it handles payment
-        + secure delivery), then paste the product's Gumroad link below as the Buy URL.
+        Upload the PDF below — it is stored in{" "}
+        <strong className="text-white">Supabase Storage</strong> and served automatically once a
+        visitor enters their email. Downloads are logged in Subscribers.
       </div>
 
       <CrudTable
@@ -78,7 +76,7 @@ function EbooksAdmin() {
               ),
           },
           { key: "title", label: "Title", render: (r) => <div className="text-white font-medium">{r.title}</div> },
-          { key: "price", label: "Price" },
+          { key: "badge", label: "Badge" },
           { key: "order_index", label: "Order" },
           {
             key: "published",
@@ -140,26 +138,6 @@ function EbooksAdmin() {
                 </div>
               </div>
             </Field>
-            <div className="grid sm:grid-cols-2 gap-4">
-              <Field label="Price" hint="e.g. 9.99">
-                <input
-                  className={inputCls}
-                  value={editing.price ?? ""}
-                  onChange={(e) => setEditing({ ...editing, price: e.target.value })}
-                />
-              </Field>
-              <Field label="Currency">
-                <select
-                  className={inputCls}
-                  value={editing.currency ?? "USD"}
-                  onChange={(e) => setEditing({ ...editing, currency: e.target.value })}
-                >
-                  <option value="USD">USD ($)</option>
-                  <option value="EUR">EUR (€)</option>
-                  <option value="XAF">XAF (FCFA)</option>
-                </select>
-              </Field>
-            </div>
             <Field label="Cover image">
               <MediaUpload
                 value={editing.cover_url}
@@ -168,18 +146,19 @@ function EbooksAdmin() {
                 label="Upload cover"
               />
             </Field>
-            <Field label="Gumroad buy link" hint="https://yourname.gumroad.com/l/your-ebook">
-              <input
-                required
-                type="url"
-                placeholder="https://yourname.gumroad.com/l/your-ebook"
-                className={inputCls}
-                value={editing.buy_url ?? ""}
-                onChange={(e) => setEditing({ ...editing, buy_url: e.target.value })}
+            <Field
+              label="Ebook file (PDF)"
+              hint="Uploaded to Supabase Storage. Leave empty to show “Coming soon” and hide the download button."
+            >
+              <MediaUpload
+                value={editing.buy_url}
+                onChange={(url) => setEditing({ ...editing, buy_url: url })}
+                accept=".pdf,application/pdf"
+                label="Upload PDF"
               />
             </Field>
             <div className="grid sm:grid-cols-2 gap-4 items-end">
-              <Field label="Badge" hint="optional — e.g. New, Bestseller, Free">
+              <Field label="Badge" hint="optional — e.g. New, Bestseller. Shows “Free” when empty.">
                 <input
                   className={inputCls}
                   value={editing.badge ?? ""}

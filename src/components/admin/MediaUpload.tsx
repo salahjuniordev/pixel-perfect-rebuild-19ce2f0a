@@ -81,7 +81,9 @@ export function MediaUpload({
     }
   };
 
-  const isVideo = value && /\.(mp4|webm|mov)(\?|$)/i.test(value);
+  const isVideo = !!value && /\.(mp4|webm|mov)(\?|$)/i.test(value);
+  // Signed Storage URLs keep the original extension before the ?token= part.
+  const isPdf = !!value && /\.pdf(\?|$)/i.test(value);
 
   return (
     <div className="space-y-2">
@@ -111,6 +113,16 @@ export function MediaUpload({
         <div className="rounded-lg overflow-hidden border border-white/10 bg-black/40 max-w-xs">
           {isVideo ? (
             <video src={value} controls className="w-full h-32 object-cover" />
+          ) : isPdf ? (
+            <a
+              href={value}
+              target="_blank"
+              rel="noreferrer"
+              className="flex items-center gap-3 px-4 h-20 text-sm text-slate-300 hover:text-[var(--brand)] transition-colors"
+            >
+              <i className="fa-solid fa-file-pdf text-2xl text-[var(--brand)]" />
+              <span className="truncate">{decodeURIComponent(value.split("/").pop()?.split("?")[0] || "PDF")}</span>
+            </a>
           ) : (
             <img src={value} alt="" className="w-full h-32 object-cover" />
           )}

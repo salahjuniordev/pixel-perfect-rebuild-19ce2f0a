@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "@tanstack/react-router";
 import { useLanguage } from "@/lib/language";
+import { useResolvedSite } from "@/lib/site-settings";
 
 const links = [
   { id: "home", en: "Home", fr: "Accueil" },
@@ -16,6 +17,7 @@ export function Navbar() {
   const navigate = useNavigate();
   const loc = useLocation();
   const { lang, toggle, t } = useLanguage();
+  const site = useResolvedSite();
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(() =>
     typeof window !== "undefined" && window.location.pathname === "/about" ? "about" : "home"
@@ -57,7 +59,7 @@ export function Navbar() {
     <nav className="nav-shell" aria-label={t("Main", "Principal")}>
       <div className="container-sj flex items-center justify-between py-4">
         <a href="/#home" onClick={(e) => { e.preventDefault(); go("home"); }} className="flex items-center shrink-0">
-          <img src="/logo.png" alt="Salah Junior Dev" width={42} height={42} decoding="async" className="site-logo md:w-14 md:h-14" />
+          <img src={site.logoUrl} alt={`${site.brandName} Dev`} width={42} height={42} decoding="async" className="site-logo md:w-14 md:h-14" />
         </a>
         <div className={`${open ? "flex" : "hidden"} md:flex flex-col md:flex-row md:items-center md:gap-1 absolute md:static left-2 right-2 top-[calc(100%+8px)] md:top-auto bg-[#07101f]/95 md:bg-transparent backdrop-blur-xl md:backdrop-blur-0 border md:border-0 border-white/10 rounded-2xl md:rounded-none py-4 md:py-0 px-6 md:px-0 shadow-xl md:shadow-none`}>
           {links.map((l) =>

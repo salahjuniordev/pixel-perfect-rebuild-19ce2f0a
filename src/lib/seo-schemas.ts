@@ -25,6 +25,51 @@ export const SAME_AS = [
   "https://www.facebook.com/profile.php?id=61586199631543",
 ];
 
+/**
+ * The identity facts that appear in structured data. Route heads pass the
+ * admin-managed values resolved from `site_settings` so the JSON-LD can never
+ * disagree with the visible site; these constants are the fallback.
+ */
+export type SiteFacts = {
+  brand: string;
+  brandFull: string;
+  email: string;
+  phone: string;
+  locality: string;
+  country: string;
+  sameAs: string[];
+};
+
+export const DEFAULT_SITE_FACTS: SiteFacts = {
+  brand: BRAND,
+  brandFull: BRAND_FULL,
+  email: CONTACT_EMAIL,
+  phone: CONTACT_PHONE,
+  locality: LOCALITY,
+  country: COUNTRY,
+  sameAs: SAME_AS,
+};
+
+/** Build SiteFacts from a resolved settings row (see resolveSiteServer). */
+export function siteFactsFromResolved(r: {
+  brandName: string;
+  email: string;
+  phoneDigits: string;
+  location: string;
+  sameAs: string[];
+}): SiteFacts {
+  const locality = r.location.split(",")[0]?.trim() || LOCALITY;
+  return {
+    brand: r.brandName,
+    brandFull: r.brandName,
+    email: r.email,
+    phone: r.phoneDigits ? `+${r.phoneDigits}` : CONTACT_PHONE,
+    locality,
+    country: COUNTRY,
+    sameAs: r.sameAs.length ? r.sameAs : SAME_AS,
+  };
+}
+
 type Lang = "en" | "fr";
 
 const langTag = (l: Lang) => (l === "fr" ? "fr" : "en");
@@ -138,38 +183,38 @@ export function asJsonLdScript(data: unknown) {
 /*  (single-node builders used by __root.tsx and the static validator)    */
 /* -------------------------------------------------------------------- */
 
-export function organizationSchema(lang: Lang) {
+export function organizationSchema(lang: Lang, facts: SiteFacts = DEFAULT_SITE_FACTS) {
   const isFr = lang === "fr";
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
     "@id": `${SITE_ORIGIN}/#organization`,
     name: "SalahJuniorDev",
-    alternateName: BRAND,
+    alternateName: facts.brand,
     url: SITE_ORIGIN,
     logo: `${SITE_ORIGIN}/logo.png`,
     image: `${SITE_ORIGIN}/og-image.png`,
-    email: `mailto:${CONTACT_EMAIL}`,
-    telephone: CONTACT_PHONE,
+    email: `mailto:${facts.email}`,
+    telephone: facts.phone,
     description: isFr
       ? "Studio indépendant de développement web full-stack, design UI/UX et identité de marque basé à Yaoundé, Cameroun."
       : "Independent studio for full-stack web development, UI/UX design and brand identity based in Yaoundé, Cameroon.",
     address: {
       "@type": "PostalAddress",
-      addressLocality: LOCALITY,
+      addressLocality: facts.locality,
       addressRegion: "Centre",
-      addressCountry: COUNTRY,
+      addressCountry: facts.country,
     },
     areaServed: ["CM", "Africa", "Worldwide"],
-    founder: { "@type": "Person", name: BRAND_FULL, url: SITE_ORIGIN },
-    sameAs: SAME_AS,
+    founder: { "@type": "Person", name: facts.brandFull, url: SITE_ORIGIN },
+    sameAs: facts.sameAs,
     inLanguage: langTag(lang),
     contactPoint: [
       {
         "@type": "ContactPoint",
         contactType: isFr ? "service client" : "customer support",
-        email: CONTACT_EMAIL,
-        telephone: CONTACT_PHONE,
+        email: facts.email,
+        telephone: facts.phone,
         availableLanguage: ["English", "French"],
         areaServed: ["CM", "Africa", "Worldwide"],
         contactOption: "TollFree",
@@ -177,22 +222,22 @@ export function organizationSchema(lang: Lang) {
       {
         "@type": "ContactPoint",
         contactType: isFr ? "ventes" : "sales",
-        email: CONTACT_EMAIL,
-        telephone: CONTACT_PHONE,
+        email: facts.email,
+        telephone: facts.phone,
         availableLanguage: ["English", "French"],
       },
     ],
   };
 }
 
-export function personSchema(lang: Lang) {
+export function personSchema(lang: Lang, facts: SiteFacts = DEFAULT_SITE_FACTS) {
   const isFr = lang === "fr";
   return {
     "@context": "https://schema.org",
     "@type": "Person",
     "@id": `${SITE_ORIGIN}/#person`,
-    name: BRAND_FULL,
-    alternateName: BRAND,
+    name: facts.brandFull,
+    alternateName: facts.brand,
     url: SITE_ORIGIN,
     image: `${SITE_ORIGIN}/hero-portrait.png`,
     jobTitle: isFr
@@ -201,15 +246,15 @@ export function personSchema(lang: Lang) {
     description: isFr
       ? "Développeur Web Full-Stack basé à Yaoundé, Cameroun."
       : "Full-Stack Web Developer based in Yaoundé, Cameroon.",
-    email: `mailto:${CONTACT_EMAIL}`,
-    telephone: CONTACT_PHONE,
+    email: `mailto:${facts.email}`,
+    telephone: facts.phone,
     address: {
       "@type": "PostalAddress",
-      addressLocality: LOCALITY,
-      addressCountry: COUNTRY,
+      addressLocality: facts.locality,
+      addressCountry: facts.country,
     },
     worksFor: { "@id": `${SITE_ORIGIN}/#organization` },
-    sameAs: SAME_AS,
+    sameAs: facts.sameAs,
     knowsAbout: [
       "Web development",
       "React",
@@ -223,12 +268,12 @@ export function personSchema(lang: Lang) {
   };
 }
 
-export function websiteSchema(lang: Lang) {
+export function websiteSchema(lang: Lang, facts: SiteFacts = DEFAULT_SITE_FACTS) {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "@id": `${SITE_ORIGIN}/#website`,
-    name: BRAND,
+    name: facts.brand,
     url: SITE_ORIGIN,
     inLanguage: ["en", "fr"],
     publisher: { "@id": `${SITE_ORIGIN}/#organization` },
@@ -240,7 +285,7 @@ export function websiteSchema(lang: Lang) {
   };
 }
 
-export function professionalServiceSchema(lang: Lang) {
+export function professionalServiceSchema(lang: Lang, facts: SiteFacts = DEFAULT_SITE_FACTS) {
   const isFr = lang === "fr";
   return {
     "@context": "https://schema.org",
@@ -256,8 +301,8 @@ export function professionalServiceSchema(lang: Lang) {
     availableLanguage: ["English", "French"],
     address: {
       "@type": "PostalAddress",
-      addressLocality: LOCALITY,
-      addressCountry: COUNTRY,
+      addressLocality: facts.locality,
+      addressCountry: facts.country,
     },
     description: isFr
       ? "Services de développement web full-stack, design UI/UX, identité de marque et administration bureautique."
@@ -280,7 +325,7 @@ export function professionalServiceSchema(lang: Lang) {
  * are explicitly linked (founder → #person, publisher → #organization),
  * exactly as Google recommends for a personal-brand site.
  */
-export function homeGraphs(): unknown[] {
+export function homeGraphs(facts: SiteFacts = DEFAULT_SITE_FACTS): unknown[] {
   const langs: Lang[] = ["en", "fr"];
   return langs.map((lang) => ({
     "@context": "https://schema.org",
@@ -288,17 +333,17 @@ export function homeGraphs(): unknown[] {
       {
         "@type": "Person",
         "@id": `${SITE_ORIGIN}/#person`,
-        name: BRAND_FULL,
-        alternateName: BRAND,
+        name: facts.brandFull,
+        alternateName: facts.brand,
         url: SITE_ORIGIN,
         image: `${SITE_ORIGIN}/hero-portrait.png`,
         jobTitle: lang === "fr" ? "Développeur Web Full-Stack" : "Full-Stack Web Developer",
-        email: `mailto:${CONTACT_EMAIL}`,
-        telephone: CONTACT_PHONE,
+        email: `mailto:${facts.email}`,
+        telephone: facts.phone,
         address: {
           "@type": "PostalAddress",
-          addressLocality: LOCALITY,
-          addressCountry: COUNTRY,
+          addressLocality: facts.locality,
+          addressCountry: facts.country,
         },
         knowsAbout: [
           "Web development",
@@ -308,7 +353,7 @@ export function homeGraphs(): unknown[] {
           "UI/UX design",
           "SEO",
         ],
-        sameAs: SAME_AS,
+        sameAs: facts.sameAs,
         inLanguage: langTag(lang),
       },
       {
@@ -324,15 +369,15 @@ export function homeGraphs(): unknown[] {
         priceRange: "$149 - $799",
         address: {
           "@type": "PostalAddress",
-          addressLocality: LOCALITY,
-          addressCountry: COUNTRY,
+          addressLocality: facts.locality,
+          addressCountry: facts.country,
         },
         inLanguage: langTag(lang),
       },
       {
         "@type": "WebSite",
         "@id": `${SITE_ORIGIN}/#website`,
-        name: BRAND,
+        name: facts.brand,
         url: SITE_ORIGIN,
         inLanguage: ["en", "fr"],
         publisher: { "@id": `${SITE_ORIGIN}/#organization` },

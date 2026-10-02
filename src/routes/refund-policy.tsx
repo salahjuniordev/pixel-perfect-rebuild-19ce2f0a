@@ -3,6 +3,7 @@ import { LanguageProvider, useLanguage } from "@/lib/language";
 import { LegalLayout, LegalCard } from "@/components/site/LegalPage";
 import { useSeo } from "@/lib/use-seo";
 import { asJsonLdScript, legalPageSchemas, twitterMeta, ogMeta, altLinks, SITE_ORIGIN } from "@/lib/seo-schemas";
+import { useResolvedSite } from "@/lib/site-settings";
 
 const R_TITLE_EN = "Refund Policy | Salah Junior";
 const R_DESC_EN = "Learn how Salah Junior handles refund requests for web development, design and branding projects.";
@@ -42,6 +43,7 @@ export const Route = createFileRoute("/refund-policy")({
 });
 
 function RefundPage() {
+  const site = useResolvedSite();
   const { t } = useLanguage();
   useSeo({
     title: { en: "Refund Policy | Salah Junior", fr: "Politique de Remboursement | Salah Junior" },
@@ -86,8 +88,8 @@ function RefundPage() {
         )}</p>
       </LegalCard>
       <LegalCard heading={t("Contact", "Contact")}>
-        <p>Email: salahjuniorncham@gmail.com</p>
-        <p>WhatsApp: +237 683 693 011</p>
+        <p>Email: <a href={`mailto:${site.email}`} className="text-[--brand]">{site.email}</a></p>
+        <p>WhatsApp: <a href={site.whatsappUrl} target="_blank" rel="noreferrer" className="text-[--brand]">{site.phoneDisplay}</a></p>
         <p>{t("Address: Yaoundé, Emana, Cameroon", "Adresse : Yaoundé, Emana, Cameroun")}</p>
       </LegalCard>
     </LegalLayout>

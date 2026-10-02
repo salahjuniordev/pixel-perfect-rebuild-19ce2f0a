@@ -5,6 +5,7 @@ import { Footer } from "@/components/site/Footer";
 import { BackToTop } from "@/components/site/BackToTop";
 import { WhatsAppFloat } from "@/components/site/WhatsAppFloat";
 import { useSeo } from "@/lib/use-seo";
+import { useResolvedSite } from "@/lib/site-settings";
 import {
   asJsonLdScript,
   legalPageSchemas,
@@ -42,11 +43,11 @@ const STORY: Array<[string, string]> = [
   ],
 ];
 
-const INFO = [
-  { icon: "fa-user", en: "MY NAME :", fr: "MON NOM :", value: "Salah Junior" },
-  { icon: "fa-location-dot", en: "ADDRESS :", fr: "ADRESSE :", value: "Emana, Yaoundé, CMR" },
-  { icon: "fa-envelope", en: "EMAIL :", fr: "E-MAIL :", value: "salahjuniorncham@gmail.com", href: "mailto:salahjuniorncham@gmail.com" },
-  { icon: "fa-language", en: "LANGUAGES :", fr: "LANGUES :", value: "English · Français" },
+const INFO_LABELS = [
+  { icon: "fa-user", en: "MY NAME :", fr: "MON NOM :" },
+  { icon: "fa-location-dot", en: "ADDRESS :", fr: "ADRESSE :" },
+  { icon: "fa-envelope", en: "EMAIL :", fr: "E-MAIL :" },
+  { icon: "fa-language", en: "LANGUAGES :", fr: "LANGUES :" },
 ];
 
 const INTERESTS = [
@@ -119,6 +120,7 @@ export const Route = createFileRoute("/about")({
 
 function AboutPage() {
   const { t } = useLanguage();
+  const site = useResolvedSite();
 
   useSeo({
     title: { en: `${ABOUT_TITLE_EN} | Salah Junior`, fr: `${ABOUT_TITLE_FR} | Salah Junior` },
@@ -194,8 +196,22 @@ function AboutPage() {
                 <div className="about-divider" />
 
                 <div className="grid sm:grid-cols-2 gap-x-8 gap-y-7 mb-9">
-                  {INFO.map((info) => (
-                    <Info key={info.en} {...info} t={t} />
+                  {INFO_LABELS.map((info) => (
+                    <Info
+                      key={info.en}
+                      {...info}
+                      t={t}
+                      value={
+                        info.icon === "fa-user"
+                          ? site.brandName
+                          : info.icon === "fa-location-dot"
+                            ? site.location
+                            : info.icon === "fa-envelope"
+                              ? site.email
+                              : "English · Français"
+                      }
+                      href={info.icon === "fa-envelope" ? `mailto:${site.email}` : undefined}
+                    />
                   ))}
                 </div>
 
@@ -203,7 +219,7 @@ function AboutPage() {
                   <button onClick={() => scrollTo("contact")} className="about-btn about-btn-primary">
                     {t("Contact Me", "Contactez-Moi")}
                   </button>
-                  <a href="/assets/my-resume.pdf" target="_blank" rel="noreferrer" className="about-btn about-btn-primary">
+                  <a href={site.resumeUrl} target="_blank" rel="noreferrer" className="about-btn about-btn-primary">
                     {t("My Resume", "Mon CV")}
                   </a>
                   <button onClick={() => scrollTo("services")} className="svc-detail-btn svc-detail-btn-ghost">
@@ -275,7 +291,7 @@ function AboutPage() {
                   {t("Start a Project", "Démarrer un Projet")}
                 </a>
                 <a
-                  href="https://wa.me/237683693011"
+                  href={site.whatsappUrl}
                   target="_blank"
                   rel="noreferrer"
                   className="svc-detail-btn svc-detail-btn-ghost"

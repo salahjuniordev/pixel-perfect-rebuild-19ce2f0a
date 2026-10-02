@@ -1,21 +1,24 @@
 import { useState } from "react";
 import { useLanguage } from "@/lib/language";
-
-const socials = [
-  { key: "facebook", icon: "fa-facebook-f", label: "Facebook", url: "https://www.facebook.com/profile.php?id=61586199631543", bg: "#1877F2", brand: true },
-  { key: "github", icon: "fa-github", label: "Github", url: "https://github.com/salahjuniordev", bg: "#111827", brand: true },
-  { key: "instagram", icon: "fa-instagram", label: "Instagram", url: "https://www.instagram.com/salahjuniordev", bg: "linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)", brand: true },
-  { key: "whatsapp", icon: "fa-whatsapp", label: "WhatsApp", url: "https://wa.me/qr/T7MI47J4OXDWK1", bg: "#25D366", brand: true },
-];
+import { useResolvedSite } from "@/lib/site-settings";
 
 export function Contact() {
   const { t } = useLanguage();
+  const site = useResolvedSite();
   const [form, setForm] = useState({ name: "", email: "", topic: "", message: "" });
+
+  // URLs come from Admin → Platform Settings; only the presentation is local.
+  const socials = [
+    { key: "facebook", icon: "fa-facebook-f", label: "Facebook", url: site.socials.facebook, bg: "#1877F2", brand: true },
+    { key: "github", icon: "fa-github", label: "Github", url: site.socials.github, bg: "#111827", brand: true },
+    { key: "instagram", icon: "fa-instagram", label: "Instagram", url: site.socials.instagram, bg: "linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)", brand: true },
+    { key: "whatsapp", icon: "fa-whatsapp", label: "WhatsApp", url: site.whatsappUrl, bg: "#25D366", brand: true },
+  ];
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     const text = `${t("Hello Salah, my name is", "Bonjour Salah, je m'appelle")} ${form.name} (${form.email}).%0A%0A${t("Topic:", "Sujet :")} ${form.topic}%0A%0A${form.message}`;
-    window.open(`https://wa.me/237683693011?text=${text}`, "_blank");
+    window.open(`${site.whatsappUrl}?text=${text}`, "_blank");
   };
 
   return (
@@ -29,10 +32,10 @@ export function Contact() {
         <div className="grid lg:grid-cols-12 gap-10 items-start">
           {/* LEFT: info + socials */}
           <div className="lg:col-span-5 space-y-7">
-            <ContactInfo icon="fa-user" label={t("Name", "Nom")} value="Salah Junior" />
-            <ContactInfo icon="fa-phone" label={t("Phone", "Téléphone")} value="+237 683693011" href="tel:+237683693011" />
-            <ContactInfo icon="fa-envelope" label="Email" value="salahjuniorncham@gmail.com" href="mailto:salahjuniorncham@gmail.com" />
-            <ContactInfo icon="fa-whatsapp" brand label="WhatsApp" value="+237 683693011" href="https://wa.me/237683693011" />
+            <ContactInfo icon="fa-user" label={t("Name", "Nom")} value={site.brandName} />
+            <ContactInfo icon="fa-phone" label={t("Phone", "Téléphone")} value={site.phoneDisplay} href={`tel:+${site.phoneDigits}`} />
+            <ContactInfo icon="fa-envelope" label="Email" value={site.email} href={`mailto:${site.email}`} />
+            <ContactInfo icon="fa-whatsapp" brand label="WhatsApp" value={site.phoneDisplay} href={site.whatsappUrl} />
 
             <div className="pt-4">
               <h3 className="contact-connect-title">{t("Connect with me", "Retrouvez-moi sur")}</h3>

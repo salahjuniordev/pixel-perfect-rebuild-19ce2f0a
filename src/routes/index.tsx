@@ -23,7 +23,8 @@ import { Footer } from "@/components/site/Footer";
 import { BackToTop } from "@/components/site/BackToTop";
 import { WhatsAppFloat } from "@/components/site/WhatsAppFloat";
 import { useSeo } from "@/lib/use-seo";
-import { asJsonLdScript, homeGraphs, twitterMeta, ogMeta, altLinks, SITE_ORIGIN } from "@/lib/seo-schemas";
+import { asJsonLdScript, homeGraphs, twitterMeta, ogMeta, altLinks, siteFactsFromResolved, SITE_ORIGIN } from "@/lib/seo-schemas";
+import { resolveSiteServer } from "@/lib/site-settings";
 import { fetchHomeData } from "@/lib/home-data";
 
 const HOME_TITLE_EN = "Salah Junior | Full-Stack Web Developer in Yaoundé, Cameroon";
@@ -34,7 +35,7 @@ const HOME_DESC_FR =
   "Développeur web full-stack à Yaoundé, Cameroun. Je crée des sites et applications web rapides et bilingues pour entreprises et ONG. Prix fixes, livraison en 5 à 10 jours.";
 
 export const Route = createFileRoute("/")({
-  head: () => ({
+  head: ({ loaderData }: any) => ({
     meta: [
       { title: HOME_TITLE_EN },
       { name: "description", content: HOME_DESC_EN },
@@ -49,9 +50,12 @@ export const Route = createFileRoute("/")({
       ...twitterMeta({ title: HOME_TITLE_EN, description: HOME_DESC_EN, url: `${SITE_ORIGIN}/` }),
     ],
     links: altLinks("/"),
-    scripts: [...homeGraphs(), ...homeFaqSchemas()].map(asJsonLdScript),
+    scripts: [...homeGraphs(siteFactsFromResolved(loaderData?.site)), ...homeFaqSchemas()].map(asJsonLdScript),
   }),
-  loader: () => fetchHomeData(),
+  loader: async () => {
+    const [home, site] = await Promise.all([fetchHomeData(), resolveSiteServer()]);
+    return { ...home, site };
+  },
   component: Index,
 });
 

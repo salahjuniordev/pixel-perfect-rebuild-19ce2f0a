@@ -8,6 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useSeo } from "@/lib/use-seo";
 import { optimizedImage } from "@/lib/img";
 import { SITE_ORIGIN } from "@/lib/seo-schemas";
+import { useResolvedSite } from "@/lib/site-settings";
 import { sanitizeRichText } from "@/lib/sanitize";
 
 type Project = {
@@ -52,6 +53,7 @@ export const Route = createFileRoute("/projects/$slug")({
 function ProjectDetailPage() {
   const { project } = Route.useLoaderData();
   const { t } = useLanguage();
+  const site = useResolvedSite();
 
   useSeo({
     title: {
@@ -196,7 +198,7 @@ function ProjectDetailPage() {
             </p>
             <div className="svc-detail-actions justify-center">
               <a
-                href={`https://wa.me/237683693011?text=${encodeURIComponent(`${t("Hello Salah, I saw the", "Bonjour Salah, j'ai vu l'étude de cas")} ${project.title} — ${t("I have a similar project in mind.", "j'ai un projet similaire en tête.")}`)}`}
+                href={`${site.whatsappUrl}?text=${encodeURIComponent(`${t("Hello Salah, I saw the", "Bonjour Salah, j'ai vu l'étude de cas")} ${project.title} — ${t("I have a similar project in mind.", "j'ai un projet similaire en tête.")}`)}`}
                 target="_blank"
                 rel="noreferrer"
                 className="svc-detail-btn svc-detail-btn-primary"

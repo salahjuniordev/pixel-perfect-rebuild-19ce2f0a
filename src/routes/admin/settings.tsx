@@ -5,6 +5,7 @@ import { Field, inputCls } from "@/components/admin/FormModal";
 import { MediaUpload } from "@/components/admin/MediaUpload";
 import { supabase } from "@/integrations/supabase/client";
 import { logActivity } from "@/lib/activity";
+import { invalidateSiteSettings } from "@/lib/site-settings";
 import { toast } from "sonner";
 import type { Tables } from "@/integrations/supabase/types";
 
@@ -48,6 +49,8 @@ function SettingsAdmin() {
     setSaving(false);
     if (error) return toast.error(error.message);
     toast.success("Settings saved");
+    // Drop the public site's cached row so the new values apply immediately.
+    invalidateSiteSettings();
     logActivity("update", "site_settings", id ?? (data as any)?.id);
     if (data && !Array.isArray(data)) setS(data as any);
   };
@@ -103,7 +106,10 @@ function SettingsAdmin() {
               label="Upload share image"
             />
           </Field>
-          <Field label="Resume / CV (PDF)">
+          <Field
+            label="Resume / CV (PDF)"
+            hint="Drives the “My Resume” button on the homepage and /about. Leave empty to use the bundled file."
+          >
             <MediaUpload
               value={s.resume_url}
               onChange={(url) => set("resume_url", url)}
@@ -128,7 +134,10 @@ function SettingsAdmin() {
               onChange={(e) => set("hero_subtitle", e.target.value)}
             />
           </Field>
-          <Field label="About text">
+          <Field
+            label="About text"
+            hint="Replaces the homepage About bio. Single field — it shows in both EN and FR. Leave empty to keep the built-in bilingual copy."
+          >
             <textarea
               rows={4}
               className={inputCls}

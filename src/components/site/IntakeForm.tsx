@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { useResolvedSite } from "@/lib/site-settings";
 import {
   kindForService,
   INTAKE_BUDGETS,
@@ -46,6 +47,7 @@ export function IntakeForm({ serviceId, serviceTitle, t }: {
   serviceTitle: string;
   t: Translate;
 }) {
+  const site = useResolvedSite();
   const kind = useMemo(() => kindForService(serviceTitle), [serviceTitle]);
 
   const [form, setForm] = useState({
@@ -165,7 +167,7 @@ export function IntakeForm({ serviceId, serviceTitle, t }: {
         </p>
         <div className="mt-8 flex flex-wrap gap-3 justify-center">
           <a
-            href="https://wa.me/237683693011"
+            href={site.whatsappUrl}
             target="_blank"
             rel="noreferrer"
             className="svc-detail-btn svc-detail-btn-ghost !py-2.5"
@@ -310,7 +312,7 @@ export function IntakeForm({ serviceId, serviceTitle, t }: {
           </p>
           <p className="text-sm text-slate-300 mt-1.5 leading-relaxed">{submitError.body}</p>
           <a
-            href="https://wa.me/237683693011"
+            href={site.whatsappUrl}
             target="_blank"
             rel="noreferrer"
             className="inline-flex items-center gap-2 text-sm text-[var(--brand)] hover:underline mt-3"

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLanguage } from "@/lib/language";
 import { supabase } from "@/integrations/supabase/client";
+import { useResolvedSite } from "@/lib/site-settings";
 
 const portrait1 = "/assets/hero/hero-mobile-1.webp";
 const portrait2 = "/assets/hero/hero-mobile-2.webp";
@@ -14,6 +15,7 @@ const interests = [
 
 export function About() {
   const { t } = useLanguage();
+  const site = useResolvedSite();
   // Optional intro video, managed from Admin → Platform Settings.
   const [introVideo, setIntroVideo] = useState<string | null>(null);
   useEffect(() => {
@@ -73,7 +75,8 @@ export function About() {
             {t("Web Developer And Graphic Designer", "Développeur Web et Designer Graphique")}
           </p>
           <p className="about-lead">
-            {t(
+            {site.aboutText ??
+              t(
               "I'm Salah Junior — a full-stack web developer and UI/UX designer based in Yaoundé, Cameroon. I started building websites at 17, and what began as curiosity quickly became a craft. Three years later, I've worked with NGOs, logistics companies, and brands across Central Africa — turning ideas into digital products that actually work. I don't just write code. I think about the person on the other side of the screen.",
               "Je suis Salah Junior, développeur web full-stack et designer UI/UX basé à Yaoundé, au Cameroun. Tout a commencé à 17 ans par pure curiosité pour le code.\n\nTrois ans plus tard, cette curiosité est devenue un vrai métier : j'accompagne aujourd'hui des ONG, des entreprises logistiques et des marques à travers l'Afrique Centrale, en transformant leurs idées en produits numériques qui fonctionnent vraiment. Je ne me contente pas d'écrire du code : je pense toujours à la personne qui se trouve de l'autre côté de l'écran."
             )}
@@ -82,9 +85,9 @@ export function About() {
           <div className="about-divider" />
 
           <div className="grid sm:grid-cols-2 gap-x-8 gap-y-7 mb-9">
-            <Info label={t("MY NAME :", "MON NOM :")} value="Salah Junior" icon="fa-user" />
-            <Info label={t("ADDRESS :", "ADRESSE :")} value="Emana,Yaounde,CMR" icon="fa-location-dot" />
-            <Info label={t("EMAIL :", "E-MAIL :")} value="salahjuniorncham@gmail.com" icon="fa-envelope" href="mailto:salahjuniorncham@gmail.com" />
+            <Info label={t("MY NAME :", "MON NOM :")} value={site.brandName} icon="fa-user" />
+            <Info label={t("ADDRESS :", "ADRESSE :")} value={site.location} icon="fa-location-dot" />
+            <Info label={t("EMAIL :", "E-MAIL :")} value={site.email} icon="fa-envelope" href={`mailto:${site.email}`} />
           </div>
 
           <div className="flex flex-wrap gap-4 mb-10">
@@ -98,7 +101,7 @@ export function About() {
             >
               {t("Contact Me", "Contactez-Moi")}
             </a>
-            <a href="/assets/my-resume.pdf" target="_blank" rel="noreferrer" className="about-btn about-btn-primary">
+            <a href={site.resumeUrl} target="_blank" rel="noreferrer" className="about-btn about-btn-primary">
               {t("My Resume", "Mon CV")}
             </a>
           </div>

@@ -3,6 +3,7 @@ import { LanguageProvider, useLanguage } from "@/lib/language";
 import { LegalLayout, LegalCard } from "@/components/site/LegalPage";
 import { useSeo } from "@/lib/use-seo";
 import { asJsonLdScript, legalPageSchemas, twitterMeta, ogMeta, altLinks, SITE_ORIGIN } from "@/lib/seo-schemas";
+import { useResolvedSite } from "@/lib/site-settings";
 
 const L_TITLE_EN = "License & Copyright | Salah Junior";
 const L_DESC_EN = "License terms and copyright policy for content, code and designs on Salah Junior's portfolio.";
@@ -42,6 +43,7 @@ export const Route = createFileRoute("/license-copyright")({
 });
 
 function LicensePage() {
+  const site = useResolvedSite();
   const { t } = useLanguage();
   useSeo({
     title: { en: "License & Copyright | Salah Junior", fr: "Licence & Droits d'Auteur | Salah Junior" },
@@ -105,7 +107,7 @@ function LicensePage() {
           "Need to use content, commission original work, or request written permission for a specific use case?",
           "Besoin d'utiliser du contenu, de commander un travail original ou d'obtenir une autorisation écrite ?"
         )}</p>
-        <p>Email: <a href="mailto:salahjuniorncham@gmail.com" className="text-[--brand]">salahjuniorncham@gmail.com</a></p>
+        <p>Email: <a href={`mailto:${site.email}`} className="text-[--brand]">{site.email}</a></p>
       </LegalCard>
     </LegalLayout>
   );

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useLanguage } from "@/lib/language";
-
-const WHATSAPP = "237683693011";
+import { useResolvedSite } from "@/lib/site-settings";
 
 const serviceTypes = [
   { key: "website", icon: "fa-globe", en: "Website", fr: "Site Web" },
@@ -25,6 +24,7 @@ const deadlines = [
 
 export function QuoteWizard() {
   const { t, lang } = useLanguage();
+  const site = useResolvedSite();
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState(0);
   const [service, setService] = useState("");
@@ -43,7 +43,7 @@ export function QuoteWizard() {
     const b = budgets.find((x) => x.key === budget);
     const d = deadlines.find((x) => x.key === deadline);
     const msg = `${t("Hello Salah! I'd like a quote.", "Bonjour Salah ! Je voudrais un devis.")}\n\n• ${t("Project:", "Projet :")} ${svc ? t(svc.en, svc.fr) : "—"}\n• ${t("Budget:", "Budget :")} ${b ? b.label[lang === "fr" ? "fr" : "en"] : "—"}\n• ${t("Timeline:", "Délai :")} ${d ? d.label[lang === "fr" ? "fr" : "en"] : "—"}\n\n${t("Tell me more about the project:", "Dites-m'en plus sur le projet :")}`;
-    window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`, "_blank");
+    window.open(`${site.whatsappUrl}?text=${encodeURIComponent(msg)}`, "_blank");
     setOpen(false);
     reset();
   };

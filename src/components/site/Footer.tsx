@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useLanguage } from "@/lib/language";
-import { useSiteSettings } from "@/lib/site-settings";
+import { useResolvedSite } from "@/lib/site-settings";
 import { optimizedImage } from "@/lib/img";
 
 const quick = [
@@ -23,19 +23,19 @@ const legal = [
 
 export function Footer() {
   const { t } = useLanguage();
-  const s = useSiteSettings();
-  const phone = s?.contact_phone || "+237 683 693 011";
-  const email = s?.contact_email || "salahjuniorncham@gmail.com";
-  const location = s?.location || "Emana, Yaoundé, CMR";
-  const brand = s?.brand_name || "Salah Junior";
+  const site = useResolvedSite();
+  const phone = site.phoneDisplay;
+  const email = site.email;
+  const location = site.location;
+  const brand = site.brandName;
   const socials = [
-    { i: "fa-facebook-f", url: s?.social_facebook },
-    { i: "fa-github", url: s?.social_github },
-    { i: "fa-linkedin-in", url: s?.social_linkedin },
-    { i: "fa-whatsapp", url: s?.whatsapp_number ? `https://wa.me/${s.whatsapp_number.replace(/[^0-9]/g, "")}` : null },
-    { i: "fa-instagram", url: s?.social_instagram },
-    { i: "fa-twitter", url: s?.social_twitter },
-    { i: "fa-youtube", url: s?.social_youtube },
+    { i: "fa-facebook-f", url: site.socials.facebook },
+    { i: "fa-github", url: site.socials.github },
+    { i: "fa-linkedin-in", url: site.socials.linkedin },
+    { i: "fa-whatsapp", url: site.whatsappUrl },
+    { i: "fa-instagram", url: site.socials.instagram },
+    { i: "fa-twitter", url: site.socials.twitter },
+    { i: "fa-youtube", url: site.socials.youtube },
   ].filter((x) => x.url) as { i: string; url: string }[];
   return (
     <footer className="bg-[#05090f] pt-20 pb-8 border-t border-white/5">
@@ -44,7 +44,7 @@ export function Footer() {
       <div className="container-sj grid lg:grid-cols-3 gap-10">
         <div>
           <a href="/#home" className="inline-flex items-center gap-3 mb-4">
-            <img src={optimizedImage(s?.logo_url, 112) || "/logo.png"} alt={`${brand} Logo`} width={56} height={56} loading="lazy" decoding="async" className="site-logo" />
+            <img src={optimizedImage(site.logoUrl, 112) || site.logoUrl} alt={`${brand} Logo`} width={56} height={56} loading="lazy" decoding="async" className="site-logo" />
           </a>
           <p className="text-white font-bold text-lg leading-tight">{brand}</p>
           <p className="text-[--brand] text-sm font-medium mb-4">
@@ -54,7 +54,7 @@ export function Footer() {
             )}
           </p>
           <p className="text-sm text-slate-400 leading-relaxed mb-5">
-            {s?.footer_text || t(
+            {site.footerText || t(
               "Turning ideas into digital reality — crafting responsive websites, polished interfaces, and memorable brand identities from Yaoundé, Cameroon.",
               "Transformer les idées en réalité digitale — créer des sites réactifs, des interfaces soignées et des identités de marque mémorables depuis Yaoundé, Cameroun."
             )}

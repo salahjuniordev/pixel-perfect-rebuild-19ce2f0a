@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useLanguage } from "@/lib/language";
 import { SITE_ORIGIN, type FaqEntry } from "@/lib/seo-schemas";
+import { useResolvedSite } from "@/lib/site-settings";
 
 /**
  * Homepage FAQ — deliberately DIFFERENT from the /faq page (services,
@@ -98,6 +99,7 @@ export function homeFaqSchemas(): unknown[] {
 
 export function HomeFaq() {
   const { t } = useLanguage();
+  const site = useResolvedSite();
   // First question open by default — shows the interaction affordance immediately.
   const [open, setOpen] = useState<number | null>(0);
 
@@ -150,7 +152,7 @@ export function HomeFaq() {
             {t("Start a Project", "Démarrer un Projet")}
             <i className="fas fa-arrow-right ml-2" aria-hidden="true" />
           </a>
-          <a href="https://wa.me/237683693011" target="_blank" rel="noreferrer" className="btn-outline">
+          <a href={site.whatsappUrl} target="_blank" rel="noreferrer" className="btn-outline">
             <i className="fab fa-whatsapp mr-2" aria-hidden="true" />
             {t("Ask on WhatsApp", "Demander sur WhatsApp")}
           </a>

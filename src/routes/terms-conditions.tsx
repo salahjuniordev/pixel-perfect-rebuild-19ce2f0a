@@ -3,6 +3,7 @@ import { LanguageProvider, useLanguage } from "@/lib/language";
 import { LegalLayout, LegalCard } from "@/components/site/LegalPage";
 import { useSeo } from "@/lib/use-seo";
 import { asJsonLdScript, legalPageSchemas, twitterMeta, ogMeta, altLinks, SITE_ORIGIN } from "@/lib/seo-schemas";
+import { useResolvedSite } from "@/lib/site-settings";
 
 const T_TITLE_EN = "Terms & Conditions | Salah Junior";
 const T_DESC_EN = "Terms and conditions for engaging Salah Junior's web development, design, and branding services.";
@@ -42,6 +43,7 @@ export const Route = createFileRoute("/terms-conditions")({
 });
 
 function TermsPage() {
+  const site = useResolvedSite();
   const { t } = useLanguage();
   useSeo({
     title: { en: "Terms & Conditions | Salah Junior", fr: "Conditions Générales | Salah Junior" },
@@ -112,8 +114,8 @@ function TermsPage() {
         )}</p>
       </LegalCard>
       <LegalCard heading={t("10. Contact", "10. Contact")}>
-        <p>Email: salahjuniorncham@gmail.com</p>
-        <p>WhatsApp: +237 683 693 011</p>
+        <p>Email: <a href={`mailto:${site.email}`} className="text-[--brand]">{site.email}</a></p>
+        <p>WhatsApp: <a href={site.whatsappUrl} target="_blank" rel="noreferrer" className="text-[--brand]">{site.phoneDisplay}</a></p>
         <p>{t("Address: Yaoundé, Emana, Cameroon", "Adresse : Yaoundé, Emana, Cameroun")}</p>
       </LegalCard>
     </LegalLayout>

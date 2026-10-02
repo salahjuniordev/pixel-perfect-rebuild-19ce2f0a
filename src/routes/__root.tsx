@@ -31,7 +31,8 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AuthProvider } from "@/lib/auth";
 import { LanguageProvider, useLanguage } from "@/lib/language";
 import { Toaster } from "@/components/ui/sonner";
-import { asJsonLdScript, organizationSchema, websiteSchema, DEFAULT_OG_IMAGE, OG_IMAGE_ALT, OG_IMAGE_WIDTH, OG_IMAGE_HEIGHT, OG_IMAGE_TYPE } from "@/lib/seo-schemas";
+import { asJsonLdScript, organizationSchema, websiteSchema, siteFactsFromResolved, DEFAULT_OG_IMAGE, OG_IMAGE_ALT, OG_IMAGE_WIDTH, OG_IMAGE_HEIGHT, OG_IMAGE_TYPE } from "@/lib/seo-schemas";
+import { resolveSiteServer } from "@/lib/site-settings";
 
 function NotFoundComponent() {
   const { t } = useLanguage();
@@ -138,7 +139,10 @@ function ErrorBoundary({ error, reset }: { error: Error; reset: () => void }) {
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   // Fetch the admin-managed OG image once per server request so crawlers see
   // the dashboard-uploaded image in the SSR head. Falls back to the default.
-  loader: async () => ({ ogImage: await loadOgImage() }),
+  loader: async () => {
+    const [ogImage, site] = await Promise.all([loadOgImage(), resolveSiteServer()]);
+    return { ogImage, site };
+  },
   head: ({ match }: any) => ({
     meta: [
       { charSet: "utf-8" },
@@ -166,7 +170,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "stylesheet", href: galleryCss },
       { rel: "stylesheet", href: processCss },
       { rel: "manifest", href: "/manifest.webmanifest" },
-      { rel: "icon", href: "/favicon.png", type: "image/png" },
+      { rel: "icon", href: match.context.site?.faviconUrl ?? "/favicon.png", type: "image/png" },
       { rel: "icon", href: "/pwa-192.png", type: "image/png", sizes: "192x192" },
       // LCP candidates: the hero portrait is rendered client-side by Hero.tsx, so
       // preload it (media-scoped so mobile doesn't download the desktop asset and
@@ -182,8 +186,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
     scripts: [
       // Single node per @id (Organization / WebSite) so graph nodes don't conflict.
-      asJsonLdScript(organizationSchema("en")),
-      asJsonLdScript(websiteSchema("en")),
+      asJsonLdScript(organizationSchema("en", siteFactsFromResolved(match.context.site))),
+      asJsonLdScript(websiteSchema("en", siteFactsFromResolved(match.context.site))),
     ],
   }),
   shellComponent: RootShell,

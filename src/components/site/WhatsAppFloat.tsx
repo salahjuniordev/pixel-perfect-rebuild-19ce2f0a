@@ -1,8 +1,10 @@
 import { useLanguage } from "@/lib/language";
+import { useResolvedSite } from "@/lib/site-settings";
 
 export function WhatsAppFloat() {
   const { t } = useLanguage();
-  const phone = "237683693011";
+  const site = useResolvedSite();
+  const phone = site.whatsappNumber;
   const message = encodeURIComponent(
     t(
       "Hello Salah, I'm interested in your services. Let's discuss my project!",

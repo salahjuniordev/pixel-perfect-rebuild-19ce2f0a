@@ -1,6 +1,7 @@
 import { useEffect, useState, useMemo } from "react";
 import { useLanguage } from "@/lib/language";
 import { supabase } from "@/integrations/supabase/client";
+import { useResolvedSite } from "@/lib/site-settings";
 
 /** Fallbacks shown until/unless the admin uploads hero images in the dashboard. */
 const DEFAULT_DESKTOP = ["/hero-portrait.png", "/hero-portrait-2.png"];
@@ -26,13 +27,14 @@ function useTyped(text: string, start: boolean, speed = 55) {
   return { shown: text.slice(0, n), done: start && n >= text.length };
 }
 
-const socials = [
-  { i: "fa-instagram", href: "https://www.instagram.com/salahjuniordev?igsh=MWM2bW9xdmYzNWc2dg==", label: "Instagram" },
-  { i: "fa-facebook-f", href: "https://www.facebook.com/profile.php?id=61586199631543", label: "Facebook" },
-  { i: "fa-linkedin-in", href: "https://www.linkedin.com/in/salah-junior-987684398", label: "LinkedIn" },
-  { i: "fa-github", href: "https://github.com/salahjuniordev", label: "GitHub" },
-  { i: "fa-whatsapp", href: "https://wa.me/qr/T7MI47J4OXDWK1", label: "WhatsApp" },
-];
+/** Icons/labels are local; the hrefs come from Admin → Platform Settings. */
+const SOCIAL_ICONS = [
+  { i: "fa-instagram", id: "instagram", label: "Instagram" },
+  { i: "fa-facebook-f", id: "facebook", label: "Facebook" },
+  { i: "fa-linkedin-in", id: "linkedin", label: "LinkedIn" },
+  { i: "fa-github", id: "github", label: "GitHub" },
+  { i: "fa-whatsapp", id: "whatsapp", label: "WhatsApp" },
+] as const;
 
 const stack = [
   { src: "https://cdn.simpleicons.org/react/61DAFB", alt: "React" },
@@ -45,6 +47,12 @@ const stack = [
 
 export function Hero() {
   const { t } = useLanguage();
+  const site = useResolvedSite();
+
+  const socials = SOCIAL_ICONS.map((s) => ({
+    ...s,
+    href: s.id === "whatsapp" ? site.whatsappUrl : site.socials[s.id],
+  }));
 
   // Hero portraits are managed from Admin → Hero Images (hero_images table).
   const [dbImages, setDbImages] = useState<HeroImage[]>([]);
